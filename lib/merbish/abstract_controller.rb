@@ -1,12 +1,10 @@
 module AbstractController
   class Base
-    def process_with_methopara(action, *args)
-      return process_without_methopara action, *args unless args.blank?
+    def send_action(method_name, *args)
+      return send method_name, *args unless args.blank?
 
-      values = method(action).parameters.map(&:last).map {|k| params[k]}
-      process_without_methopara action, *values
+      values = method(method_name).parameters.map(&:last).map {|k| params[k]}
+      send method_name, *values
     end
-
-    alias_method_chain :process, :methopara
   end
 end

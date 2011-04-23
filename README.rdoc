@@ -1,0 +1,142 @@
+= Merbish(?)
+
+Controller action arguments parameterizer for Rails 3 + Ruby 1.9
+
+
+== What is this?
+
+Merbish is a Rails 3 plugin that extends your controller action methods to simply look like a general Ruby method with meaningful parameters.
+
+
+== The Controllers
+
+Having the following controller code:
+
+  class HogeController < ApplicationController
+    def fuga(piyo)
+      render :text => piyo
+    end
+  end
+
+Hitting "/hoge/fuga?piyo=foo" will call fuga('foo') and output 'foo'.
+So, you do never need to touch the ugly +params+ Hash to get the request parameters.
+
+
+== The Scaffold Generator
+
+Merbish provieds a custom scaffold controller generator that overwrites the default scaffold generator.
+Thus, by hitting the following command:
+
+  % rails g scaffold user name:string
+
+The following beautiful controller code will be generated:
+
+  # coding: utf-8
+
+  class UsersController < ApplicationController
+    # GET /users
+    def index
+      @users = User.all
+    end
+
+    # GET /users/1
+    def show(id)
+      @user = User.find(id)
+    end
+
+    # GET /users/new
+    def new
+      @user = User.new
+    end
+
+    # GET /users/1/edit
+    def edit(id)
+      @user = User.find(id)
+    end
+
+    # POST /users
+    def create(user)
+      @user = User.new(user)
+
+      if @user.save
+        redirect_to @user, :notice => 'User was successfully created.'
+      else
+        render :action => 'new'
+      end
+    end
+
+    # PUT /users/1
+    def update(id, user)
+      @user = User.find(id)
+
+      if @user.update_attributes(user)
+        redirect_to @user, :notice => 'User was successfully updated.'
+      else
+        render :action => 'edit'
+      end
+    end
+
+    # DELETE /users/1
+    def destroy(id)
+      @user = User.find(id)
+      @user.destroy
+
+      redirect_to users_url
+    end
+  end
+
+You may notice that
+* There are no globalish +params+ referrence
+* It's quite easy to comprehend what's the input value for each action
+* You may write the unit test code as if the actions are just normal Ruby methods
+
+
+== Supported versions
+
+* Ruby 1.9.2, 1.9.3 (trunk)
+
+* Rails 3.0.x, 3.1 (edge)
+
+
+== Installation
+
+Put this line in your Gemfile:
+  gem 'merbish'
+
+Then bundle:
+  % bundle
+
+
+== Notes
+
+=== Plain Old Action Methods
+
+Of courese you still can use both Merbish style and plain old Rails style action methods even if this plugin is loaded. +params+ parameter is still alive as well. That means, this plugin won't break any existing controller API.
+
+=== Argument Naming Convention
+
+Each action method parameter name corresponds to +params+ key. For example, the following beautifully written nested show action works perfectly (this might not be a very good example of effective querying, but that's another story).
+
+  Rails.application.routes.draw do
+    resources :authors do
+      resources :books
+    end
+  end
+
+  class BooksController < ApplicationController
+    # GET authors/1/books/1
+    def show(author_id, id)
+      @book = Author.find(author_id).books.find(id)
+    end
+    ...
+  end
+
+
+== Conclusion
+
+Ruby 1.9 on Rails 3 FTW!
+
+
+== Copyright
+
+Copyright (c) 2011 Asakusa.rb. See LICENSE.txt for further details.

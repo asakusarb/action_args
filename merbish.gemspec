@@ -3,14 +3,14 @@ $:.push File.expand_path("../lib", __FILE__)
 require "merbish/version"
 
 Gem::Specification.new do |s|
-  s.name        = "merbish"
+  s.name        = 'merbish'
   s.version     = Merbish::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.authors     = ['Akira Matsuda']
+  s.email       = ['ronnie@dio.jp']
+  s.homepage    = 'http://asakusa.rubyist.net/'
+  s.summary     = 'Controller action arguments parameterizer for Rails 3 + Ruby 1.9'
+  s.description = 'Rails 3 plugin gem that supports controller action arguments.'
 
   s.rubyforge_project = "merbish"
 

@@ -24,7 +24,7 @@ So, you do never need to touch the ugly +params+ Hash to get the request paramet
 
 == The Scaffold Generator
 
-Merbish provieds a custom scaffold controller generator that overwrites the default scaffold generator.
+Merbish provides a custom scaffold controller generator that overwrites the default scaffold generator.
 Thus, by hitting the following command:
 
   % rails g scaffold user name:string
@@ -87,7 +87,7 @@ The following beautiful controller code will be generated:
 
 You may notice that
 * There are no globalish +params+ referrence
-* It's quite easy to comprehend what's the input value for each action
+* It's quite easy to comprehend what's the actual input value for each action
 * You may write the unit test code as if the actions are just normal Ruby methods
 
 
@@ -115,7 +115,7 @@ Of courese you still can use both Merbish style and plain old Rails style action
 
 === Argument Naming Convention
 
-Each action method parameter name corresponds to +params+ key. For example, the following beautifully written nested show action works perfectly (this might not be a very good example of effective querying, but that's another story).
+Each action method parameter name corresponds to +params+ key name. For example, the following beautifully written nested show action works perfectly (this might not be a very good example of effective querying, but that's another story).
 
   Rails.application.routes.draw do
     resources :authors do
@@ -124,12 +124,18 @@ Each action method parameter name corresponds to +params+ key. For example, the 
   end
 
   class BooksController < ApplicationController
-    # GET authors/1/books/1
+    # GET /authors/:author_id/books/:id
     def show(author_id, id)
       @book = Author.find(author_id).books.find(id)
     end
     ...
   end
+
+
+== Todo
+
+* specs
+* other Ruby implementations
 
 
 == Conclusion

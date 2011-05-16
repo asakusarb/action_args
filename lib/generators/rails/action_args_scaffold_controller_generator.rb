@@ -2,7 +2,7 @@ require 'rails/generators/rails/scaffold_controller/scaffold_controller_generato
 
 module Rails
   module Generators
-    class MerbishScaffoldControllerGenerator < ::Rails::Generators::ScaffoldControllerGenerator
+    class ActionArgsScaffoldControllerGenerator < ::Rails::Generators::ScaffoldControllerGenerator
       source_root File.expand_path('../templates', __FILE__)
     end
   end

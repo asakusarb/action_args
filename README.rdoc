@@ -1,11 +1,11 @@
-= Merbish(?)
+= ActionArgs
 
 Controller action arguments parameterizer for Rails 3 + Ruby 1.9
 
 
 == What is this?
 
-Merbish is a Rails 3 plugin that extends your controller action methods to simply look like a general Ruby method with meaningful parameters.
+ActionArgs is a Rails 3 plugin that extends your controller action methods to simply look like a general Ruby method with meaningful parameters.
 
 
 == The Controllers
@@ -24,7 +24,7 @@ So, you do never need to touch the ugly +params+ Hash to get the request paramet
 
 == The Scaffold Generator
 
-Merbish provides a custom scaffold controller generator that overwrites the default scaffold generator.
+ActionArgs provides a custom scaffold controller generator that overwrites the default scaffold generator.
 Thus, by hitting the following command:
 
   % rails g scaffold user name:string
@@ -101,7 +101,7 @@ You may notice that
 == Installation
 
 Put this line in your Gemfile:
-  gem 'merbish'
+  gem 'action_args'
 
 Then bundle:
   % bundle

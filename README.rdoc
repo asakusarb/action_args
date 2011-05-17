@@ -60,9 +60,9 @@ The following beautiful controller code will be generated:
       @user = User.new(user)
 
       if @user.save
-        redirect_to @user, :notice => 'User was successfully created.'
+        redirect_to @user, notice: 'User was successfully created.'
       else
-        render :action => 'new'
+        render action: 'new'
       end
     end
 
@@ -71,9 +71,9 @@ The following beautiful controller code will be generated:
       @user = User.find(id)
 
       if @user.update_attributes(user)
-        redirect_to @user, :notice => 'User was successfully updated.'
+        redirect_to @user, notice: 'User was successfully updated.'
       else
-        render :action => 'edit'
+        render action: 'edit'
       end
     end
 

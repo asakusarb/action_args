@@ -5,7 +5,7 @@ Controller action arguments parameterizer for Rails 3 + Ruby 1.9
 
 == What is this?
 
-ActionArgs is a Rails 3 plugin that extends your controller action methods to simply look like a general Ruby method with meaningful parameters.
+ActionArgs is a Rails 3 plugin that extends your controller action methods to look and act like simple general Ruby methods with meaningful parameters, or in short, Merbish.
 
 
 == The Controllers
@@ -24,6 +24,7 @@ So, you do never need to touch the ugly +params+ Hash to get the request paramet
 
 == The Scaffold Generator
 
+To tell you the truth, Rails 3 is originally designed to be able to very easily add this functionality (because Carlhuda did the work on this), so perhaps the most characteristic feature of this plugin is the generator.
 ActionArgs provides a custom scaffold controller generator that overwrites the default scaffold generator.
 Thus, by hitting the following command:
 
@@ -145,4 +146,4 @@ Ruby 1.9 on Rails 3 FTW!
 
 == Copyright
 
-Copyright (c) 2011 Asakusa.rb. See LICENSE.txt for further details.
+Copyright (c) 2011 Asakusa.rb. See MIT-LICENSE for further details.

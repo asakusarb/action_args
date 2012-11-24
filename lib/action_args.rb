@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'action_args/abstract_controller')
+require 'action_args/action_controller'
 
 module ActionArgs
   class Railtie < ::Rails::Railtie

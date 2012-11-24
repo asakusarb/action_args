@@ -1,11 +1,11 @@
 = ActionArgs
 
-Controller action arguments parameterizer for Rails 3 + Ruby 1.9
+Controller action arguments parameterizer for Rails 3+
 
 
 == What is this?
 
-ActionArgs is a Rails 3 plugin that extends your controller action methods to look and act like simple general Ruby methods with meaningful parameters, or in short, Merbish.
+ActionArgs is a Rails plugin that extends your controller action methods to look and act like simple general Ruby methods with meaningful parameters, or in short, Merbish.
 
 
 == The Controllers
@@ -19,12 +19,11 @@ Having the following controller code:
   end
 
 Hitting "/hoge/fuga?piyo=foo" will call fuga('foo') and output 'foo'.
-So, you do never need to touch the ugly +params+ Hash to get the request parameters.
+So, you do never need to touch the ugly +params+ Hash in order to fetch the request parameters.
 
 
 == The Scaffold Generator
 
-To tell you the truth, Rails 3 is originally designed to be able to very easily add this functionality (because Carlhuda did the work on this), so perhaps the most characteristic feature of this plugin is the generator.
 ActionArgs provides a custom scaffold controller generator that overwrites the default scaffold generator.
 Thus, by hitting the following command:
 
@@ -92,11 +91,34 @@ You may notice that
 * You may write the unit test code as if the actions are just normal Ruby methods
 
 
+== StrongParameters
+
+ActionArgs plays very nice with Rails 4 StrongParameters.
+The Hash parameter submitted via form would respond to the `permit` method.
+
+  class UsersController < ApplicationController
+    def create(user)
+      @user = User.new(user.permit(:name, :age))
+      ...
+    end
+  end
+
+ActionArgs provides declarative `permits` method for controller classes.
+
+  class UsersController < ApplicationController
+    permits :name, :age
+
+    def create(user)
+      @user = User.new(user)
+    end
+  end
+
+
 == Supported versions
 
-* Ruby 1.9.2, 1.9.3 (trunk)
+* Ruby 1.9.2, 1.9.3, 2.0.0 (trunk)
 
-* Rails 3.0.x, 3.1 (edge)
+* Rails 3.0.x, 3.1.x, 3.2.x, 4.0 (edge)
 
 
 == Installation
@@ -137,11 +159,6 @@ Each action method parameter name corresponds to +params+ key name. For example,
 
 * specs
 * other Ruby implementations
-
-
-== Conclusion
-
-Ruby 1.9 on Rails 3 FTW!
 
 
 == Copyright

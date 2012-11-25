@@ -157,7 +157,6 @@ Each action method parameter name corresponds to +params+ key name. For example,
 
 == Todo
 
-* specs
 * other Ruby implementations
 
 

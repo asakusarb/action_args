@@ -1,4 +1,4 @@
-require 'action_args/action_controller'
+require 'action_args/abstract_controller'
 
 module ActionArgs
   class Railtie < ::Rails::Railtie

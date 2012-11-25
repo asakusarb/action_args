@@ -1,4 +1,4 @@
-module ActionController
+module AbstractController
   class Base
     def send_action(method_name, *args)
       return send method_name, *args unless args.blank?

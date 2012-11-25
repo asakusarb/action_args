@@ -1,0 +1,8 @@
+source :rubygems
+
+gem 'rails', github: 'rails/rails'
+gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
+gem 'journey', github: 'rails/journey'
+gem 'rspec-rails', '>= 2.0'
+
+gemspec :path => '../'

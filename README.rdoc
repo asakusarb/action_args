@@ -22,6 +22,34 @@ Hitting "/hoge/fuga?piyo=foo" will call fuga('foo') and output 'foo'.
 So, you do never need to touch the ugly +params+ Hash in order to fetch the request parameters.
 
 
+== StrongParameters
+
+ActionArgs plays very nice with Rails 4 StrongParameters.
+Hashes in the action method arguments simply responds to the `permit` method.
+
+  class UsersController < ApplicationController
+    def create(user)
+      @user = User.new(user.permit(:name, :age))
+      ...
+    end
+  end
+
+Moreover, ActionArgs provides declarative `permits` method for controller classes,
+so that you can DRY up your `permit` calls in the most comprehensible way.
+The `permits` method assumes the model class from the controller name, and
+`permit`s the action arguments containing attributes for that model.
+
+  class UsersController < ApplicationController
+    # white-lists User model's attributes
+    permits :name, :age
+
+    # the given `user` parameter would be automatically permitted by ActionArgs
+    def create(user)
+      @user = User.new(user)
+    end
+  end
+
+
 == The Scaffold Generator
 
 ActionArgs provides a custom scaffold controller generator that overwrites the default scaffold generator.
@@ -34,6 +62,8 @@ The following beautiful controller code will be generated:
   # coding: utf-8
 
   class UsersController < ApplicationController
+    permits :name, :age, :email
+
     # GET /users
     def index
       @users = User.all
@@ -89,29 +119,6 @@ You may notice that
 * There are no globalish +params+ referrence
 * It's quite easy to comprehend what's the actual input value for each action
 * You may write the unit test code as if the actions are just normal Ruby methods
-
-
-== StrongParameters
-
-ActionArgs plays very nice with Rails 4 StrongParameters.
-The Hash parameter submitted via form would respond to the `permit` method.
-
-  class UsersController < ApplicationController
-    def create(user)
-      @user = User.new(user.permit(:name, :age))
-      ...
-    end
-  end
-
-ActionArgs provides declarative `permits` method for controller classes.
-
-  class UsersController < ApplicationController
-    permits :name, :age
-
-    def create(user)
-      @user = User.new(user)
-    end
-  end
 
 
 == Supported versions

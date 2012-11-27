@@ -2,6 +2,10 @@ script: "bundle exec rake spec"
 language: ruby
 rvm:
   - 1.9.3
+  - ruby-head
+  - jruby-head
+  - rbx-18mode
+  - rbx-19mode
 matrix:
   allow_failures:
     - rvm: ruby-head

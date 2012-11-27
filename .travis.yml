@@ -3,7 +3,12 @@ script: "bundle exec rake spec"
 rvm:
   - 1.9.3
   - ruby-head
-
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-18mode
+    - rvm: rbx-19mode
 gemfile:
   - gemfiles/rails_32.gemfile
   - gemfiles/rails_40.gemfile

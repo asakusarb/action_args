@@ -55,7 +55,7 @@ The `permits` method assumes the model class from the controller name, and
 ActionArgs provides a custom scaffold controller generator that overwrites the default scaffold generator.
 Thus, by hitting the following command:
 
-  % rails g scaffold user name:string
+  % rails g scaffold user name age:integer email
 
 The following beautiful controller code will be generated:
 

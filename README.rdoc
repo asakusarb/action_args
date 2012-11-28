@@ -25,7 +25,28 @@ So, you do never need to touch the ugly +params+ Hash in order to fetch the requ
 == StrongParameters
 
 ActionArgs plays very nice with Rails 4 StrongParameters.
-Hashes in the action method arguments simply responds to the `permit` method.
+
+In this `show` action, ActionArgs `require`s the `id` parameter.
+Hence, raises an error if the `id` value has not been specified, in the same way as usual Ruby methods do.
+
+  class UsersController < ApplicationController
+    # the `id` parameter is mandatory
+    def show(id)
+      @user = User.find id
+    end
+  end
+
+If you don't want ActionArgs to check the existence of some action parameters, you can make them optional by defining option values.
+Again, it just acts in the same way as usual Ruby methods do.
+
+  class UsersController < ApplicationController
+    # the `page` parameter is optional
+    def index(page = nil)
+      @users = User.page(page).per(50)
+    end
+  end
+
+Hashes in the action method arguments simply respond to the StrongParameters' `permit` method.
 
   class UsersController < ApplicationController
     def create(user)

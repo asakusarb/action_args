@@ -6,15 +6,16 @@ module AbstractController
       values = if defined? ActionController::StrongParameters
         target_model_name = self.class.name.sub(/Controller$/, '').singularize.underscore.to_sym
         permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
-        method(method_name).parameters.reject {|type, _| type == :block }.map(&:last).map do |key|
+        method(method_name).parameters.map {|type, key|
+          next if type == :block
           if (key == target_model_name) && permitted_attributes
             params.require(key).permit(*permitted_attributes)
           else
             params.require(key)
           end
-        end
+        }.compact
       else
-        method(method_name).parameters.reject {|type, _| type == :block }.map(&:last).map {|key| params[key]}
+        method(method_name).parameters.map {|type, key| params[key] unless type == :block }.compact
       end
       send method_name, *values
     end

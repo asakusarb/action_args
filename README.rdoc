@@ -36,7 +36,7 @@ Hence, raises an error if the `id` value has not been specified, in the same way
     end
   end
 
-If you don't want ActionArgs to check the existence of some action parameters, you can make them optional by defining option values.
+If you don't want ActionArgs to check the existence of some action parameters, you can make them optional by defining their default values.
 Again, it just acts in the same way as usual Ruby methods do.
 
   class UsersController < ApplicationController

@@ -8,10 +8,11 @@ module AbstractController
         permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
         method(method_name).parameters.map {|type, key|
           next if type == :block
+          params.require key if type == :req
           if (key == target_model_name) && permitted_attributes
-            params.require(key).permit(*permitted_attributes)
+            params[key].try :permit, *permitted_attributes
           else
-            params.require(key)
+            params[key]
           end
         }.compact
       else

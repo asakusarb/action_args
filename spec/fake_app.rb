@@ -39,6 +39,12 @@ class AuthorsController < ApplicationController
   end
 end
 class BooksController < ApplicationController
+  # optional parameter
+  def index(page = 1)
+    @books = Book.limit(10).offset((page.to_i - 1) * 10)
+    render text: 'index'
+  end
+
   def show(id)
     @book = Book.find(id)
     render text: @book.title

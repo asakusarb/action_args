@@ -11,6 +11,14 @@ describe BooksController do
       before { get :index, page: 3 }
       its(:response) { should be_success }
     end
+
+    context 'first param is nil and second is not nil' do
+      let!(:rhg) { Book.create! title: 'RHG' }
+      let!(:awdwr) { Book.create! title: 'AWDwR' }
+      before { get :index, q: 'RH' }
+      subject { assigns :books }
+      it { should == [rhg] }
+    end
   end
 
   describe 'GET show' do

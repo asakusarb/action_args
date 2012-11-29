@@ -4,3 +4,11 @@ gem 'rails', '>= 3.2.9'
 gem 'rspec-rails', '>= 2.0'
 
 gemspec :path => '../'
+
+platforms :ruby do
+  gem 'sqlite3'
+end
+
+platforms :jruby do
+  gem 'activerecord-jdbcsqlite3-adapter'
+end

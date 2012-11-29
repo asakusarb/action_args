@@ -15,7 +15,7 @@ module AbstractController
           end
         end
       else
-        method(method_name).parameters.reject {|type, _| type == :block }.map(&:last).map {|key| params[key]}
+        method(method_name).parameters.reject {|type, _| type == :block }.map {|_, key| params[key]}
       end
       send method_name, *values
     end

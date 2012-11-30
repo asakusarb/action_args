@@ -1,12 +1,12 @@
 module AbstractController
   class Base
-    def send_action(method_name, *args)
-      return send method_name, *args unless args.blank?
+    if defined? ActionController::StrongParameters
+      def send_action(method_name, *args)
+        return send method_name, *args unless args.blank?
 
-      values = if defined? ActionController::StrongParameters
         target_model_name = self.class.name.sub(/Controller$/, '').singularize.underscore.to_sym
         permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
-        method(method_name).parameters.reject {|type, _| type == :block }.map do |type, key|
+        values = method(method_name).parameters.reject {|type, _| type == :block }.map do |type, key|
           params.require key if type == :req
           if (key == target_model_name) && permitted_attributes
             params[key].try :permit, *permitted_attributes
@@ -14,26 +14,32 @@ module AbstractController
             params[key]
           end
         end
-      else
-        method(method_name).parameters.reject {|type, _| type == :block }.map {|_, key| params[key]}
+        send method_name, *values
       end
-      send method_name, *values
-    end
 
-    # You can configure StrongParameters' `permit` attributes using this DSL method.
-    # The `permit` call will be invoked only against parameters having the resource
-    # model name inferred from the controller class name.
-    #
-    #   class UsersController < ApplicationController
-    #     permits :name, :age
-    #
-    #     def create(user)
-    #       @user = User.new(user)
-    #     end
-    #   end
-    #
-    def self.permits(*attributes)
-      @permitted_attributes = attributes
+      # You can configure StrongParameters' `permit` attributes using this DSL method.
+      # The `permit` call will be invoked only against parameters having the resource
+      # model name inferred from the controller class name.
+      #
+      #   class UsersController < ApplicationController
+      #     permits :name, :age
+      #
+      #     def create(user)
+      #       @user = User.new(user)
+      #     end
+      #   end
+      #
+      def self.permits(*attributes)
+        @permitted_attributes = attributes
+      end
+    # no StrongParameters
+    else
+      def send_action(method_name, *args)
+        return send method_name, *args unless args.blank?
+
+        values = method(method_name).parameters.reject {|type, _| type == :block }.map {|_, key| params[key]}
+        send method_name, *values
+      end
     end
   end
 end

@@ -183,11 +183,6 @@ Each action method parameter name corresponds to +params+ key name. For example,
   end
 
 
-== Todo
-
-* other Ruby implementations
-
-
 == Copyright
 
 Copyright (c) 2011 Asakusa.rb. See MIT-LICENSE for further details.

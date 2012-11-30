@@ -3,12 +3,12 @@ language: ruby
 rvm:
   - 1.9.3
   - ruby-head
-  - jruby-head
+  - jruby
   - rbx-19mode
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-head
+    - rvm: jruby
     - rvm: rbx-19mode
 gemfile:
   - gemfiles/rails_32.gemfile

@@ -5,7 +5,7 @@ describe <%= controller_class_name %>Controller do
   # <%= class_name %>. As you add validations to <%= class_name %>, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    <%= formatted_hash(example_valid_attributes) %>
   end
 
 <% unless options[:singleton] -%>
@@ -79,7 +79,7 @@ describe <%= controller_class_name %>Controller do
         before do
           <%= class_name %>.any_instance.stub(:save) { false }
           controller.should_receive(:render).with(:action => 'new')
-          controller.create({})
+          controller.create(<%= formatted_hash(example_invalid_attributes) %>)
         end
         subject { controller.instance_variable_get('@<%= ns_file_name %>') }
         it { should be_a_new(<%= class_name %>) }
@@ -107,7 +107,7 @@ describe <%= controller_class_name %>Controller do
           # Trigger the behavior that occurs when invalid params are submitted
           <%= class_name %>.any_instance.stub(:save) { false }
           controller.should_receive(:render).with(:action => 'edit')
-          controller.update(@<%= file_name %>.to_param, {})
+          controller.update(@<%= file_name %>.to_param, <%= formatted_hash(example_invalid_attributes) %>)
         end
         subject { controller.instance_variable_get('@<%= ns_file_name %>') }
         it { should eq(@<%= file_name %>) }

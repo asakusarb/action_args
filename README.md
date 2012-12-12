@@ -20,7 +20,7 @@ class HogeController < ApplicationController
 end
 ```
 
-Hitting "/hoge/fuga?piyo=foo" will call fuga('foo') and output 'foo'.
+Hitting "/hoge/fuga?piyo=foo" will call `fuga('foo')` and output 'foo'.
 So, you do never need to touch the ugly `params` Hash in order to fetch the request parameters.
 
 
@@ -29,7 +29,7 @@ So, you do never need to touch the ugly `params` Hash in order to fetch the requ
 ActionArgs plays very nice with Rails 4 StrongParameters.
 
 In this `show` action, ActionArgs `require`s the `id` parameter.
-Hence, raises an error if the `id` value has not been specified, in the same way as usual Ruby methods do.
+Hence, if the `id` value has not been specified in the request parameter, it raises an error in the same way as usual Ruby methods do.
 
 ```ruby
 class UsersController < ApplicationController
@@ -90,7 +90,7 @@ Thus, by hitting the scaffold generator command like this:
 % rails g scaffold user name age:integer email
 ```
 
-The following beautiful controller code will be generated:
+The following elegant controller code will be generated:
 
 ```ruby
 # coding: utf-8
@@ -183,7 +183,7 @@ Of courese you still can use both Merbish style and plain old Rails style action
 
 ### Argument Naming Convention
 
-Each action method parameter name corresponds to `params` key name. For example, the following beautifully written nested show action works perfectly (this might not be a very good example of effective querying, but that's another story).
+Each action method parameter name corresponds to `params` key name. For example, the following beautifully written nested `show` action works perfectly (this might not be a very good example of effective querying, but that's another story).
 
 ```ruby
 Rails.application.routes.draw do

@@ -1,8 +1,8 @@
-require 'action_args/abstract_controller'
 begin
   require 'strong_parameters'
 rescue LoadError
 end
+require 'action_args/abstract_controller'
 
 module ActionArgs
   class Railtie < ::Rails::Railtie

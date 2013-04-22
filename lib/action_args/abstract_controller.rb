@@ -37,7 +37,7 @@ module AbstractController
       def send_action(method_name, *args)
         return send method_name, *args unless args.empty?
 
-        values = method(method_name).parameters.reject {|type, _| type == :block }.map {|_, key| params[key]}
+        values = method(method_name).parameters.reverse_each.drop_while {|type,key| type == :block || type == :opt && ! params.has_key?(key) }.map {|_, key| params[key]}.reverse_each.to_a
         send method_name, *values
       end
     end

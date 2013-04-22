@@ -2,14 +2,21 @@ require 'spec_helper'
 
 describe BooksController do
   describe 'GET index (having an optional parameter)' do
+    before do
+      @books = []
+      Book.delete_all
+      100.times {|i| @books << Book.create!(title: 'book'+i.to_s) }
+    end
     context 'without page parameter' do
       before { get :index }
       its(:response) { should be_success }
+      it { expect(assigns(:books)).to match_array(@books[0..9]) }
     end
 
     context 'with page parameter' do
       before { get :index, page: 3 }
       its(:response) { should be_success }
+      it { expect(assigns(:books)).to match_array(@books[20..29]) }
     end
 
     context 'first param is nil and second is not nil' do

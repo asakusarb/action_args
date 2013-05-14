@@ -19,7 +19,7 @@ namespace :spec do
     end
   end
 
-  desc 'Run Tests against all ORMs'
+  desc 'Run Tests against all Rails versions'
   task :all do
     %w(rails_32 rails_40).each do |gemfile|
       sh "BUNDLE_GEMFILE='gemfiles/#{gemfile}.gemfile' bundle --quiet"

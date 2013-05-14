@@ -4,7 +4,7 @@ module AbstractController
       def send_action(method_name, *args)
         return send method_name, *args unless args.empty?
 
-        target_model_name = self.class.name.sub(/Controller$/, '').singularize.underscore.to_sym
+        target_model_name = self.class.name.sub(/.+::/, '').sub(/Controller$/, '').singularize.underscore.to_sym
         permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
         values = method(method_name).parameters.reject {|type, _| type == :block }.map do |type, key|
           params.require key if type == :req

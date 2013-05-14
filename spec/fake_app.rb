@@ -16,6 +16,10 @@ ActionArgsTestApp::Application.routes.draw do
   resources :authors
   resources :books
   resources :stores
+
+  namespace :admin do
+    resources :books
+  end
 end
 
 # models
@@ -69,6 +73,16 @@ if Rails::VERSION::MAJOR >= 4
     def create(store)
       @store = Store.create! store
       render text: @store.name
+    end
+  end
+  module Admin
+    class BooksController < ::ApplicationController
+      permits :title
+
+      def create(book)
+        @book = Book.create! book
+        render text: @book.title
+      end
     end
   end
 end

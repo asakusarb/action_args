@@ -201,6 +201,31 @@ class BooksController < ApplicationController
 end
 ```
 
+### Default parameter values
+
+You are of course able to specify default values for action parameters such as:
+
+```ruby
+class BooksController < ApplicationController
+  def index(author_id = nil, page = 1)
+    ...
+  end
+end
+```
+
+However, due to some implementational reasons, the `page` variable will be actually defaulted to nil when `page` parameter was not given.
+
+In order to provide default parameter values in perfect Ruby manner, we recommend you to use the Ruby 2.0 "keyword arguments" syntax instead.
+
+```ruby
+class BooksController < ApplicationController
+  def index(author_id: nil, page: 1)
+    ...
+  end
+end
+```
+
+This way, the `page` parameter will be defaulted to 1 as everyone might expect.
 
 ## Copyright
 

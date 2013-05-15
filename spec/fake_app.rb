@@ -15,6 +15,7 @@ ActionArgsTestApp::Application.initialize!
 ActionArgsTestApp::Application.routes.draw do
   resources :authors
   resources :books
+  resources :kw_books  # 2.0+ only
   resources :stores
 
   namespace :admin do
@@ -86,6 +87,8 @@ if Rails::VERSION::MAJOR >= 4
     end
   end
 end
+
+require_relative 'kwargs_controllers' if RUBY_VERSION >= '2'
 
 # migrations
 class CreateAllTables < ActiveRecord::Migration

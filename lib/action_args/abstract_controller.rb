@@ -6,14 +6,21 @@ module AbstractController
 
         target_model_name = self.class.name.sub(/.+::/, '').sub(/Controller$/, '').singularize.underscore.to_sym
         permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
-        values = method(method_name).parameters.reject {|type, _| type == :block }.map do |type, key|
+        values, kwargs = [], {}
+        method(method_name).parameters.reject {|type, _| type == :block }.each do |type, key|
           params.require key if type == :req
-          if (key == target_model_name) && permitted_attributes
+          val = if (key == target_model_name) && permitted_attributes
             params[key].try :permit, *permitted_attributes
           else
             params[key]
           end
+          if type == :key
+            kwargs[key] = val if params.has_key? key
+          else
+            values << val
+          end
         end
+        values << kwargs if kwargs.any?
         send method_name, *values
       end
 
@@ -37,7 +44,15 @@ module AbstractController
       def send_action(method_name, *args)
         return send method_name, *args unless args.empty?
 
-        values = method(method_name).parameters.reject {|type, _| type == :block }.map {|_, key| params[key]}
+        values, kwargs = [], {}
+        method(method_name).parameters.reject {|type, _| type == :block }.each do |type, key|
+          if type == :key
+            kwargs[key] = params[key] if params.has_key? key
+          else
+            values << params[key]
+          end
+        end
+        values << kwargs if kwargs.any?
         send method_name, *values
       end
     end

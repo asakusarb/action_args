@@ -7,7 +7,7 @@ module AbstractController
         target_model_name = self.class.name.sub(/.+::/, '').sub(/Controller$/, '').singularize.underscore.to_sym
         permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
         values, kwargs = [], {}
-        method(method_name).parameters.reject {|type, _| type == :block }.each do |type, key|
+        method(method_name).parameters.reverse_each.drop_while {|type,key| type == :block || type == :opt && ! params.has_key?(key) }.reverse_each do |type, key|
           params.require key if type == :req
           val = if (key == target_model_name) && permitted_attributes
             params[key].try :permit, *permitted_attributes
@@ -45,7 +45,7 @@ module AbstractController
         return send method_name, *args unless args.empty?
 
         values, kwargs = [], {}
-        method(method_name).parameters.reject {|type, _| type == :block }.each do |type, key|
+        method(method_name).parameters.reverse_each.drop_while {|type,key| type == :block || type == :opt && ! params.has_key?(key) }.reverse_each do |type, key|
           if type == :key
             kwargs[key] = params[key] if params.has_key? key
           else

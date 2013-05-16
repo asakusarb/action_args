@@ -45,10 +45,10 @@ class AuthorsController < ApplicationController
 end
 class BooksController < ApplicationController
   # optional parameter
-  def index(page = 1, q = nil)
-    @books = Book.limit(10).offset(([page.to_i - 1, 0].max) * 10)
+  def index(page = 1, q = nil, limit = 10)
+    @books = Book.limit(limit.to_i).offset(([page.to_i - 1, 0].max) * 10)
     @books = @books.where('title like ?', "%#{q}%") unless q.blank?
-    render text: 'index'
+    render text: 'index', books: @books
   end
 
   def show(id)

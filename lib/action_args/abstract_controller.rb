@@ -4,16 +4,8 @@ module AbstractController
       def send_action(method_name, *args)
         return send method_name, *args unless args.empty?
 
-        target_model_name = self.class.name.sub(/.+::/, '').sub(/Controller$/, '').singularize.underscore.to_sym
-        permitted_attributes = self.class.instance_variable_get '@permitted_attributes'
-
         method_parameters = method(method_name).parameters
-        method_parameters.each do |type, key|
-          if (key == target_model_name) && permitted_attributes
-            params[key] = params.require(key).try :permit, *permitted_attributes
-          end
-        end
-
+        ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
         values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
         send method_name, *values
       end

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe ActionArgs::ParamsHandler do
   # ActionArgs::ParamsHandler.extract_method_arguments_from_params(method_parameters, params)
   describe 'extract_method_arguments_from_params' do
-    subject { ActionArgs::ParamsHandler.extract_method_arguments_from_params method(:m).parameters, params }
     let(:params) { {a: '1', b: '2'} }
+    subject { ActionArgs::ParamsHandler.extract_method_arguments_from_params method(:m).parameters, params }
     context 'no parameters' do
       before do
         def m() end
@@ -94,6 +94,52 @@ describe ActionArgs::ParamsHandler do
         def m(x = 'x', a) end
       end
       it { should == ['1'] }
+    end
+  end
+
+  if defined? ActionController::StrongParameters
+    # strengthen_params!(controller_class, method_parameters, params)
+    describe 'strengthen_params!' do
+      before { ActionArgs::ParamsHandler.strengthen_params! controller, controller.new.method(:a).parameters, params }
+      let(:params) { ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}) }
+
+      context 'requiring via :req, permitting all scalars' do
+        let(:controller) { FooController ||= Class.new(ApplicationController) { permits :a, :b; def a(foo) end } }
+        subject { params[:foo] }
+        it { should be_permitted }
+        its([:a]) { should be }
+        its([:b]) { should be }
+      end
+
+      context 'requiring via :req, not permitting all scalars' do
+        let(:controller) { BarController ||= Class.new(ApplicationController) { permits :a; def a(bar, x = 'x') end } }
+        subject { params[:bar] }
+        it { should be_permitted }
+        its([:a]) { should be }
+        its([:b]) { should_not be }
+      end
+
+      context 'requiring via :req, not permitting any scalars' do
+        let(:controller) { BazController ||= Class.new(ApplicationController) { def a(baz, aho = 'omg') end } }
+        subject { params[:baz] }
+        it { should_not be_permitted }
+      end
+
+      context 'requiring via :opt, permitting all scalars' do
+        let(:controller) { HogeController ||= Class.new(ApplicationController) { permits :a, :b; def a(hoge = {}) end } }
+        subject { params[:hoge] }
+        it { should be_permitted }
+        its([:a]) { should be }
+        its([:b]) { should be }
+      end
+
+      context 'requiring via :key, permitting all scalars' do
+        let(:controller) { FugaController ||= Class.new(ApplicationController) { permits :a, :b; def a(fuga: {}) end } }
+        subject { params[:fuga] }
+        it { should be_permitted }
+        its([:a]) { should be }
+        its([:b]) { should be }
+      end
     end
   end
 end

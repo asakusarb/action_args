@@ -2,6 +2,7 @@ begin
   require 'strong_parameters'
 rescue LoadError
 end
+require 'action_args/params_handler'
 require 'action_args/abstract_controller'
 
 module ActionArgs

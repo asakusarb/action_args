@@ -146,12 +146,16 @@ describe ActionArgs::ParamsHandler do
         its([:b]) { should be }
       end
 
-      context 'requiring via :key, permitting all scalars' do
-        let(:controller) { FugaController ||= Class.new(ApplicationController) { permits :a, :b; def a(fuga: {}) end } }
-        subject { params[:fuga] }
-        it { should be_permitted }
-        its([:a]) { should be }
-        its([:b]) { should be }
+      if RUBY_VERSION >= '2'
+        eval <<-KWARGS_TEST
+          context 'requiring via :key, permitting all scalars' do
+            let(:controller) { FugaController ||= Class.new(ApplicationController) { permits :a, :b; def a(fuga: {}) end } }
+            subject { params[:fuga] }
+            it { should be_permitted }
+            its([:a]) { should be }
+            its([:b]) { should be }
+          end
+        KWARGS_TEST
       end
     end
   end

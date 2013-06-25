@@ -1,6 +1,6 @@
 # ActionArgs
 
-Controller action arguments parameterizer for Rails 3+
+Controller action arguments parameterizer for Rails 3 and 4
 
 
 ## What is this?

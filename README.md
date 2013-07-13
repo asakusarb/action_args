@@ -5,7 +5,7 @@ Controller action arguments parameterizer for Rails 3 and 4
 
 ## What is this?
 
-ActionArgs is a Rails plugin that extends your controller action methods to look and act like simple general Ruby methods with meaningful parameters, or in short, Merbish.
+ActionArgs is a Rails plugin that extends your controller action methods to allow you to specify arguments of interest in the method definition for any action. - in short, Merbish.
 
 
 ## The Controllers
@@ -21,16 +21,18 @@ end
 ```
 
 Hitting "/hoge/fuga?piyo=foo" will call `fuga('foo')` and output 'foo'.
-So, you do never need to touch the ugly `params` Hash in order to fetch the request parameters.
+This allows you to explicitly state which members of the `params` Hash are used in your controller actions,
 
 
 ## StrongParameters
 
 ActionArgs plays very nice with Rails 4 StrongParameters.
 
-In this `show` action, ActionArgs `require`s the `id` parameter.
-Hence, if the `id` value has not been specified in the request parameter, it raises an error in the same way as usual Ruby methods do.
+### Required Parameters
+Method parameters that you specify are required. If a key of the same name does not exist in the params Hash,
+an ArgumentError is raised.
 
+In this `show` action, ActionArgs will require that `id` parameter is provided.
 ```ruby
 class UsersController < ApplicationController
   # the `id` parameter is mandatory
@@ -40,8 +42,8 @@ class UsersController < ApplicationController
 end
 ```
 
-If you don't want ActionArgs to check the existence of some action parameters, you can make them optional by defining their default values.
-Again, it just acts in the same way as usual Ruby methods do.
+### Optional Parameters
+Default parameter values are assigned in the standard way. Parameters with a default value will not require a matching item in the `params` Hash.
 
 ```ruby
 class UsersController < ApplicationController
@@ -52,7 +54,11 @@ class UsersController < ApplicationController
 end
 ```
 
-Hashes in the action method arguments simply respond to the StrongParameters' `permit` method.
+### StrongParameters - permit
+
+1. Inline declaration
+
+Hashes simply respond to the StrongParameters' `permit` method.
 
 ```ruby
 class UsersController < ApplicationController
@@ -63,10 +69,10 @@ class UsersController < ApplicationController
 end
 ```
 
-Moreover, ActionArgs provides declarative `permits` method for controller classes,
-so that you can DRY up your `permit` calls in the most comprehensible way.
-The `permits` method assumes the model class from the controller name, and
-`permit`s the action arguments containing attributes for that model.
+2. Declarative white-listing
+
+ActionArgs also provides a declarative `permits` method for controller classes.
+Use this to keep your `permit` calls DRY in a comprehensible way.
 
 ```ruby
 class UsersController < ApplicationController
@@ -213,7 +219,7 @@ class BooksController < ApplicationController
 end
 ```
 
-However, due to some implementational reasons, the `page` variable will be actually defaulted to nil when `page` parameter was not given.
+However, due to some implementation reasons, the `page` variable will be actually defaulted to nil when `page` parameter was not given.
 
 In order to provide default parameter values in perfect Ruby manner, we recommend you to use the Ruby 2.0 "keyword arguments" syntax instead.
 

@@ -31,6 +31,19 @@ end
 class Store < ActiveRecord::Base
 end
 
+# mailers
+require "action_mailer/railtie"
+class UserMailer < ActionMailer::Base
+  def send_email_without_args
+    mail(
+      to:      'to@example.com',
+      from:    'from@example.com',
+      subject: 'Action Args!!!',
+      body:    'test'
+    )
+  end
+end
+
 # helpers
 module ApplicationHelper; end
 

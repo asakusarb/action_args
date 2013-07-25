@@ -3,6 +3,7 @@ module AbstractController
     if defined? ActionController::StrongParameters
       def send_action(method_name, *args)
         return send method_name, *args unless args.empty?
+        return send method_name, *args unless defined?(params)
 
         method_parameters = method(method_name).parameters
         ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
@@ -29,6 +30,7 @@ module AbstractController
     else
       def send_action(method_name, *args)
         return send method_name, *args unless args.empty?
+        return send method_name, *args unless defined?(params)
 
         values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method(method_name).parameters, params
         send method_name, *values

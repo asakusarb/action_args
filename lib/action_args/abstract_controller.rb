@@ -24,8 +24,10 @@ module AbstractController
       #   end
       #
       def self.permits(*attributes)
-        options = attributes.extract_options!
-        @permitting_model_name = options[:model_name] if options.has_key? :model_name
+        if attributes.last.is_a?(Hash) && attributes.last.extractable_options? && attributes.last.has_key?(:model_name)
+          options = attributes.pop
+          @permitting_model_name = options[:model_name]
+        end
         @permitted_attributes = attributes
       end
     # no StrongParameters

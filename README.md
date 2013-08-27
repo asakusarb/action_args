@@ -86,6 +86,16 @@ class UsersController < ApplicationController
 end
 ```
 
+By default, action_args deduces the target model name from the controller name.
+For example, the `permits` call in `UsersController` expects the model name to be `User`.
+If this is not the case, you can specify the :model_name option:
+
+```ruby
+class MembersController < ApplicationController
+  # white-lists User model's attributes
+  permits :name, :age, model_name: 'User'
+end
+```
 
 ## The Scaffold Generator
 

@@ -157,6 +157,14 @@ describe ActionArgs::ParamsHandler do
           end
         KWARGS_TEST
       end
+
+      describe '"model_name" option' do
+        let(:controller) { PiyoController ||= Class.new(ApplicationController) { permits :a, :b, model_name: 'Foo'; def a(foo) end } }
+        subject { params[:foo] }
+        it { should be_permitted }
+        its([:a]) { should be }
+        its([:b]) { should be }
+      end
     end
   end
 end

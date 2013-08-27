@@ -24,6 +24,8 @@ module AbstractController
       #   end
       #
       def self.permits(*attributes)
+        options = attributes.extract_options!
+        @permitting_model_name = options[:model_name] if options.has_key? :model_name
         @permitted_attributes = attributes
       end
     # no StrongParameters

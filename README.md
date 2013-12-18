@@ -195,7 +195,7 @@ Then bundle:
 
 ### Plain Old Action Methods
 
-Of courese you still can use both Merbish style and plain old Rails style action methods even if this plugin is loaded. `params` parameter is still alive as well. That means, this plugin won't break any existing controller API.
+Of course you still can use both Merbish style and plain old Rails style action methods even if this plugin is loaded. `params` parameter is still alive as well. That means, this plugin won't break any existing controller API.
 
 ### Argument Naming Convention
 

@@ -40,7 +40,11 @@ class <%= controller_class_name %>Controller < ApplicationController
   def update(id, <%= singular_table_name %>)
     @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
 
+<% if orm_instance.respond_to? :update -%>
     if @<%= orm_instance.update(singular_table_name) %>
+<% else -%>
+    if @<%= orm_instance.update_attributes(singular_table_name) %>
+<% end -%>
       redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully updated.'
     else
       render :edit

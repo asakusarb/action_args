@@ -32,7 +32,7 @@ class <%= controller_class_name %>Controller < ApplicationController
     if @<%= orm_instance.save %>
       redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully created.'
     else
-      render action: 'new'
+      render :new
     end
   end
 
@@ -43,7 +43,7 @@ class <%= controller_class_name %>Controller < ApplicationController
     if @<%= orm_instance.update(singular_table_name) %>
       redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully updated.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 

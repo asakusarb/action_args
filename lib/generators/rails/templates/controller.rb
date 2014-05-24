@@ -52,6 +52,6 @@ class <%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
     @<%= orm_instance.destroy %>
 
-    redirect_to <%= index_helper %>_url
+    redirect_to <%= index_helper %>_url, notice: <%= "'#{human_name} was successfully destroyed.'" %>
   end
 end

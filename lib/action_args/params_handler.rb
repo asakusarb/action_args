@@ -9,6 +9,12 @@ module ActionArgs
         when :req
           missing_required_params << key unless params.has_key? key
           next
+        when :keyreq
+          if params.has_key? key
+            kwargs[key] = params[key]
+          else
+            missing_required_params << key
+          end
         when :key
           kwargs[key] = params[key] if params.has_key? key
         when :opt

@@ -17,7 +17,13 @@ module ActionArgs
         # omitting parameters that are :block, :rest, :opt without a param, and :key without a param
         parameter_names.delete key
       end
-      raise ActionController::BadRequest.new(:required, ArgumentError.new("Missing required parameters: #{missing_required_params.join(', ')}")) if missing_required_params.any?
+      if missing_required_params.any?
+        if defined? ActionController::BadRequest
+          raise ActionController::BadRequest.new(:required, ArgumentError.new("Missing required parameters: #{missing_required_params.join(', ')}"))
+        else
+          raise ArgumentError, "Missing required parameters: #{missing_required_params.join(', ')}"
+        end
+      end
 
       values = parameter_names.map {|k| params[k]}
       values << kwargs if kwargs.any?

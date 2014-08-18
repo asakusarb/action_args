@@ -7,6 +7,7 @@ module ActionArgs
       method_parameters.reverse_each do |type, key|
         case type
         when :req
+          raise ActionController::BadRequest.new(:required, ArgumentError.new("Missing required parameter: #{key}")) unless params.has_key? key
           next
         when :key
           kwargs[key] = params[key] if params.has_key? key

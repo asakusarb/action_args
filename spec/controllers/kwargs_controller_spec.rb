@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe KwBooksController do
   describe 'GET index (having an optional parameter)' do
-    context 'without giving any kw parameter' do
+    context 'without giving any kw parameter (not even giving :required one)' do
+      it { expect { get :index }.to raise_error ActionController::BadRequest }
+    end
+
+    context 'without giving any optional kw parameter' do
       before { get :index, author_name: 'nari' }
       its(:response) { should be_success }
     end

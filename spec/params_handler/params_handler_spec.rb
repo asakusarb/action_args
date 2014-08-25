@@ -108,6 +108,42 @@ describe ActionArgs::ParamsHandler do
       end
       it { should == ['2', '1'] }
     end
+
+    if RUBY_VERSION >= '2'
+      eval <<-KWARGS_TEST
+        context 'key' do
+          before do
+            def m(a: nil) end
+          end
+          it { should == [a: '1'] }
+        end
+
+        context 'key, key without value' do
+          before do
+            def m(a: nil, x: 'x') end
+          end
+          it { should == [a: '1'] }
+        end
+      KWARGS_TEST
+    end
+
+    if RUBY_VERSION >= '2.1'
+      eval <<-KWARGS_KEYREQ_TEST
+        context 'keyreq' do
+          before do
+            def m(a:) end
+          end
+          it { should == [a: '1'] }
+        end
+
+        context 'keyreq, keyreq without value' do
+          before do
+            def m(a:, x:) end
+          end
+          it { expect { subject }.to raise_error ::ActionController::BadRequest }
+        end
+      KWARGS_KEYREQ_TEST
+    end
   end
 
   if defined? ActionController::StrongParameters

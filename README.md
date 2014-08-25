@@ -24,13 +24,11 @@ Hitting "/hoge/fuga?piyo=foo" will call `fuga('foo')` and output 'foo'.
 This allows you to explicitly state which members of the `params` Hash are used in your controller actions,
 
 
-## StrongParameters
+## Method parameter types in Ruby, and how ActionArgs handles parameters
 
-ActionArgs plays very nice with Rails 4 StrongParameters.
-
-### Required Parameters
+### Required Parameters (:req)
 Method parameters that you specify are required. If a key of the same name does not exist in the params Hash,
-an ArgumentError is raised.
+ActionContrller::BadRequest (or ArgumentError in Rails 3) is raised.
 
 In this `show` action, ActionArgs will require that `id` parameter is provided.
 ```ruby
@@ -42,7 +40,7 @@ class UsersController < ApplicationController
 end
 ```
 
-### Optional Parameters
+### Optional Parameters (:opt)
 Default parameter values are assigned in the standard way. Parameters with a default value will not require a matching item in the `params` Hash.
 
 ```ruby
@@ -54,7 +52,36 @@ class UsersController < ApplicationController
 end
 ```
 
+### Keyword Argument (:key)
+If you think this Ruby 2.0 syntax reads better, you can choose this style for defining your action methods.
+This just works in the same way as :opt here.
+
+```ruby
+class UsersController < ApplicationController
+  # the `page` parameter is optional
+  def index(page: nil)
+    @users = User.page(page).per(50)
+  end
+end
+```
+
+### Required Keyword Argument (:keyreq)
+:keyreq is the required version of :key, which was introduced in Ruby 2.1.
+You can use this syntax instead of :req.
+
+```ruby
+class CommentsController < ApplicationController
+  def create(post_id:, comment:)
+    post = Post.find post_id
+    if post.create comment
+      ...
+  end
+end
+```
+
 ### StrongParameters - permit
+
+ActionArgs plays very nice with Rails 4 StrongParameters.
 
 1. Inline declaration
 

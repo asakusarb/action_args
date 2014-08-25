@@ -102,6 +102,7 @@ describe ActionArgs::ParamsHandler do
       end
       it { should == [nil, '2', '1'] }
     end
+
     context 'opt with value, opt without value, req' do
       before do
         def m(b = 'b', x = 'x', a) end

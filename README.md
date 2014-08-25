@@ -201,9 +201,9 @@ You may notice that
 
 ## Supported versions
 
-* Ruby 1.9.2, 1.9.3, 2.0.0, 2.1.0 (trunk), JRuby & Rubinius with 1.9 mode
+* Ruby 1.9.2, 1.9.3, 2.0.0, 2.1.x, 2.2.0 (trunk), JRuby, & Rubinius with 1.9+ mode
 
-* Rails 3.0.x, 3.1.x, 3.2.x, 4.0 (edge)
+* Rails 3.0.x, 3.1.x, 3.2.x, 4.0.x, 4.1.x, 4.2 (edge)
 
 
 ## Installation

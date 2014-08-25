@@ -110,6 +110,15 @@ describe ActionArgs::ParamsHandler do
       it { should == ['2', '1'] }
     end
 
+    if Rails::VERSION::MAJOR >= 4
+      context 'req without a value' do
+        before do
+          def m(x) end
+        end
+        it { expect { subject }.to raise_error ActionController::BadRequest }
+      end
+    end
+
     if RUBY_VERSION >= '2'
       eval <<-KWARGS_TEST
         context 'key' do

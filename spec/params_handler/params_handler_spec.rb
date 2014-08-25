@@ -136,11 +136,13 @@ describe ActionArgs::ParamsHandler do
           it { should == [a: '1'] }
         end
 
-        context 'keyreq, keyreq without value' do
-          before do
-            def m(a:, x:) end
+        if Rails::VERSION::MAJOR >= 4
+          context 'keyreq, keyreq without value' do
+            before do
+              def m(a:, x:) end
+            end
+            it { expect { subject }.to raise_error ::ActionController::BadRequest }
           end
-          it { expect { subject }.to raise_error ::ActionController::BadRequest }
         end
       KWARGS_KEYREQ_TEST
     end

@@ -58,6 +58,8 @@ class AuthorsController < ApplicationController
   end
 end
 class BooksController < ApplicationController
+  before_filter :set_book, only: :show
+
   # optional parameter
   def index(page = 1, q = nil, limit = 10)
     @books = Book.limit(limit.to_i).offset(([page.to_i - 1, 0].max) * 10)
@@ -66,7 +68,6 @@ class BooksController < ApplicationController
   end
 
   def show(id)
-    @book = Book.find(id)
     render text: @book.title
   end
 
@@ -75,6 +76,11 @@ class BooksController < ApplicationController
     @book = Book.create! book
     render text: @book.title
   end
+
+  private
+    def set_book(id)
+      @book = Book.find(id)
+    end
 end
 if Rails::VERSION::MAJOR >= 4
   class StoresController < ApplicationController

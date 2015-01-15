@@ -59,6 +59,8 @@ class AuthorsController < ApplicationController
 end
 class BooksController < ApplicationController
   before_filter :set_book, only: :show
+  before_filter -> { @proc_filter_executed = true }, only: :show
+  before_filter '@string_filter_executed = true', only: :show
 
   # optional parameter
   def index(page = 1, q = nil, limit = 10)

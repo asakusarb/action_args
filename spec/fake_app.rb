@@ -58,9 +58,15 @@ class AuthorsController < ApplicationController
   end
 end
 class BooksController < ApplicationController
-  before_filter :set_book, only: :show
-  before_filter -> { @proc_filter_executed = true }, only: :show
-  before_filter '@string_filter_executed = true', only: :show
+  if Rails::VERSION::MAJOR >= 4
+    before_action :set_book, only: :show
+    before_action -> { @proc_filter_executed = true }, only: :show
+    before_action '@string_filter_executed = true', only: :show
+  else
+    before_filter :set_book, only: :show
+    before_filter -> { @proc_filter_executed = true }, only: :show
+    before_filter '@string_filter_executed = true', only: :show
+  end
 
   # optional parameter
   def index(page = 1, q = nil, limit = 10)

@@ -62,10 +62,14 @@ class BooksController < ApplicationController
     before_action :set_book, only: :show
     before_action -> { @proc_filter_executed = true }, only: :show
     before_action '@string_filter_executed = true', only: :show
+    before_action :omg
+    skip_before_action :omg
   else
     before_filter :set_book, only: :show
     before_filter -> { @proc_filter_executed = true }, only: :show
     before_filter '@string_filter_executed = true', only: :show
+    before_filter :omg
+    skip_before_filter :omg
   end
 
   # optional parameter
@@ -88,6 +92,10 @@ class BooksController < ApplicationController
   private
     def set_book(id)
       @book = Book.find(id)
+    end
+
+    def omg
+      raise '💣'
     end
 end
 if Rails::VERSION::MAJOR >= 4

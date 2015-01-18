@@ -126,7 +126,7 @@ end
 
 ## Filters
 
-ActionArgs works in filters, in the same way as the controller action.
+ActionArgs works in filters, in the same way as it works in controller actions.
 
 ```ruby
 class UsersController < ApplicationController
@@ -136,6 +136,7 @@ class UsersController < ApplicationController
   end
 
   private
+    # `params[:id]` will be dynamically assigned to the method parameter `id` here
     def set_user(id)
       @user = User.find(id)
     end

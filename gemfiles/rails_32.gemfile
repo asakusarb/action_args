@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 3.2.9'
-gem 'rspec-rails', '~> 2.0', '< 2.99'
 
 gemspec :path => '../'
 

@@ -124,6 +124,24 @@ class MembersController < ApplicationController
 end
 ```
 
+## Filters
+
+ActionArgs works in filters, in the same way as the controller action.
+
+```ruby
+class UsersController < ApplicationController
+  before_action :set_user, only: :show
+
+  def show
+  end
+
+  private
+    def set_user(id)
+      @user = User.find(id)
+    end
+end
+```
+
 ## The Scaffold Generator
 
 ActionArgs provides a custom scaffold controller generator that overwrites the default scaffold generator.
@@ -139,6 +157,7 @@ The following elegant controller code will be generated:
 # coding: utf-8
 
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
   permits :name, :age, :email
 
   # GET /users
@@ -147,8 +166,7 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1
-  def show(id)
-    @user = User.find(id)
+  def show
   end
 
   # GET /users/new
@@ -157,8 +175,7 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit(id)
-    @user = User.find(id)
+  def edit
   end
 
   # POST /users
@@ -173,9 +190,7 @@ class UsersController < ApplicationController
   end
 
   # PUT /users/1
-  def update(id, user)
-    @user = User.find(id)
-
+  def update(user)
     if @user.update_attributes(user)
       redirect_to @user, notice: 'User was successfully updated.'
     else
@@ -184,12 +199,17 @@ class UsersController < ApplicationController
   end
 
   # DELETE /users/1
-  def destroy(id)
-    @user = User.find(id)
+  def destroy
     @user.destroy
 
     redirect_to users_url
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_user(id)
+      @user = User.find(id)
+    end
 end
 ```
 

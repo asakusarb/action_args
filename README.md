@@ -21,7 +21,7 @@ end
 ```
 
 Hitting "/hoge/fuga?piyo=foo" will call `fuga('foo')` and output 'foo'.
-This allows you to explicitly state which members of the `params` Hash are used in your controller actions,
+This allows you to explicitly state which members of the `params` Hash are used in your controller actions.
 
 
 ## Method parameter types in Ruby, and how ActionArgs handles parameters

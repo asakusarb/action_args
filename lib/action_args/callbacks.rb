@@ -29,24 +29,17 @@ module ActiveSupport
       elsif Rails.version > '4.0'
         def apply_with_method_parameters(code)
           if Symbol === @filter
+            method_body = <<-FILTER
+              meth = method :#{@filter}
+              method_parameters = meth.parameters
+              ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
+              values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
+              send :#{@filter}, *values
+            FILTER
             if @kind == :before
-              @filter = <<-FILTER
-                begin
-                  meth = method :#{@filter}
-                  method_parameters = meth.parameters
-                  ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
-                  values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
-                  send :#{@filter}, *values
-                end
-              FILTER
+              @filter = "begin\n#{method_body}\nend"
             else
-              @filter = <<-FILTER.chomp
-                meth = method :#{@filter}
-                method_parameters = meth.parameters
-                ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
-                values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
-                send :#{@filter}, *values
-              FILTER
+              @filter = method_body.chomp
             end
           end
           apply_without_method_parameters code
@@ -56,24 +49,17 @@ module ActiveSupport
       else  # Rails 3.2
         def start_with_method_parameters(key=nil, object=nil)
           if Symbol === @filter
+            method_body = <<-FILTER
+              meth = method :#{@filter}
+              method_parameters = meth.parameters
+              ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
+              values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
+              send :#{@filter}, *values
+            FILTER
             if @kind == :before
-              @filter = <<-FILTER
-                begin
-                  meth = method :#{@filter}
-                  method_parameters = meth.parameters
-                  ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
-                  values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
-                  send :#{@filter}, *values
-                end
-              FILTER
+              @filter = "begin\n#{method_body}\nend"
             else
-              @filter = <<-FILTER.chomp
-                meth = method :#{@filter}
-                method_parameters = meth.parameters
-                ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
-                values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
-                send :#{@filter}, *values
-              FILTER
+              @filter = method_body.chomp
             end
           end
           start_without_method_parameters key, object

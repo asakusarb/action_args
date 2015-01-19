@@ -9,15 +9,15 @@ module ActiveSupport
         # * the target object is_a ActionController object
         def make_lambda_with_method_parameters(filter)
           if Symbol === filter
-            lambda do |target, _|
+            lambda do |target, _, &blk|
               if ActionController::Base === target
                 meth = target.method filter
                 method_parameters = meth.parameters
                 ActionArgs::ParamsHandler.strengthen_params!(target.class, method_parameters, target.params)
                 values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, target.params
-                target.send filter, *values
+                target.send filter, *values, &blk
               else
-                target.send filter
+                target.send filter, &blk
               end
             end
           else

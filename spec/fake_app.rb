@@ -62,12 +62,14 @@ class BooksController < ApplicationController
     before_action :set_book, only: :show
     before_action -> { @proc_filter_executed = true }, only: :show
     before_action '@string_filter_executed = true', only: :show
+    around_action :benchmark_action
     before_action :omg
     skip_before_action :omg
   else
     before_filter :set_book, only: :show
     before_filter -> { @proc_filter_executed = true }, only: :show
     before_filter '@string_filter_executed = true', only: :show
+    around_filter :benchmark_action
     before_filter :omg
     skip_before_filter :omg
   end
@@ -92,6 +94,12 @@ class BooksController < ApplicationController
   private
     def set_book(id)
       @book = Book.find(id)
+    end
+
+    def benchmark_action
+      start  = Time.now
+      yield
+      @elapsed_time = Time.now - start
     end
 
     def omg

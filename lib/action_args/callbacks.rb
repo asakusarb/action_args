@@ -28,7 +28,7 @@ module ActiveSupport
 
       elsif Rails.version > '4.0'
         def apply_with_method_parameters(code)
-          if Symbol === @filter
+          if (Symbol === @filter) && (@klass < ActionController::Base)
             method_body = <<-FILTER
               meth = method :#{@filter}
               method_parameters = meth.parameters
@@ -48,7 +48,7 @@ module ActiveSupport
 
       else  # Rails 3.2
         def start_with_method_parameters(key=nil, object=nil)
-          if Symbol === @filter
+          if (Symbol === @filter) && (@klass < ActionController::Base)
             method_body = <<-FILTER
               meth = method :#{@filter}
               method_parameters = meth.parameters

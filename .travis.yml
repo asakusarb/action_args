@@ -7,12 +7,12 @@ rvm:
   - 2.2
   - ruby-head
   - jruby
-  - rbx-19mode
+  - rbx
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
-    - rvm: rbx-19mode
+    - rvm: rbx
 gemfile:
   - gemfiles/rails_32.gemfile
   - gemfiles/rails_40.gemfile

@@ -25,4 +25,10 @@ if Rails::VERSION::MAJOR >= 4
       end
     end
   end
+
+  describe Admin::AccountsController do
+    describe 'POST create' do
+      it { expect { post :create, :admin_account => {name: 'amatsuda'} }.to change(Admin::Account, :count).by(1) }
+    end
+  end
 end

@@ -22,6 +22,7 @@ ActionArgsTestApp::Application.routes.draw do
   resources :stores
 
   namespace :admin do
+    resources :accounts
     resources :books
   end
 end
@@ -32,6 +33,11 @@ end
 class Book < ActiveRecord::Base
 end
 class Store < ActiveRecord::Base
+end
+module Admin
+  def self.table_name_prefix() 'admin_' end
+  class Account < ActiveRecord::Base
+  end
 end
 
 # mailers
@@ -123,6 +129,15 @@ if Rails::VERSION::MAJOR >= 4
     end
   end
   module Admin
+    class AccountsController < ::ApplicationController
+      permits :name, model_name: 'Admin::Account'
+
+      def create(admin_account)
+        @admin_account = Admin::Account.create! admin_account
+        render text: @admin_account.name
+      end
+    end
+
     class BooksController < ::ApplicationController
       permits :title
 
@@ -143,5 +158,6 @@ class CreateAllTables < ActiveRecord::Migration
     create_table(:authors) {|t| t.string :name}
     create_table(:books) {|t| t.string :title; t.integer :price}
     create_table(:stores) {|t| t.string :name; t.string :url}
+    create_table(:admin_accounts) {|t| t.string :name}
   end
 end

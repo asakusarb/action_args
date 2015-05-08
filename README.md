@@ -155,8 +155,6 @@ Thus, by hitting the scaffold generator command like this:
 The following elegant controller code will be generated:
 
 ```ruby
-# coding: utf-8
-
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   permits :name, :age, :email

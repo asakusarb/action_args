@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class <%= controller_class_name %>Controller < ApplicationController
   before_action :set_<%= singular_table_name %>, only: [:show, :edit, :update, :destroy]
 <% if defined? ActionController::StrongParameters -%>

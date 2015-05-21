@@ -43,7 +43,6 @@ module ActionArgs
           end
           super
         end
-        alias_method_chain :apply, :method_parameters
 
       else  # Rails 3.2
         def start(key=nil, object=nil)

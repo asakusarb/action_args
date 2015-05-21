@@ -1,13 +1,13 @@
-module ActiveSupport
-  module Callbacks
-    class Callback
+module ActionArgs
+  module ActiveSupport
+    module CallbackParameterizer
       if Rails.version > '4.1'
         # Extending AS::Callbacks::Callback's `make_lambda` not just to call specified
         # method but to call the method with method parameters taken from `params`.
         # This would happen only when
         # * the filter was defined in Symbol form
         # * the target object is_a ActionController object
-        def make_lambda_with_method_parameters(filter)
+        def make_lambda(filter)
           if Symbol === filter
             lambda do |target, _, &blk|
               if ActionController::Base === target
@@ -21,13 +21,12 @@ module ActiveSupport
               end
             end
           else
-            make_lambda_without_method_parameters filter
+            super
           end
         end
-        alias_method_chain :make_lambda, :method_parameters
 
       elsif Rails.version > '4.0'
-        def apply_with_method_parameters(code)
+        def apply(code)
           if (Symbol === @filter) && (@klass < ActionController::Base)
             method_body = <<-FILTER
               meth = method :#{@filter}
@@ -42,12 +41,12 @@ module ActiveSupport
               @filter = method_body.chomp
             end
           end
-          apply_without_method_parameters code
+          super
         end
         alias_method_chain :apply, :method_parameters
 
       else  # Rails 3.2
-        def start_with_method_parameters(key=nil, object=nil)
+        def start(key=nil, object=nil)
           if (Symbol === @filter) && (@klass < ActionController::Base)
             method_body = <<-FILTER
               meth = method :#{@filter}
@@ -62,10 +61,17 @@ module ActiveSupport
               @filter = method_body.chomp
             end
           end
-          start_without_method_parameters key, object
+          super
         end
-        alias_method_chain :start, :method_parameters
       end
+    end
+  end
+end
+
+module ActiveSupport
+  module Callbacks
+    class Callback
+      prepend ActionArgs::ActiveSupport::CallbackParameterizer
     end
   end
 end

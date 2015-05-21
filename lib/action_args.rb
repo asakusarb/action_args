@@ -4,7 +4,11 @@ rescue LoadError
 end
 require 'action_args/params_handler'
 require 'action_args/abstract_controller'
-require 'action_args/callbacks'
+if ActionArgs.respond_to? :prepend
+  require 'action_args/callbacks'
+else
+  require 'action_args/legacy/callbacks'
+end
 
 module ActionArgs
   class Railtie < ::Rails::Railtie

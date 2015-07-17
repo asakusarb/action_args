@@ -39,8 +39,8 @@ module ActionArgs
     # permits declared model attributes in the params Hash
     # note that this method mutates the given params Hash
     def self.strengthen_params!(controller_class, method_parameters, params)
-      target_model_name = (controller_class.instance_variable_get(:'@permitting_model_name') || controller_class.name.sub(/.+::/, '').sub(/Controller$/, '')).singularize.underscore.tr('/', '_').to_sym
-      permitted_attributes = controller_class.instance_variable_get :'@permitted_attributes'
+      target_model_name = (controller_class.instance_variable_get(:@permitting_model_name) || controller_class.name.sub(/.+::/, '').sub(/Controller$/, '')).singularize.underscore.tr('/', '_').to_sym
+      permitted_attributes = controller_class.instance_variable_get :@permitted_attributes
 
       method_parameters.each do |type, key|
         if (key == target_model_name) && permitted_attributes

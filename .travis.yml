@@ -12,7 +12,6 @@ rvm:
   - rbx
 matrix:
   allow_failures:
-    - rvm: ruby-head
     - rvm: jruby
     - rvm: rbx
 gemfile:

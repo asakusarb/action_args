@@ -10,6 +10,3 @@ module Rails
     end
   end
 end
-
-# load custom rspec generator
-require 'generators/action_args/rspec/scaffold/scaffold_generator' if defined? ::RSpec::Rails

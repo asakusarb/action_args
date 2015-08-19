@@ -110,14 +110,12 @@ describe ActionArgs::ParamsHandler do
       it { should == ['2', '1'] }
     end
 
-    if Rails::VERSION::MAJOR >= 4
       context 'req without a value' do
         before do
           def m(x) end
         end
         it { expect { subject }.to raise_error ActionController::BadRequest }
       end
-    end
 
     context 'key' do
       before do
@@ -142,19 +140,16 @@ describe ActionArgs::ParamsHandler do
           it { should == [a: '1'] }
         end
 
-        if Rails::VERSION::MAJOR >= 4
           context 'keyreq, keyreq without value' do
             before do
               def m(a:, x:) end
             end
             it { expect { subject }.to raise_error ::ActionController::BadRequest }
           end
-        end
       KWARGS_KEYREQ_TEST
     end
   end
 
-  if defined? ActionController::StrongParameters
     # strengthen_params!(controller_class, method_parameters, params)
     describe 'strengthen_params!' do
       before { ActionArgs::ParamsHandler.strengthen_params! controller, controller.new.method(:a).parameters, params }
@@ -206,5 +201,4 @@ describe ActionArgs::ParamsHandler do
         its([:b]) { should be }
       end
     end
-  end
 end

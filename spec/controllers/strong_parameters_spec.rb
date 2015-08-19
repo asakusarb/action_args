@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-if Rails::VERSION::MAJOR >= 4
   describe StoresController do
     describe 'GET show' do
       let(:tatsu_zine) { Store.create! name: 'Tatsu-zine' }
@@ -31,4 +30,3 @@ if Rails::VERSION::MAJOR >= 4
       it { expect { post :create, :admin_account => {name: 'amatsuda'} }.to change(Admin::Account, :count).by(1) }
     end
   end
-end

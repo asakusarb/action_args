@@ -66,21 +66,12 @@ class AuthorsController < ApplicationController
   end
 end
 class BooksController < ApplicationController
-  if Rails::VERSION::MAJOR >= 4
     before_action :set_book, only: :show
     before_action -> { @proc_filter_executed = true }, only: :show
     before_action '@string_filter_executed = true', only: :show
     around_action :benchmark_action
     before_action :omg
     skip_before_action :omg
-  else
-    before_filter :set_book, only: :show
-    before_filter -> { @proc_filter_executed = true }, only: :show
-    before_filter '@string_filter_executed = true', only: :show
-    around_filter :benchmark_action
-    before_filter :omg
-    skip_before_filter :omg
-  end
 
   # optional parameter
   def index(page = 1, q = nil, limit = 10)
@@ -94,7 +85,7 @@ class BooksController < ApplicationController
   end
 
   def create(book)
-    book = book.permit :title, :price if Rails::VERSION::MAJOR >= 4
+    book = book.permit :title, :price
     @book = Book.create! book
     render text: @book.title
   end
@@ -114,7 +105,6 @@ class BooksController < ApplicationController
       raise '💣'
     end
 end
-if Rails::VERSION::MAJOR >= 4
   class StoresController < ApplicationController
     permits :name, :url
 
@@ -147,7 +137,6 @@ if Rails::VERSION::MAJOR >= 4
       end
     end
   end
-end
 
 require_relative 'kwargs_controllers'
 require_relative 'kwargs_keyreq_controllers' if RUBY_VERSION >= '2.1'

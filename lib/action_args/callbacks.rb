@@ -43,25 +43,6 @@ module ActionArgs
           end
           super
         end
-
-      else  # Rails 3.2
-        def start(key=nil, object=nil)
-          if (Symbol === @filter) && (@klass < ActionController::Base)
-            method_body = <<-FILTER
-              meth = method :#{@filter}
-              method_parameters = meth.parameters
-              ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
-              values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
-              send :#{@filter}, *values
-            FILTER
-            if @kind == :before
-              @filter = "begin\n#{method_body}\nend"
-            else
-              @filter = method_body.chomp
-            end
-          end
-          super
-        end
       end
     end
   end

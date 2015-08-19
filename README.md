@@ -1,6 +1,6 @@
 # ActionArgs
 
-Controller action arguments parameterizer for Rails 3 and 4
+Controller action arguments parameterizer for Rails 4+
 
 
 ## What is this?
@@ -28,7 +28,7 @@ This allows you to explicitly state which members of the `params` Hash are used 
 
 ### Required Parameters (:req)
 Method parameters that you specify are required. If a key of the same name does not exist in the params Hash,
-ActionContrller::BadRequest (or ArgumentError in Rails 3) is raised.
+ActionContrller::BadRequest is raised.
 
 In this `show` action, ActionArgs will require that `id` parameter is provided.
 ```ruby
@@ -222,7 +222,7 @@ You may notice that
 
 * Ruby 2.0.0, 2.1.x, 2.2.x, 2.3.0 (trunk), JRuby, & Rubinius with 2.0+ mode
 
-* Rails 3.0.x, 3.1.x, 3.2.x, 4.0.x, 4.1.x, 4.2.x, 5.0 (edge)
+* Rails 4.0.x, 4.1.x, 4.2.x, 5.0 (edge)
 
 
 ## Installation

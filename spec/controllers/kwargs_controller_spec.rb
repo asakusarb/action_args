@@ -31,4 +31,4 @@ describe KwBooksController do
       its([:q]) { should == 'Rails' }
     end
   end
-end if RUBY_VERSION >= '2'
+end

@@ -149,7 +149,7 @@ if Rails::VERSION::MAJOR >= 4
   end
 end
 
-require_relative 'kwargs_controllers' if RUBY_VERSION >= '2'
+require_relative 'kwargs_controllers'
 require_relative 'kwargs_keyreq_controllers' if RUBY_VERSION >= '2.1'
 
 # migrations

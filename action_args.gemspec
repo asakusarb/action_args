@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Akira Matsuda']
   s.email       = ['ronnie@dio.jp']
   s.homepage    = 'http://asakusa.rubyist.net/'
-  s.summary     = 'Controller action arguments parameterizer for Rails 3+ & Ruby 1.9+'
+  s.summary     = 'Controller action arguments parameterizer for Rails 3+ & Ruby 2.0+'
   s.description = 'Rails plugin gem that supports Merbish style controller action arguments.'
 
   s.rubyforge_project = 'action_args'

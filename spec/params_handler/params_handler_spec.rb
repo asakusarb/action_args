@@ -119,8 +119,6 @@ describe ActionArgs::ParamsHandler do
       end
     end
 
-    if RUBY_VERSION >= '2'
-      eval <<-KWARGS_TEST
         context 'key' do
           before do
             def m(a: nil) end
@@ -134,8 +132,6 @@ describe ActionArgs::ParamsHandler do
           end
           it { should == [a: '1'] }
         end
-      KWARGS_TEST
-    end
 
     if RUBY_VERSION >= '2.1'
       eval <<-KWARGS_KEYREQ_TEST
@@ -194,8 +190,6 @@ describe ActionArgs::ParamsHandler do
         its([:b]) { should be }
       end
 
-      if RUBY_VERSION >= '2'
-        eval <<-KWARGS_TEST
           context 'requiring via :key, permitting all scalars' do
             let(:controller) { FugaController ||= Class.new(ApplicationController) { permits :a, :b; def a(fuga: {}) end } }
             subject { params[:fuga] }
@@ -203,8 +197,6 @@ describe ActionArgs::ParamsHandler do
             its([:a]) { should be }
             its([:b]) { should be }
           end
-        KWARGS_TEST
-      end
 
       describe '"model_name" option' do
         let(:controller) { PiyoController ||= Class.new(ApplicationController) { permits :a, :b, model_name: 'Foo'; def a(foo) end } }

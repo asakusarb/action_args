@@ -1,3 +1,4 @@
+# callback.rb for Ruby 1.9.x
 module ActiveSupport
   module Callbacks
     class Callback

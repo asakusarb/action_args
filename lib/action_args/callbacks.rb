@@ -13,8 +13,8 @@ module ActionArgs
               if ActionController::Base === target
                 meth = target.method filter
                 method_parameters = meth.parameters
-                ActionArgs::ParamsHandler.strengthen_params!(target.class, method_parameters, target.params)
-                values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, target.params
+                target.strengthen_params! method_parameters
+                values = target.extract_method_arguments_from_params method_parameters
                 target.send filter, *values, &blk
               else
                 target.send filter, &blk
@@ -31,8 +31,8 @@ module ActionArgs
             method_body = <<-FILTER
               meth = method :#{@filter}
               method_parameters = meth.parameters
-              ActionArgs::ParamsHandler.strengthen_params!(self.class, method_parameters, params)
-              values = ActionArgs::ParamsHandler.extract_method_arguments_from_params method_parameters, params
+              strengthen_params! method_parameters
+              values = extract_method_arguments_from_params method_parameters
               send :#{@filter}, *values
             FILTER
             if @kind == :before

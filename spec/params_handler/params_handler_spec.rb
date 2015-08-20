@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActionArgs::ParamsHandler do
-  # ActionArgs::ParamsHandler.extract_method_arguments_from_params(method_parameters, params)
   describe 'extract_method_arguments_from_params' do
     let(:params) { {a: '1', b: '2'} }
-    subject { ActionArgs::ParamsHandler.extract_method_arguments_from_params method(:m).parameters, params }
+    let(:controller) { Class.new(ApplicationController).new.tap {|c| c.params = params } }
+    subject { controller.extract_method_arguments_from_params method(:m).parameters }
     context 'no parameters' do
       before do
         def m() end
@@ -150,9 +150,12 @@ describe ActionArgs::ParamsHandler do
     end
   end
 
-  # strengthen_params!(controller_class, method_parameters, params)
   describe 'strengthen_params!' do
-    before { ActionArgs::ParamsHandler.strengthen_params! controller, controller.new.method(:a).parameters, params }
+    before do
+      c = controller.new
+      c.instance_variable_set :@_params, params
+      c.strengthen_params! c.method(:a).parameters
+    end
     let(:params) { ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}) }
 
     context 'requiring via :req, permitting all scalars' do

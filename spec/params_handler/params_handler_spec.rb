@@ -110,12 +110,12 @@ describe ActionArgs::ParamsHandler do
       it { should == ['2', '1'] }
     end
 
-      context 'req without a value' do
-        before do
-          def m(x) end
-        end
-        it { expect { subject }.to raise_error ActionController::BadRequest }
+    context 'req without a value' do
+      before do
+        def m(x) end
       end
+      it { expect { subject }.to raise_error ActionController::BadRequest }
+    end
 
     context 'key' do
       before do
@@ -140,65 +140,65 @@ describe ActionArgs::ParamsHandler do
           it { should == [a: '1'] }
         end
 
-          context 'keyreq, keyreq without value' do
-            before do
-              def m(a:, x:) end
-            end
-            it { expect { subject }.to raise_error ::ActionController::BadRequest }
+        context 'keyreq, keyreq without value' do
+          before do
+            def m(a:, x:) end
           end
+          it { expect { subject }.to raise_error ::ActionController::BadRequest }
+        end
       KWARGS_KEYREQ_TEST
     end
   end
 
-    # strengthen_params!(controller_class, method_parameters, params)
-    describe 'strengthen_params!' do
-      before { ActionArgs::ParamsHandler.strengthen_params! controller, controller.new.method(:a).parameters, params }
-      let(:params) { ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}) }
+  # strengthen_params!(controller_class, method_parameters, params)
+  describe 'strengthen_params!' do
+    before { ActionArgs::ParamsHandler.strengthen_params! controller, controller.new.method(:a).parameters, params }
+    let(:params) { ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}) }
 
-      context 'requiring via :req, permitting all scalars' do
-        let(:controller) { FooController ||= Class.new(ApplicationController) { permits :a, :b; def a(foo) end } }
-        subject { params[:foo] }
-        it { should be_permitted }
-        its([:a]) { should be }
-        its([:b]) { should be }
-      end
-
-      context 'requiring via :req, not permitting all scalars' do
-        let(:controller) { BarController ||= Class.new(ApplicationController) { permits :a; def a(bar, x = 'x') end } }
-        subject { params[:bar] }
-        it { should be_permitted }
-        its([:a]) { should be }
-        its([:b]) { should_not be }
-      end
-
-      context 'requiring via :req, not permitting any scalars' do
-        let(:controller) { BazController ||= Class.new(ApplicationController) { def a(baz, aho = 'omg') end } }
-        subject { params[:baz] }
-        it { should_not be_permitted }
-      end
-
-      context 'requiring via :opt, permitting all scalars' do
-        let(:controller) { HogeController ||= Class.new(ApplicationController) { permits :a, :b; def a(hoge = {}) end } }
-        subject { params[:hoge] }
-        it { should be_permitted }
-        its([:a]) { should be }
-        its([:b]) { should be }
-      end
-
-      context 'requiring via :key, permitting all scalars' do
-        let(:controller) { FugaController ||= Class.new(ApplicationController) { permits :a, :b; def a(fuga: {}) end } }
-        subject { params[:fuga] }
-        it { should be_permitted }
-        its([:a]) { should be }
-        its([:b]) { should be }
-      end
-
-      describe '"model_name" option' do
-        let(:controller) { PiyoController ||= Class.new(ApplicationController) { permits :a, :b, model_name: 'Foo'; def a(foo) end } }
-        subject { params[:foo] }
-        it { should be_permitted }
-        its([:a]) { should be }
-        its([:b]) { should be }
-      end
+    context 'requiring via :req, permitting all scalars' do
+      let(:controller) { FooController ||= Class.new(ApplicationController) { permits :a, :b; def a(foo) end } }
+      subject { params[:foo] }
+      it { should be_permitted }
+      its([:a]) { should be }
+      its([:b]) { should be }
     end
+
+    context 'requiring via :req, not permitting all scalars' do
+      let(:controller) { BarController ||= Class.new(ApplicationController) { permits :a; def a(bar, x = 'x') end } }
+      subject { params[:bar] }
+      it { should be_permitted }
+      its([:a]) { should be }
+      its([:b]) { should_not be }
+    end
+
+    context 'requiring via :req, not permitting any scalars' do
+      let(:controller) { BazController ||= Class.new(ApplicationController) { def a(baz, aho = 'omg') end } }
+      subject { params[:baz] }
+      it { should_not be_permitted }
+    end
+
+    context 'requiring via :opt, permitting all scalars' do
+      let(:controller) { HogeController ||= Class.new(ApplicationController) { permits :a, :b; def a(hoge = {}) end } }
+      subject { params[:hoge] }
+      it { should be_permitted }
+      its([:a]) { should be }
+      its([:b]) { should be }
+    end
+
+    context 'requiring via :key, permitting all scalars' do
+      let(:controller) { FugaController ||= Class.new(ApplicationController) { permits :a, :b; def a(fuga: {}) end } }
+      subject { params[:fuga] }
+      it { should be_permitted }
+      its([:a]) { should be }
+      its([:b]) { should be }
+    end
+
+    describe '"model_name" option' do
+      let(:controller) { PiyoController ||= Class.new(ApplicationController) { permits :a, :b, model_name: 'Foo'; def a(foo) end } }
+      subject { params[:foo] }
+      it { should be_permitted }
+      its([:a]) { should be }
+      its([:b]) { should be }
+    end
+  end
 end

@@ -66,12 +66,12 @@ class AuthorsController < ApplicationController
   end
 end
 class BooksController < ApplicationController
-    before_action :set_book, only: :show
-    before_action -> { @proc_filter_executed = true }, only: :show
-    before_action '@string_filter_executed = true', only: :show
-    around_action :benchmark_action
-    before_action :omg
-    skip_before_action :omg
+  before_action :set_book, only: :show
+  before_action -> { @proc_filter_executed = true }, only: :show
+  before_action '@string_filter_executed = true', only: :show
+  around_action :benchmark_action
+  before_action :omg
+  skip_before_action :omg
 
   # optional parameter
   def index(page = 1, q = nil, limit = 10)
@@ -105,38 +105,38 @@ class BooksController < ApplicationController
       raise '💣'
     end
 end
-  class StoresController < ApplicationController
-    permits :name, :url
+class StoresController < ApplicationController
+  permits :name, :url
 
-    def show(id)
-      @store = Store.find(id)
-      render text: @store.name
-    end
+  def show(id)
+    @store = Store.find(id)
+    render text: @store.name
+  end
 
-    def create(store)
-      @store = Store.create! store
-      render text: @store.name
+  def create(store)
+    @store = Store.create! store
+    render text: @store.name
+  end
+end
+module Admin
+  class AccountsController < ::ApplicationController
+    permits :name, model_name: 'Admin::Account'
+
+    def create(admin_account)
+      @admin_account = Admin::Account.create! admin_account
+      render text: @admin_account.name
     end
   end
-  module Admin
-    class AccountsController < ::ApplicationController
-      permits :name, model_name: 'Admin::Account'
 
-      def create(admin_account)
-        @admin_account = Admin::Account.create! admin_account
-        render text: @admin_account.name
-      end
-    end
+  class BooksController < ::ApplicationController
+    permits :title
 
-    class BooksController < ::ApplicationController
-      permits :title
-
-      def create(book)
-        @book = Book.create! book
-        render text: @book.title
-      end
+    def create(book)
+      @book = Book.create! book
+      render text: @book.title
     end
   end
+end
 
 require_relative 'kwargs_controllers'
 require_relative 'kwargs_keyreq_controllers' if RUBY_VERSION >= '2.1'

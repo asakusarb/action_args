@@ -1,5 +1,11 @@
 module ActionArgs
   module ParamsHandler
+    def send_with_method_parameters_from_params(method_name, &blk)
+      strengthen_params! method_name
+      values = extract_method_arguments_from_params method_name
+      send method_name, *values, &blk
+    end
+
     # converts the request params Hash into an Array to be passed into the target Method
     def extract_method_arguments_from_params(method_name)
       method_parameters = method(method_name).parameters

@@ -8,9 +8,7 @@ module AbstractController
       return send method_name, *args unless args.empty?
       return send method_name, *args unless defined?(params)
 
-      strengthen_params! method_name
-      values = extract_method_arguments_from_params method_name
-      send method_name, *values
+      send_with_method_parameters_from_params method_name
     end
 
     # You can configure StrongParameters' `permit` attributes using this DSL method.

@@ -8,9 +8,8 @@ module AbstractController
       return send method_name, *args unless args.empty?
       return send method_name, *args unless defined?(params)
 
-      method_parameters = method(method_name).parameters
-      strengthen_params! method_parameters
-      values = extract_method_arguments_from_params method_parameters
+      strengthen_params! method_name
+      values = extract_method_arguments_from_params method_name
       send method_name, *values
     end
 

@@ -11,10 +11,8 @@ module ActionArgs
           if Symbol === filter
             lambda do |target, _, &blk|
               if ActionController::Base === target
-                meth = target.method filter
-                method_parameters = meth.parameters
-                target.strengthen_params! method_parameters
-                values = target.extract_method_arguments_from_params method_parameters
+                target.strengthen_params! filter
+                values = target.extract_method_arguments_from_params filter
                 target.send filter, *values, &blk
               else
                 target.send filter, &blk
@@ -29,10 +27,8 @@ module ActionArgs
         def apply(code)
           if (Symbol === @filter) && (@klass < ActionController::Base)
             method_body = <<-FILTER
-              meth = method :#{@filter}
-              method_parameters = meth.parameters
-              strengthen_params! method_parameters
-              values = extract_method_arguments_from_params method_parameters
+              strengthen_params! :#{@filter}
+              values = extract_method_arguments_from_params :#{@filter}
               send :#{@filter}, *values
             FILTER
             if @kind == :before

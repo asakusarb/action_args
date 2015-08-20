@@ -4,129 +4,129 @@ describe ActionArgs::ParamsHandler do
   describe 'extract_method_arguments_from_params' do
     let(:params) { {a: '1', b: '2'} }
     let(:controller) { Class.new(ApplicationController).new.tap {|c| c.params = params } }
-    subject { controller.extract_method_arguments_from_params method(:m).parameters }
+    subject { controller.extract_method_arguments_from_params :m }
     context 'no parameters' do
       before do
-        def m() end
+        def controller.m() end
       end
       it { should == [] }
     end
 
     context '1 req' do
       before do
-        def m(a) end
+        def controller.m(a) end
       end
       it { should == ['1'] }
     end
 
     context '2 reqs' do
       before do
-        def m(a, b) end
+        def controller.m(a, b) end
       end
       it { should == ['1', '2'] }
     end
 
     context '1 opt with value' do
       before do
-        def m(a = 'a') end
+        def controller.m(a = 'a') end
       end
       it { should == ['1'] }
     end
 
     context '1 opt without value' do
       before do
-        def m(x = 'x') end
+        def controller.m(x = 'x') end
       end
       it { should == [] }
     end
 
     context 'req, opt with value' do
       before do
-        def m(a, b = 'b') end
+        def controller.m(a, b = 'b') end
       end
       it { should == ['1', '2'] }
     end
 
     context 'req, opt without value' do
       before do
-        def m(a, x = 'x') end
+        def controller.m(a, x = 'x') end
       end
       it { should == ['1'] }
     end
 
     context 'opt with value, opt with value' do
       before do
-        def m(a = 'a', b = 'b') end
+        def controller.m(a = 'a', b = 'b') end
       end
       it { should == ['1', '2'] }
     end
 
     context 'opt with value, opt without value' do
       before do
-        def m(a = 'a', x = 'x') end
+        def controller.m(a = 'a', x = 'x') end
       end
       it { should == ['1'] }
     end
 
     context 'opt without value, opt with value' do
       before do
-        def m(x = 'x', a = 'a') end
+        def controller.m(x = 'x', a = 'a') end
       end
       it { should == [nil, '1'] }
     end
 
     context 'opt without value, opt without value' do
       before do
-        def m(x = 'x', y = 'y') end
+        def controller.m(x = 'x', y = 'y') end
       end
       it { should == [] }
     end
 
     context 'opt with value, req' do
       before do
-        def m(a = 'a', b) end
+        def controller.m(a = 'a', b) end
       end
       it { should == ['1', '2'] }
     end
 
     context 'opt without value, req' do
       before do
-        def m(x = 'x', a) end
+        def controller.m(x = 'x', a) end
       end
       it { should == ['1'] }
     end
 
     context 'opt without value, opt with value, req' do
       before do
-        def m(x = 'x', b = 'b', a) end
+        def controller.m(x = 'x', b = 'b', a) end
       end
       it { should == [nil, '2', '1'] }
     end
 
     context 'opt with value, opt without value, req' do
       before do
-        def m(b = 'b', x = 'x', a) end
+        def controller.m(b = 'b', x = 'x', a) end
       end
       it { should == ['2', '1'] }
     end
 
     context 'req without a value' do
       before do
-        def m(x) end
+        def controller.m(x) end
       end
       it { expect { subject }.to raise_error ActionController::BadRequest }
     end
 
     context 'key' do
       before do
-        def m(a: nil) end
+        def controller.m(a: nil) end
       end
       it { should == [a: '1'] }
     end
 
     context 'key, key without value' do
       before do
-        def m(a: nil, x: 'x') end
+        def controller.m(a: nil, x: 'x') end
       end
       it { should == [a: '1'] }
     end
@@ -135,14 +135,14 @@ describe ActionArgs::ParamsHandler do
       eval <<-KWARGS_KEYREQ_TEST
         context 'keyreq' do
           before do
-            def m(a:) end
+            def controller.m(a:) end
           end
           it { should == [a: '1'] }
         end
 
         context 'keyreq, keyreq without value' do
           before do
-            def m(a:, x:) end
+            def controller.m(a:, x:) end
           end
           it { expect { subject }.to raise_error ::ActionController::BadRequest }
         end
@@ -154,7 +154,7 @@ describe ActionArgs::ParamsHandler do
     before do
       c = controller.new
       c.instance_variable_set :@_params, params
-      c.strengthen_params! c.method(:a).parameters
+      c.strengthen_params! :a
     end
     let(:params) { ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}) }
 

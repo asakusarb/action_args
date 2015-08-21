@@ -31,7 +31,7 @@ module ActionArgs
         parameter_names.delete key
       end
       if missing_required_params.any?
-        raise ActionController::BadRequest.new(:required, ArgumentError.new("Missing required parameters: #{missing_required_params.join(', ')}"))
+        raise ActionController::BadRequest.new(:required, ArgumentError.new("Missing required parameters at #{self.class.name}##{method_name}: #{missing_required_params.join(', ')}"))
       end
 
       values = parameter_names.map {|k| params[k]}

@@ -1,3 +1,5 @@
+using ActionArgs::ParamsHandler
+
 module ActionArgs
   module ActiveSupport
     module CallbackParameterizer

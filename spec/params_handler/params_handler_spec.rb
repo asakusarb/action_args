@@ -1,4 +1,5 @@
 require 'spec_helper'
+using ActionArgs::ParamsHandler
 
 describe ActionArgs::ParamsHandler do
   describe 'extract_method_arguments_from_params' do

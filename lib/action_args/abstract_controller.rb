@@ -1,9 +1,8 @@
 require_relative 'params_handler'
+using ActionArgs::ParamsHandler
 
 module AbstractController
   class Base
-    include ActionArgs::ParamsHandler
-
     def send_action(method_name, *args)
       return send method_name, *args unless args.empty?
       return send method_name, *args unless defined?(params)

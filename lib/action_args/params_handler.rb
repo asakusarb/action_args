@@ -1,5 +1,6 @@
 module ActionArgs
   module ParamsHandler
+    refine AbstractController::Base do
     def send_with_method_parameters_from_params(method_name, &blk)
       strengthen_params! method_name
       values = extract_method_arguments_from_params method_name
@@ -52,6 +53,7 @@ module ActionArgs
           params[key] = params.require(key).try :permit, *permitted_attributes
         end
       end
+    end
     end
   end
 end

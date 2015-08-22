@@ -27,6 +27,7 @@ module ActionArgs
         def apply(code)
           if (Symbol === @filter) && (@klass < ActionController::Base)
             method_body = <<-FILTER
+              using ActionArgs::ParamsHandler
               send_with_method_parameters_from_params :#{@filter}
             FILTER
             if @kind == :before

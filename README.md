@@ -1,6 +1,6 @@
 # ActionArgs
 
-Controller action arguments parameterizer for Rails 4+
+Controller action arguments parameterizer for Rails 4.1+
 
 
 ## What is this?
@@ -222,7 +222,7 @@ You may notice that
 
 * Ruby 2.0.0, 2.1.x, 2.2.x, 2.3.0 (trunk), JRuby, & Rubinius with 2.0+ mode
 
-* Rails 4.0.x, 4.1.x, 4.2.x, 5.0 (edge)
+* Rails 4.1.x, 4.2.x, 5.0 (edge)
 
 
 ## Installation

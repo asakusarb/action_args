@@ -150,3 +150,5 @@ class CreateAllTables < ActiveRecord::Migration
     create_table(:admin_accounts) {|t| t.string :name}
   end
 end
+
+CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'authors'

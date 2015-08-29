@@ -7,3 +7,4 @@ require 'action_controller/railtie'
 require 'action_args'
 require 'fake_app'
 require 'test/unit/rails/test_help'
+Bundler.require

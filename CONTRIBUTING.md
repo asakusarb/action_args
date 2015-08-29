@@ -1,6 +1,6 @@
 # Contributing
 
-## Running specs
+## Running tests
 
 ActionArgs has several Bundler Gemfiles, each of which bundles different version of Rails.
 
@@ -10,8 +10,8 @@ ActionArgs has several Bundler Gemfiles, each of which bundles different version
 
 Via BUNDLE_GEMFILE ENV variable, you can tell Bundler which version of Rails to bundle.
 
-    $ BUNDLE_GEMFILE=gemfiles/rails_42.gemfile bundle ex rake spec
+    $ BUNDLE_GEMFILE=gemfiles/rails_42.gemfile bundle ex rake test
 
 Simply executing this command would probably run all tests against each version of Rails:
 
-    % rake spec:all
+    % rake test:all

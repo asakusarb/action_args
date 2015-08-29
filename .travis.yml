@@ -5,11 +5,16 @@ sudo: false
 rvm:
   - 2.0.0
   - 2.1
-  - 2.2
+  - 2.2.3
   - ruby-head
   - jruby
   - rbx
 matrix:
+  exclude:
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails_edge.gemfile
+    - rvm: 2.1
+      gemfile: gemfiles/rails_edge.gemfile
   allow_failures:
     - rvm: jruby
     - rvm: rbx

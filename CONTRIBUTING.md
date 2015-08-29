@@ -5,7 +5,7 @@
 ActionArgs has several Bundler Gemfiles, each of which bundles different version of Rails.
 
     % ls gemfiles/*.gemfile
-    gemfiles/rails_41.gemfile gemfiles/rails_42.gemfile
+    gemfiles/rails_41.gemfile gemfiles/rails_42.gemfile rails_edge.gemfile
 
 
 Via BUNDLE_GEMFILE ENV variable, you can tell Bundler which version of Rails to bundle.

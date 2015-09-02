@@ -224,6 +224,8 @@ You may notice that
 
 * Rails 4.1.x, 4.2.x, 5.0 (edge)
 
+Please use Version 1.5.4 for Rails 4.0.x.
+
 
 ## Installation
 

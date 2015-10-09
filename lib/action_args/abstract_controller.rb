@@ -1,15 +1,21 @@
 require_relative 'params_handler'
 using ActionArgs::ParamsHandler
 
+module ActionArgs
+  module AbstractControllerMethods
+    def send_action(method_name, *args)
+      return super unless args.empty?
+      return super unless defined?(params)
+
+      strengthen_params! method_name
+      values = extract_method_arguments_from_params method_name
+      super method_name, *values
+    end
+  end
+end
+
 module AbstractController
   class Base
-    def send_action(method_name, *args)
-      return send method_name, *args unless args.empty?
-      return send method_name, *args unless defined?(params)
-
-      send_with_method_parameters_from_params method_name
-    end
-
     # You can configure StrongParameters' `permit` attributes using this DSL method.
     # The `permit` call will be invoked only against parameters having the resource
     # model name inferred from the controller class name.
@@ -31,3 +37,5 @@ module AbstractController
     end
   end
 end
+
+AbstractController::Base.send :prepend, ActionArgs::AbstractControllerMethods

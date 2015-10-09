@@ -12,7 +12,9 @@ module ActionArgs
           if Symbol === filter
             lambda do |target, _, &blk|
               if ActionController::Base === target
-                target.send_with_method_parameters_from_params filter, &blk
+                target.strengthen_params! filter
+                values = target.extract_method_arguments_from_params filter
+                target.send filter, *values, &blk
               else
                 target.send filter, &blk
               end

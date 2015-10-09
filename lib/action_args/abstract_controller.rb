@@ -12,10 +12,8 @@ module ActionArgs
       super method_name, *values
     end
   end
-end
 
-module AbstractController
-  class Base
+  module AbstractControllerClassMethods
     # You can configure StrongParameters' `permit` attributes using this DSL method.
     # The `permit` call will be invoked only against parameters having the resource
     # model name inferred from the controller class name.
@@ -28,7 +26,7 @@ module AbstractController
     #     end
     #   end
     #
-    def self.permits(*attributes)
+    def permits(*attributes)
       if attributes.last.is_a?(Hash) && attributes.last.extractable_options? && attributes.last.has_key?(:model_name)
         options = attributes.pop
         @permitting_model_name = options[:model_name]
@@ -39,3 +37,4 @@ module AbstractController
 end
 
 AbstractController::Base.send :prepend, ActionArgs::AbstractControllerMethods
+AbstractController::Base.singleton_class.send :include, ActionArgs::AbstractControllerClassMethods

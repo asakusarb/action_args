@@ -44,7 +44,8 @@ module ActionArgs
         method_parameters = method(method_name).parameters
         method_parameters.each do |type, key|
           if (key == target_model_name) && permitted_attributes
-            params[key] = params.require(key).try :permit, *permitted_attributes
+            params.require(key) if %i[req keyreq].include?(type)
+            params[key] = params[key].try :permit, *permitted_attributes
           end
         end
       end

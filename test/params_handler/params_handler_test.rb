@@ -140,8 +140,9 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
     def execute_strengthen_params!(controller)
       c = controller.new
       c.instance_variable_set :@_params, @params
-      c.run_callbacks(:process_action)
-      c.strengthen_params! :a
+      c.run_callbacks(:process_action) do
+        c.strengthen_params! :a
+      end
     end
 
     test 'requiring via :req, permitting all scalars' do

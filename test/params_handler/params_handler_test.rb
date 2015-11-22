@@ -140,6 +140,7 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
     def execute_strengthen_params!(controller)
       c = controller.new
       c.instance_variable_set :@_params, @params
+      c.run_callbacks(:process_action)
       c.strengthen_params! :a
     end
 

@@ -129,11 +129,17 @@ module Admin
   end
 
   class BooksController < ::ApplicationController
-    permits :title
+    permits :title, only: :create
+    permits :price, only: :update
 
     def create(book)
       @book = Book.create! book
       render text: @book.title
+    end
+    def update(id, book)
+      @book = Book.find(id)
+      @book.update_attributes(book)
+      render text: @book.price
     end
   end
 end

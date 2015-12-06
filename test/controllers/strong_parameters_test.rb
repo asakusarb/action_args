@@ -8,6 +8,18 @@ class StoresControllerTest < ActionController::TestCase
     assert_equal tatsu_zine, assigns(:store)
   end
 
+  sub_test_case 'GET new' do
+    test 'without store parameter' do
+      get :new
+      assert 200, response.code
+    end
+    test 'with store parameter' do
+      get :new, :store => {name: 'Tatsu-zine'}
+      assert 200, response.code
+      assert_equal 'Tatsu-zine', assigns(:store).name
+    end
+  end
+
   test 'POST create' do
     store_count_was = Store.count
     post :create, :store => {name: 'Tatsu-zine', url: 'http://tatsu-zine.com'}

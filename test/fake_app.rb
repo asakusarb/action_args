@@ -113,6 +113,11 @@ class StoresController < ApplicationController
     render text: @store.name
   end
 
+  def new(store = nil)
+    @store = Store.new store
+    render text: @store.name
+  end
+
   def create(store)
     @store = Store.create! store
     render text: @store.name

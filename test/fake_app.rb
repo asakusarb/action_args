@@ -5,7 +5,7 @@ ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':me
 
 module ActionArgsTestApp
   class Application < Rails::Application
-    config.secret_token = [*'A'..'z'].join
+    config.secret_key_base = config.secret_token = [*'A'..'z'].join
     config.session_store :cookie_store, :key => '_myapp_session'
     config.active_support.deprecation = :log
     config.eager_load = false

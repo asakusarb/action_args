@@ -62,7 +62,7 @@ end
 class AuthorsController < ApplicationController
   def show
     @author = Author.find params[:id]
-    render text: @author.name
+    render plain: @author.name
   end
 end
 class BooksController < ApplicationController
@@ -77,17 +77,17 @@ class BooksController < ApplicationController
   def index(page = 1, q = nil, limit = 10)
     @books = Book.limit(limit.to_i).offset(([page.to_i - 1, 0].max) * 10)
     @books = @books.where('title like ?', "%#{q}%") unless q.blank?
-    render text: 'index', books: @books
+    render plain: 'index', books: @books
   end
 
   def show(id)
-    render text: @book.title
+    render plain: @book.title
   end
 
   def create(book)
     book = book.permit :title, :price
     @book = Book.create! book
-    render text: @book.title
+    render plain: @book.title
   end
 
   private
@@ -110,17 +110,17 @@ class StoresController < ApplicationController
 
   def show(id)
     @store = Store.find(id)
-    render text: @store.name
+    render plain: @store.name
   end
 
   def new(store = nil)
     @store = Store.new store
-    render text: @store.name
+    render plain: @store.name
   end
 
   def create(store)
     @store = Store.create! store
-    render text: @store.name
+    render plain: @store.name
   end
 end
 module Admin
@@ -129,7 +129,7 @@ module Admin
 
     def create(admin_account)
       @admin_account = Admin::Account.create! admin_account
-      render text: @admin_account.name
+      render plain: @admin_account.name
     end
   end
 
@@ -138,7 +138,7 @@ module Admin
 
     def create(book)
       @book = Book.create! book
-      render text: @book.title
+      render plain: @book.title
     end
   end
 end

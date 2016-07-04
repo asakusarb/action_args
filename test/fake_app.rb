@@ -156,4 +156,8 @@ class CreateAllTables < ActiveRecord::Migration
   end
 end
 
-CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'authors'
+if ActiveRecord::Base.connection.respond_to? :data_source_exists?
+  CreateAllTables.up unless ActiveRecord::Base.connection.data_source_exists? 'authors'
+else
+  CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'authors'
+end

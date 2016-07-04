@@ -27,11 +27,12 @@ module ActionArgs
     #   end
     #
     def permits(*attributes)
-      if attributes.last.is_a?(Hash) && attributes.last.extractable_options? && attributes.last.has_key?(:model_name)
-        options = attributes.pop
-        @permitting_model_name = options[:model_name]
+      options = attributes.extract_options!
+      permitting_model_name = options.delete(:model_name)
+      before_action(options) do
+        @permitting_model_name = permitting_model_name
+        @permitted_attributes = attributes
       end
-      @permitted_attributes = attributes
     end
   end
 end

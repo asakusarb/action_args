@@ -7,12 +7,12 @@ class KwBooksControllerTest < ActionController::TestCase
     end
 
     test 'without giving any optional kw parameter' do
-      get :index, author_name: 'nari'
+      get :index, params: {author_name: 'nari'}
       assert 200, response.code
     end
 
     test 'with kw parameter defaults to non-nil value' do
-      get :index, author_name: 'nari', page: 3
+      get :index, params: {author_name: 'nari', page: 3}
       body = eval response.body
       assert_equal 'nari', body[:author_name]
       assert_equal '3', body[:page]
@@ -20,7 +20,7 @@ class KwBooksControllerTest < ActionController::TestCase
     end
 
     test 'with kw parameter defaults to nil' do
-      get :index, author_name: 'nari', q: 'Rails'
+      get :index, params: {author_name: 'nari', q: 'Rails'}
       body = eval response.body
       assert_equal 'nari', body[:author_name]
       assert_equal '1', body[:page]

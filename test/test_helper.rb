@@ -8,3 +8,17 @@ require 'action_args'
 require 'fake_app'
 require 'test/unit/rails/test_help'
 Bundler.require
+
+if Rails.version < '5'
+  module ActionControllerTestingMonkey
+    def get(path, params: nil, session: nil)
+      super path, params, session
+    end
+
+    def post(path, params: nil, session: nil)
+      super path, params, session
+    end
+  end
+
+  ActionController::TestCase.prepend ActionControllerTestingMonkey
+end

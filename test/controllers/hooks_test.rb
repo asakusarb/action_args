@@ -4,7 +4,7 @@ class BooksControllerTest < ActionController::TestCase
   setup do
     Book.delete_all
     @book = Book.create! title: 'Head First ActionArgs'
-    get :show, id: @book.id
+    get :show, params: {id: @book.id}
   end
 
   sub_test_case 'before_action' do

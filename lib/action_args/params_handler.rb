@@ -9,18 +9,18 @@ module ActionArgs
         method_parameters.reverse_each do |type, key|
           case type
           when :req
-            missing_required_params << key unless params.has_key? key
+            missing_required_params << key unless params.key? key
             next
           when :keyreq
-            if params.has_key? key
+            if params.key? key
               kwargs[key] = params[key]
             else
               missing_required_params << key
             end
           when :key
-            kwargs[key] = params[key] if params.has_key? key
+            kwargs[key] = params[key] if params.key? key
           when :opt
-            break if params.has_key? key
+            break if params.key? key
           end
           # omitting parameters that are :block, :rest, :opt without a param, and :key without a param
           parameter_names.delete key

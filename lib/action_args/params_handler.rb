@@ -26,7 +26,12 @@ module ActionArgs
           parameter_names.delete key
         end
         if missing_required_params.any?
-          raise ActionController::BadRequest.new(:required, ArgumentError.new("Missing required parameters at #{self.class.name}##{method_name}: #{missing_required_params.join(', ')}"))
+          message = "Missing required parameters at #{self.class.name}##{method_name}: #{missing_required_params.join(', ')}"
+          if Rails.version > '5'
+            raise ActionController::BadRequest.new message
+          else
+            raise ActionController::BadRequest.new :required, ArgumentError.new(message)
+          end
         end
 
         values = parameter_names.map {|k| params[k]}

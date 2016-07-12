@@ -20,5 +20,5 @@ if Rails.version < '5'
     end
   end
 
-  ActionController::TestCase.prepend ActionControllerTestingMonkey
+  ActionController::TestCase.send :prepend, ActionControllerTestingMonkey
 end

@@ -5,6 +5,10 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rails'
 require 'active_record'
 require 'action_controller/railtie'
+begin
+  require 'rails-controller-testing'
+rescue LoadError
+end
 require 'action_args'
 require 'fake_app'
 require 'test/unit/rails/test_help'

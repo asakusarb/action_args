@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'action_args/params_handler'
 require 'action_args/abstract_controller'
 require 'action_args/callbacks'

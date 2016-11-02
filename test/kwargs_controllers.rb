@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # this file should not be loaded from Ruby <2.0
 
 class KwBooksController < ApplicationController

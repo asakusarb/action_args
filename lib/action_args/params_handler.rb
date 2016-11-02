@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ActionArgs
   module ParamsHandler
     refine AbstractController::Base do

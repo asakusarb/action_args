@@ -5,6 +5,11 @@ module ActionArgs
   module ActiveSupport
     # For Rails >= 5.1
     module CallbackParameterizer
+      # Extending AS::Callbacks::Callback's `expand` not just to call specified
+      # method but to call the method with method parameters taken from `params`.
+      # This would happen only when
+      # * the target object is_a ActionController object
+      # * the filter was not defined via lambda
       def expand(*)
         target, block, method, *arguments = super
 

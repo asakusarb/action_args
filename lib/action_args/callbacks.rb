@@ -3,7 +3,22 @@ using ActionArgs::ParamsHandler
 
 module ActionArgs
   module ActiveSupport
+    # For Rails >= 5.1
     module CallbackParameterizer
+      def expand(*)
+        target, block, method, *arguments = super
+
+        if (ActionController::Base === target) && (method != :instance_exec) && arguments.empty?
+          target.strengthen_params! method
+          arguments = target.extract_method_arguments_from_params method
+        end
+
+        [target, block, method, *arguments]
+      end
+    end
+
+    # For Rails 4 & 5.0
+    module CallbackParameterizerLegacy
       # Extending AS::Callbacks::Callback's `make_lambda` not just to call specified
       # method but to call the method with method parameters taken from `params`.
       # This would happen only when
@@ -28,10 +43,20 @@ module ActionArgs
   end
 end
 
-module ActiveSupport
-  module Callbacks
-    class Callback
-      prepend ActionArgs::ActiveSupport::CallbackParameterizer
+if Rails.version > '5.1'
+  module ActiveSupport
+    module Callbacks
+      class CallTemplate
+        prepend ActionArgs::ActiveSupport::CallbackParameterizer
+      end
+    end
+  end
+else
+  module ActiveSupport
+    module Callbacks
+      class Callback
+        prepend ActionArgs::ActiveSupport::CallbackParameterizerLegacy
+      end
     end
   end
 end

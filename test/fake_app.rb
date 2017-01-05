@@ -148,7 +148,7 @@ require_relative 'kwargs_controllers'
 require_relative 'kwargs_keyreq_controllers' if RUBY_VERSION >= '2.1'
 
 # migrations
-class CreateAllTables < ActiveRecord::Migration
+class CreateAllTables < ActiveRecord::VERSION::MAJOR >= 5 ? ActiveRecord::Migration[5.0] : ActiveRecord::Migration
   def self.up
     create_table(:authors) {|t| t.string :name}
     create_table(:books) {|t| t.string :title; t.integer :price}

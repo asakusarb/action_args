@@ -10,7 +10,7 @@ rvm:
   - 2.4.0
   - ruby-head
   - jruby-9.1.6.0
-  - rubinius
+  - rubinius-3
 matrix:
   exclude:
     - rvm: 2.0.0
@@ -31,7 +31,7 @@ matrix:
       gemfile: gemfiles/rails_42.gemfile
   allow_failures:
     - rvm: jruby-9.1.6.0
-    - rvm: rubinius
+    - rvm: rubinius-3
 gemfile:
   - gemfiles/rails_41.gemfile
   - gemfiles/rails_42.gemfile

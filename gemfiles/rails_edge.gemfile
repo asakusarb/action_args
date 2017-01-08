@@ -7,6 +7,7 @@ gem 'arel', github: 'rails/arel'
 gem 'sprockets', github: 'rails/sprockets'
 gem 'sprockets-rails', github: 'rails/sprockets-rails'
 gem 'sass-rails', github: 'rails/sass-rails'
+# FIXME: bundle from GH master until > 1.0.1 release
 gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing'
 
 gemspec :path => '../'

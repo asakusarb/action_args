@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 source 'https://rubygems.org'
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
 
 gem 'rails', '~> 5.0.1'
 
 # FIXME: bundle from GH master until > 1.0.1 release
-gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing'
+gem 'rails-controller-testing', github: 'rails/rails-controller-testing'
 
 gemspec :path => '../'
 

@@ -213,7 +213,7 @@ end
 ```
 
 You may notice that
-* There are no globalish `params` referrence
+* There are no globalish `params` reference
 * It's quite easy to comprehend what's the actual input value for each action
 * You may write the unit test code as if the actions are just normal Ruby methods
 

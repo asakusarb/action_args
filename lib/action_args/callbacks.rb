@@ -48,7 +48,7 @@ module ActionArgs
   end
 end
 
-if Rails.version > '5.1'
+if Rails.version >= '5.1'
   module ActiveSupport
     module Callbacks
       class CallTemplate

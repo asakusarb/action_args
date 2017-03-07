@@ -69,7 +69,9 @@ end
 class BooksController < ApplicationController
   before_action :set_book, only: :show
   before_action -> { @proc_filter_executed = true }, only: :show
-  before_action '@string_filter_executed = true', only: :show
+  if Rails.version < '5.1'
+    before_action '@string_filter_executed = true', only: :show
+  end
   around_action :benchmark_action
   before_action :omg
   skip_before_action :omg

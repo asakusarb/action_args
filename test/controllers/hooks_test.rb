@@ -13,8 +13,10 @@ class BooksControllerTest < ActionController::TestCase
       assert_equal @book, assigns(:book)
     end
 
-    test 'via String' do
-      assert assigns(:string_filter_executed)
+    if Rails.version < '5.1'
+      test 'via String' do
+        assert assigns(:string_filter_executed)
+      end
     end
 
     test 'via Proc' do

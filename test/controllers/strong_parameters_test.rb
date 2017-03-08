@@ -29,6 +29,15 @@ class StoresControllerTest < ActionController::TestCase
   end
 end
 
+class MoviesControllerTest < ActionController::TestCase
+  test 'POST create' do
+    movie_count_was = Movie.count
+    post :create, params: {movie: {title: 'Dr. No', actors_attributes: [{name: 'Bernard Lee'}]}}
+
+    assert_equal 1, Movie.count - movie_count_was
+  end
+end
+
 # this controller doesn't permit price of new book do
 class Admin::BooksControllerTest < ActionController::TestCase
   test 'POST create' do

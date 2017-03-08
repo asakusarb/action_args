@@ -21,6 +21,7 @@ ActionArgsTestApp::Application.routes.draw do
   resources :kw_books  # 2.0+ only
   resources :kw_keyreq_books  # 2.1+ only
   resources :stores
+  resources :movies
 
   namespace :admin do
     resources :accounts
@@ -34,6 +35,13 @@ end
 class Book < ActiveRecord::Base
 end
 class Store < ActiveRecord::Base
+end
+class Movie < ActiveRecord::Base
+  has_many :actors
+  accepts_nested_attributes_for :actors
+end
+class Actor < ActiveRecord::Base
+  belongs_to :movie
 end
 module Admin
   def self.table_name_prefix() 'admin_' end
@@ -108,6 +116,14 @@ class BooksController < ApplicationController
       raise '💣'
     end
 end
+class MoviesController < ApplicationController
+  permits :title, actors_attributes: [:name]
+
+  def create(movie)
+    @movie = Movie.create! movie
+    render plain: @movie.title
+  end
+end
 class StoresController < ApplicationController
   permits :name, :url
 
@@ -156,6 +172,8 @@ class CreateAllTables < ActiveRecord::VERSION::MAJOR >= 5 ? ActiveRecord::Migrat
     create_table(:books) {|t| t.string :title; t.integer :price}
     create_table(:stores) {|t| t.string :name; t.string :url}
     create_table(:admin_accounts) {|t| t.string :name}
+    create_table(:movies) {|t| t.string :title}
+    create_table(:actors) {|t| t.string :name; t.references :movie}
   end
 end
 

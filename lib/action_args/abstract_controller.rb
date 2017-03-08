@@ -27,8 +27,8 @@ module ActionArgs
     #     end
     #   end
     #
-    def permits(*attributes, model_name: nil)
-      @permitted_attributes, @permitting_model_name = attributes, model_name
+    def permits(*attributes, model_name: nil, **kw_attributes)
+      @permitted_attributes, @permitting_model_name = attributes << kw_attributes, model_name
     end
   end
 end

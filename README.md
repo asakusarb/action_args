@@ -1,4 +1,5 @@
 # ActionArgs
+[![Build Status](https://travis-ci.org/asakusarb/action_args.svg?branch=master)](https://travis-ci.org/asakusarb/action_args)
 
 Controller action arguments parameterizer for Rails 4.1+
 

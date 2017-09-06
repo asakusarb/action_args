@@ -13,7 +13,7 @@ class StoresControllerTest < ActionController::TestCase
     test 'without store parameter' do
       get :new
       assert 200, response.code
-      assert_equal Hash.new, assigns(:store_param)
+      assert_equal 'PragProg', assigns(:store).name
     end
     test 'with store parameter' do
       get :new, params: {store: {name: 'Tatsu-zine'}}

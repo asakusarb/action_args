@@ -132,8 +132,7 @@ class StoresController < ApplicationController
     render plain: @store.name
   end
 
-  def new(store = {})
-    @store_param = store
+  def new(store = {name: 'PragProg'})
     @store = Store.new store
     render plain: @store.name
   end

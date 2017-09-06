@@ -7,8 +7,7 @@ end
 
 gem 'rails', '~> 5.0.1'
 
-# FIXME: bundle from GH master until > 1.0.1 release
-gem 'rails-controller-testing', github: 'rails/rails-controller-testing'
+gem 'rails-controller-testing'
 
 gemspec :path => '../'
 

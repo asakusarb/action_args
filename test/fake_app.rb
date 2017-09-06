@@ -132,7 +132,8 @@ class StoresController < ApplicationController
     render plain: @store.name
   end
 
-  def new(store = nil)
+  def new(store = {})
+    @store_param = store
     @store = Store.new store
     render plain: @store.name
   end

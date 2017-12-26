@@ -8,6 +8,7 @@ rvm:
   - 2.2.9
   - 2.3.6
   - 2.4.3
+  - 2.5.0
   - ruby-head
   - jruby-9.1.15.0
   - rubinius-3
@@ -28,6 +29,10 @@ matrix:
     - rvm: 2.4.3
       gemfile: gemfiles/rails_41.gemfile
     - rvm: 2.4.3
+      gemfile: gemfiles/rails_42.gemfile
+    - rvm: 2.5.0
+      gemfile: gemfiles/rails_41.gemfile
+    - rvm: 2.5.0
       gemfile: gemfiles/rails_42.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_41.gemfile

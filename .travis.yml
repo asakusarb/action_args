@@ -3,47 +3,47 @@ language: ruby
 sudo: false
 
 rvm:
-  - 2.0.0
-  - 2.1.10
-  - 2.2.9
-  - 2.3.6
-  - 2.4.3
   - 2.5.0
+  - 2.4.3
+  - 2.3.6
+  - 2.2.9
+  - 2.1.10
+  - 2.0.0
   - ruby-head
   - jruby-9.1.15.0
   - rubinius-3
 matrix:
   exclude:
-    - rvm: 2.0.0
-      gemfile: gemfiles/rails_50.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/rails_50.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/rails_51.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/rails_51.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/rails_edge.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/rails_edge.gemfile
-    - rvm: 2.4.3
-      gemfile: gemfiles/rails_41.gemfile
-    - rvm: 2.4.3
+    - rvm: 2.5.0
       gemfile: gemfiles/rails_42.gemfile
     - rvm: 2.5.0
       gemfile: gemfiles/rails_41.gemfile
-    - rvm: 2.5.0
+    - rvm: 2.4.3
+      gemfile: gemfiles/rails_42.gemfile
+    - rvm: 2.4.3
+      gemfile: gemfiles/rails_41.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/rails_51.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails_51.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/rails_50.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails_50.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/rails_edge.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails_edge.gemfile
+    - rvm: ruby-head
       gemfile: gemfiles/rails_42.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_41.gemfile
-    - rvm: ruby-head
-      gemfile: gemfiles/rails_42.gemfile
   allow_failures:
     - rvm: jruby-9.1.15.0
     - rvm: rubinius-3
 gemfile:
-  - gemfiles/rails_41.gemfile
-  - gemfiles/rails_42.gemfile
-  - gemfiles/rails_50.gemfile
   - gemfiles/rails_51.gemfile
+  - gemfiles/rails_50.gemfile
+  - gemfiles/rails_42.gemfile
+  - gemfiles/rails_41.gemfile
   - gemfiles/rails_edge.gemfile

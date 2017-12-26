@@ -5,11 +5,11 @@ sudo: false
 rvm:
   - 2.0.0
   - 2.1.10
-  - 2.2.7
-  - 2.3.4
-  - 2.4.1
+  - 2.2.9
+  - 2.3.6
+  - 2.4.3
   - ruby-head
-  - jruby-9.1.12.0
+  - jruby-9.1.15.0
   - rubinius-3
 matrix:
   exclude:
@@ -25,16 +25,16 @@ matrix:
       gemfile: gemfiles/rails_edge.gemfile
     - rvm: 2.1.10
       gemfile: gemfiles/rails_edge.gemfile
-    - rvm: 2.4.1
+    - rvm: 2.4.3
       gemfile: gemfiles/rails_41.gemfile
-    - rvm: 2.4.1
+    - rvm: 2.4.3
       gemfile: gemfiles/rails_42.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_41.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_42.gemfile
   allow_failures:
-    - rvm: jruby-9.1.12.0
+    - rvm: jruby-9.1.15.0
     - rvm: rubinius-3
 gemfile:
   - gemfiles/rails_41.gemfile

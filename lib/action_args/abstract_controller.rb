@@ -6,7 +6,7 @@ module ActionArgs
   module AbstractControllerMethods
     def send_action(method_name, *args)
       return super unless args.empty?
-      return super unless defined?(params)
+      return super if !defined?(params) || params.nil?
 
       strengthen_params! method_name
       values = extract_method_arguments_from_params method_name

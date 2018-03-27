@@ -60,6 +60,15 @@ class UserMailer < ActionMailer::Base
       body:    'test'
     )
   end
+
+  def send_email_with_optional_args(subject = 'Action Args!!!')
+    mail(
+      to:      'to@example.com',
+      from:    'from@example.com',
+      subject: subject,
+      body:    'test'
+    )
+  end
 end
 
 # helpers

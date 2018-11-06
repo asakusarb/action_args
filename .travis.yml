@@ -16,6 +16,15 @@ rvm:
   - ruby-head
   - jruby-9.2.0.0
   - rubinius-3
+
+gemfile:
+  - gemfiles/rails_52.gemfile
+  - gemfiles/rails_51.gemfile
+  - gemfiles/rails_50.gemfile
+  - gemfiles/rails_42.gemfile
+  - gemfiles/rails_41.gemfile
+  - gemfiles/rails_edge.gemfile
+
 matrix:
   exclude:
     - rvm: 2.5.3
@@ -50,10 +59,3 @@ matrix:
     - rvm: jruby-9.2.0.0
     - rvm: rubinius-3
     - gemfile: gemfiles/rails_edge.gemfile
-gemfile:
-  - gemfiles/rails_52.gemfile
-  - gemfiles/rails_51.gemfile
-  - gemfiles/rails_50.gemfile
-  - gemfiles/rails_42.gemfile
-  - gemfiles/rails_41.gemfile
-  - gemfiles/rails_edge.gemfile

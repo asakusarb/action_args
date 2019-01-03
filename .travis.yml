@@ -3,8 +3,8 @@ language: ruby
 sudo: false
 
 before_install:
-  - gem i rubygems-update -v '<3' && update_rubygems
-  - gem install bundler
+  - [ $(echo -e "$(rvm current)\nruby-2.3" | sort -V | head -n1) == "ruby-2.3" ] && gem up --system && gem i bundler
+  - [ $(echo -e "$(rvm current)\nruby-2.3" | sort -V | head -n1) == "ruby-2.3" ] || gem i rubygems-update -v '<3' && update_rubygems && gem i bundler -v '<2'
 
 # rvm:
 #   - 2.6.0

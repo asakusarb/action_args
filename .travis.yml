@@ -3,8 +3,8 @@ language: ruby
 sudo: false
 
 before_install:
-  - "[ $(echo -e \"$(ruby -e 'puts RUBY_VERSION')\\n2.3\" | sort -V | head -n1) == '2.3' ] && gem up --system && gem i bundler"
-  - "[ $(echo -e \"$(ruby -e 'puts RUBY_VERSION')\\n2.3\" | sort -V | head -n1) == '2.3' ] || gem i rubygems-update -v '<3' && update_rubygems && gem i bundler -v '<2'"
+  - "ruby -e 'exit RUBY_VERSION.to_f > 2.3' && gem up --system && gem i bundler"
+  - "ruby -e 'exit RUBY_VERSION.to_f > 2.3' || gem i rubygems-update -v '<3' && update_rubygems && gem i bundler -v '<2'"
 
 # rvm:
 #   - 2.6.0

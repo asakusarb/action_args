@@ -1,5 +1,4 @@
 class <%= controller_class_name %>Controller < ApplicationController
-  before_action :set_<%= singular_table_name %>, only: [:show, :edit, :update, :destroy]
 <% if defined? ActionController::StrongParameters -%>
   permits <%= attributes.map {|a| ":#{a.name}" }.join(', ') %>
 
@@ -10,7 +9,8 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   # GET <%= route_url %>/1
-  def show
+  def show(id)
+    @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
   end
 
   # GET <%= route_url %>/new
@@ -19,7 +19,8 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   # GET <%= route_url %>/1/edit
-  def edit
+  def edit(id)
+    @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
   end
 
   # POST <%= route_url %>
@@ -34,7 +35,9 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   # PUT <%= route_url %>/1
-  def update(<%= singular_table_name %>)
+  def update(id, <%= singular_table_name %>)
+    @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
+
 <% if orm_instance.respond_to? :update -%>
     if @<%= orm_instance.update(singular_table_name) %>
 <% else -%>
@@ -47,15 +50,10 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   # DELETE <%= route_url %>/1
-  def destroy
+  def destroy(id)
+    @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
     @<%= orm_instance.destroy %>
 
     redirect_to <%= index_helper %>_url, notice: <%= "'#{human_name} was successfully destroyed.'" %>
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_<%= singular_table_name %>(id)
-      @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
-    end
 end

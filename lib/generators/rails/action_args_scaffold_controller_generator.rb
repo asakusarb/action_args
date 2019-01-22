@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # load original rails scaffold_controller generator
 require 'rails/generators/rails/scaffold_controller/scaffold_controller_generator'
 

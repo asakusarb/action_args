@@ -3,7 +3,7 @@ language: ruby
 sudo: false
 
 before_install:
-  - "ruby -e 'exit RUBY_VERSION.to_f >= 2.3' && gem up --system || (gem i rubygems-update -v '<3' && update_rubygems")
+  - "ruby -e 'exit RUBY_VERSION.to_f >= 2.3' && gem up --system || (gem i rubygems-update -v '<3' && update_rubygems)"
   - gem up bundler
 
 # rvm:

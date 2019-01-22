@@ -157,7 +157,6 @@ The following elegant controller code will be generated:
 
 ```ruby
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
   permits :name, :age, :email
 
   # GET /users
@@ -166,7 +165,8 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1
-  def show
+  def show(id)
+    @user = User.find(id)
   end
 
   # GET /users/new
@@ -175,7 +175,8 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit
+  def edit(id)
+    @user = User.find(id)
   end
 
   # POST /users
@@ -185,31 +186,28 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to @user, notice: 'User was successfully created.'
     else
-      render action: 'new'
+      render :new
     end
   end
 
   # PUT /users/1
-  def update(user)
-    if @user.update_attributes(user)
+  def update(id, user)
+    @user = User.find(id)
+
+    if @user.update(user)
       redirect_to @user, notice: 'User was successfully updated.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
   # DELETE /users/1
-  def destroy
+  def destroy(id)
+    @user = User.find(id)
     @user.destroy
 
-    redirect_to users_url
+    redirect_to users_url, notice: 'User was successfully destroyed.'
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user(id)
-      @user = User.find(id)
-    end
 end
 ```
 

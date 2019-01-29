@@ -9,20 +9,21 @@ module ActionArgs
         kwargs, missing_required_params = {}, []
         parameter_names = method_parameters.map(&:last)
         method_parameters.reverse_each do |type, key|
+          trimmed_key = key.to_s.sub('_params', '').to_sym
           case type
           when :req
-            missing_required_params << key unless params.key? key
+            missing_required_params << key unless params.key? trimmed_key
             next
           when :keyreq
-            if params.key? key
-              kwargs[key] = params[key]
+            if params.key? trimmed_key
+              kwargs[key] = params[trimmed_key]
             else
               missing_required_params << key
             end
           when :key
-            kwargs[key] = params[key] if params.key? key
+            kwargs[key] = params[trimmed_key] if params.key? trimmed_key
           when :opt
-            break if params.key? key
+            break if params.key? trimmed_key
           end
           # omitting parameters that are :block, :rest, :opt without a param, and :key without a param
           parameter_names.delete key
@@ -36,7 +37,7 @@ module ActionArgs
           end
         end
 
-        values = parameter_names.map {|k| params[k]}
+        values = parameter_names.map {|k| params[k.to_s.sub('_params', '').to_sym]}
         values << kwargs if kwargs.any?
         values
       end
@@ -50,9 +51,10 @@ module ActionArgs
 
         method_parameters = method(method_name).parameters
         method_parameters.each do |type, key|
-          if (key == target_model_name) && permitted_attributes
-            params.require(key) if %i[req keyreq].include?(type)
-            params[key] = params[key].try :permit, *permitted_attributes if params.key? key
+          trimmed_key = key.to_s.sub('_params', '').to_sym
+          if (trimmed_key == target_model_name) && permitted_attributes
+            params.require(trimmed_key) if %i[req keyreq].include?(type)
+            params[trimmed_key] = params[trimmed_key].try :permit, *permitted_attributes if params.key? trimmed_key
           end
         end
       end

@@ -9,7 +9,7 @@ gem 'rails-controller-testing'
 gemspec :path => '../'
 
 platforms :ruby do
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.6'
 end
 
 platforms :jruby do

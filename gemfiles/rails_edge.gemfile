@@ -8,6 +8,7 @@ end
 
 gem 'rails', github: 'rails/rails'
 gem 'rails-controller-testing'
+gem 'selenium-webdriver'
 
 gemspec :path => '../'
 

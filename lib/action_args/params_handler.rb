@@ -9,7 +9,7 @@ module ActionArgs
         kwargs, missing_required_params = {}, []
         parameter_names = method_parameters.map(&:last)
         method_parameters.reverse_each do |type, key|
-          trimmed_key = key.to_s.sub('_params', '').to_sym
+          trimmed_key = key.to_s.sub(/_params\z/, '').to_sym
           case type
           when :req
             missing_required_params << key unless params.key? trimmed_key
@@ -37,7 +37,7 @@ module ActionArgs
           end
         end
 
-        values = parameter_names.map {|k| params[k.to_s.sub('_params', '').to_sym]}
+        values = parameter_names.map {|k| params[k.to_s.sub(/_params\z/, '').to_sym]}
         values << kwargs if kwargs.any?
         values
       end
@@ -51,7 +51,7 @@ module ActionArgs
 
         method_parameters = method(method_name).parameters
         method_parameters.each do |type, key|
-          trimmed_key = key.to_s.sub('_params', '').to_sym
+          trimmed_key = key.to_s.sub(/_params\z/, '').to_sym
           if (trimmed_key == target_model_name) && permitted_attributes
             params.require(trimmed_key) if %i[req keyreq].include?(type)
             params[trimmed_key] = params[trimmed_key].try :permit, *permitted_attributes if params.key? trimmed_key

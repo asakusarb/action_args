@@ -317,4 +317,4 @@ This way, the `page` parameter will be defaulted to 1 as everyone might expect.
 
 ## Copyright
 
-Copyright (c) 2011- Asakusa.rb. See MIT-LICENSE for further details.
+Copyright (c) 2011-2019 - Asakusa.rb. See MIT-LICENSE for further details.

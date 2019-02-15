@@ -53,12 +53,12 @@ matrix:
     - rvm: ruby-head
       gemfile: gemfiles/rails_edge.gemfile
 
-    - rvm: jruby-9.2.0.0
+    - rvm: jruby-9.2.6.0
       gemfile: gemfiles/rails_52.gemfile
     - rvm: rubinius-3
       gemfile: gemfiles/rails_52.gemfile
 
   allow_failures:
-    - rvm: jruby-9.2.0.0
+    - rvm: jruby-9.2.6.0
     - rvm: rubinius-3
     - gemfile: gemfiles/rails_edge.gemfile

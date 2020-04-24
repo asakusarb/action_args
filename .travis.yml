@@ -25,7 +25,7 @@ before_install:
 
 matrix:
   include:
-    - rvm: 2.7.0
+    - rvm: 2.7.1
       gemfile: gemfiles/rails_60.gemfile
     - rvm: 2.6.3
       gemfile: gemfiles/rails_60.gemfile

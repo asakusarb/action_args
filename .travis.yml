@@ -66,6 +66,7 @@ matrix:
       gemfile: gemfiles/rails_52.gemfile
 
   allow_failures:
+    - rvm: ruby-head
     - rvm: jruby-9.2.11.1
     - rvm: rubinius-3
     - gemfile: gemfiles/rails_edge.gemfile

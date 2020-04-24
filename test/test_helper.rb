@@ -6,14 +6,19 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rails'
 require 'active_record'
 require 'action_controller/railtie'
-begin
-  require 'rails-controller-testing'
-rescue LoadError
-end
 require 'action_args'
 require 'fake_app'
 require 'test/unit/rails/test_help'
 Bundler.require
+
+module ActionController::TestCase::Assigns
+  def assigns(key = nil)
+    assigns = {}.with_indifferent_access
+    @controller.view_assigns.each { |k, v| assigns.regular_writer(k, v) }
+    key.nil? ? assigns : assigns[key]
+  end
+end
+ActionController::TestCase.include ActionController::TestCase::Assigns
 
 if Rails.version < '5'
   module ActionControllerTestingMonkey

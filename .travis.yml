@@ -6,9 +6,9 @@ before_install:
   - gem up bundler
 
 # rvm:
-#   - 2.6.3
-#   - 2.5.5
-#   - 2.4.6
+#   - 2.6.6
+#   - 2.5.8
+#   - 2.4.10
 #   - 2.3.8
 #   - 2.2.10
 #   - 2.1.10
@@ -26,21 +26,21 @@ matrix:
   include:
     - rvm: 2.7.1
       gemfile: gemfiles/rails_60.gemfile
-    - rvm: 2.6.3
+    - rvm: 2.6.6
       gemfile: gemfiles/rails_60.gemfile
-    - rvm: 2.6.3
+    - rvm: 2.6.6
       gemfile: gemfiles/rails_52.gemfile
-    - rvm: 2.6.3
+    - rvm: 2.6.6
       gemfile: gemfiles/rails_51.gemfile
-    - rvm: 2.6.3
+    - rvm: 2.6.6
       gemfile: gemfiles/rails_50.gemfile
-    - rvm: 2.6.3
+    - rvm: 2.6.6
       gemfile: gemfiles/rails_edge.gemfile
-    - rvm: 2.5.5
+    - rvm: 2.5.8
       gemfile: gemfiles/rails_60.gemfile
-    - rvm: 2.5.5
+    - rvm: 2.5.8
       gemfile: gemfiles/rails_52.gemfile
-    - rvm: 2.4.6
+    - rvm: 2.4.10
       gemfile: gemfiles/rails_52.gemfile
     - rvm: 2.3.8
       gemfile: gemfiles/rails_52.gemfile

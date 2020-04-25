@@ -56,8 +56,6 @@ matrix:
     - rvm: ruby-head
       gemfile: gemfiles/rails_60.gemfile
     - rvm: ruby-head
-      gemfile: gemfiles/rails_52.gemfile
-    - rvm: ruby-head
       gemfile: gemfiles/rails_edge.gemfile
 
     - rvm: jruby-9.2.11.1

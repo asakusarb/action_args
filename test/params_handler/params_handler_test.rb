@@ -12,109 +12,109 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
     test 'no parameters' do
       def @controller.m() end
 
-      assert_equal [], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '1 req' do
       def @controller.m(a) end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '1 req with args named like strong parameters' do
       def @controller.m(a_params) end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '2 reqs' do
       def @controller.m(a, b) end
 
-      assert_equal ['1', '2'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1', '2'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '2 reqs with args named like strong parameters' do
       def @controller.m(a_params, b_params) end
 
-      assert_equal ['1', '2'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1', '2'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '1 opt with value' do
       def @controller.m(a = 'a') end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '1 opt with value with args named like strong parameters' do
       def @controller.m(a_params = 'a') end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test '1 opt without value' do
       def @controller.m(x = 'x') end
 
-      assert_equal [], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'req, opt with value' do
       def @controller.m(a, b = 'b') end
 
-      assert_equal ['1', '2'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1', '2'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'req, opt without value' do
       def @controller.m(a, x = 'x') end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt with value, opt with value' do
       def @controller.m(a = 'a', b = 'b') end
 
-      assert_equal ['1', '2'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1', '2'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt with value, opt without value' do
       def @controller.m(a = 'a', x = 'x') end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt without value, opt with value' do
       def @controller.m(x = 'x', a = 'a') end
 
-      assert_equal [nil, '1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[nil, '1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt without value, opt without value' do
       def @controller.m(x = 'x', y = 'y') end
 
-      assert_equal [], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt with value, req' do
       def @controller.m(a = 'a', b) end
 
-      assert_equal ['1', '2'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1', '2'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt without value, req' do
       def @controller.m(x = 'x', a) end
 
-      assert_equal ['1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt without value, opt with value, req' do
       def @controller.m(x = 'x', b = 'b', a) end
 
-      assert_equal [nil, '2', '1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[nil, '2', '1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'opt with value, opt without value, req' do
       def @controller.m(b = 'b', x = 'x', a) end
 
-      assert_equal ['2', '1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [['2', '1'], {}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'req without a value' do
@@ -126,19 +126,19 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
     test 'key' do
       def @controller.m(a: nil) end
 
-      assert_equal [a: '1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[], {a: '1'}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'key with args named like strong parameters' do
       def @controller.m(a_params: nil) end
 
-      assert_equal [a_params: '1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[], {a_params: '1'}], @controller.extract_method_arguments_from_params(:m)
     end
 
     test 'key, key without value' do
       def @controller.m(a: nil, x: 'x') end
 
-      assert_equal [a: '1'], @controller.extract_method_arguments_from_params(:m)
+      assert_equal [[], {a: '1'}], @controller.extract_method_arguments_from_params(:m)
     end
 
     if RUBY_VERSION >= '2.1'
@@ -146,13 +146,13 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
         test 'keyreq' do
           def @controller.m(a:) end
 
-          assert_equal [a: '1'], @controller.extract_method_arguments_from_params(:m)
+          assert_equal [[], {a: '1'}], @controller.extract_method_arguments_from_params(:m)
         end
 
         test 'keyreq with args named like strong parameters' do
           def @controller.m(a_params:) end
 
-          assert_equal [a_params: '1'], @controller.extract_method_arguments_from_params(:m)
+          assert_equal [[], {a_params: '1'}], @controller.extract_method_arguments_from_params(:m)
         end
 
         test 'keyreq, keyreq without value' do

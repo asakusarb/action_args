@@ -16,7 +16,8 @@ module ActionArgs
 
         if (ActionController::Base === target) && (method != :instance_exec) && arguments.empty?
           target.strengthen_params! method
-          arguments = target.extract_method_arguments_from_params method
+          arguments, kwargs_arguments = target.extract_method_arguments_from_params method
+          arguments << kwargs_arguments if kwargs_arguments.any?
         end
 
         [target, block, method, *arguments]
@@ -35,7 +36,8 @@ module ActionArgs
           lambda do |target, _, &blk|
             if ActionController::Base === target
               target.strengthen_params! filter
-              values = target.extract_method_arguments_from_params filter
+              values, kwargs_values = target.extract_method_arguments_from_params filter
+              values << kwargs_values if kwargs_values.any?
               target.send filter, *values, &blk
             else
               target.send filter, &blk

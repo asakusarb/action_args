@@ -10,8 +10,12 @@ module ActionArgs
       return super if !defined?(params) || params.nil?
 
       strengthen_params! method_name
-      values = extract_method_arguments_from_params method_name
-      super method_name, *values
+      values, kwargs_values = extract_method_arguments_from_params method_name
+      if kwargs_values.any?
+        super method_name, *values, **kwargs_values
+      else
+        super method_name, *values
+      end
     end
   end
 

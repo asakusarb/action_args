@@ -38,8 +38,7 @@ module ActionArgs
         end
 
         values = parameter_names.map {|k| params[k.to_s.sub(/_params\z/, '').to_sym]}
-        values << kwargs if kwargs.any?
-        values
+        [values, kwargs]
       end
 
       # permits declared model attributes in the params Hash

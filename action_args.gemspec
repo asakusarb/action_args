@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email       = ['ronnie@dio.jp']
   s.homepage    = 'http://asakusa.rubyist.net/'
   s.license     = 'MIT'
-  spec.metadata = {
+  s.metadata = {
     'source_code_uri' => 'https://github.com/asakusarb/action_args'
   }
   s.summary     = 'Controller action arguments parameterizer for Rails 4+ & Ruby 2.0+'

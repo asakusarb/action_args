@@ -18,7 +18,9 @@ Gem::Specification.new do |s|
   s.summary     = 'Controller action arguments parameterizer for Rails 4+ & Ruby 2.0+'
   s.description = 'Rails plugin gem that supports Merbish style controller action arguments.'
 
-  s.files         = `git ls-files`.split("\n")
+  s.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
+    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  end
   s.require_paths = ["lib"]
 
   s.add_development_dependency 'bundler'

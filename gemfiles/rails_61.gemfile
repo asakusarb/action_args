@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'rails', '~> 6.1.0'
+gem 'selenium-webdriver'
+
+gemspec path: '../'
+
+platforms :ruby do
+  gem 'sqlite3'
+end
+
+platforms :jruby do
+  gem 'activerecord-jdbcsqlite3-adapter'
+end

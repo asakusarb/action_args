@@ -25,13 +25,15 @@ before_install:
 matrix:
   include:
     - rvm: 3.0.1
+      gemfile: gemfiles/rails_61.gemfile
+    - rvm: 3.0.1
       gemfile: gemfiles/rails_60.gemfile
     - rvm: 3.0.1
       gemfile: gemfiles/rails_edge.gemfile
     - rvm: 2.7.3
-      gemfile: gemfiles/rails_60.gemfile
+      gemfile: gemfiles/rails_61.gemfile
     - rvm: 2.6.7
-      gemfile: gemfiles/rails_60.gemfile
+      gemfile: gemfiles/rails_61.gemfile
     - rvm: 2.6.7
       gemfile: gemfiles/rails_52.gemfile
     - rvm: 2.6.7
@@ -41,7 +43,7 @@ matrix:
     - rvm: 2.6.7
       gemfile: gemfiles/rails_edge.gemfile
     - rvm: 2.5.9
-      gemfile: gemfiles/rails_60.gemfile
+      gemfile: gemfiles/rails_61.gemfile
     - rvm: 2.5.9
       gemfile: gemfiles/rails_52.gemfile
     - rvm: 2.4.10
@@ -58,7 +60,7 @@ matrix:
       gemfile: gemfiles/rails_42.gemfile
 
     - rvm: ruby-head
-      gemfile: gemfiles/rails_60.gemfile
+      gemfile: gemfiles/rails_61.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_edge.gemfile
 

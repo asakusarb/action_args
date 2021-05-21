@@ -6,21 +6,23 @@ module ActionArgs
   module ActiveSupport
     # For Rails >= 5.1
     module CallbackParameterizer
-      # Extending AS::Callbacks::Callback's `expand` not just to call specified
+      # Extending AS::Callbacks::Callback's `make_lambda` not just to call specified
       # method but to call the method with method parameters taken from `params`.
       # This would happen only when
       # * the target object is_a ActionController object
       # * the filter was not defined via lambda
-      def expand(*)
-        target, block, method, *arguments = super
+      def make_lambda
+        lambda do |target, value, &block|
+          target, block, method, *arguments = expand(target, value, block)
 
-        if (ActionController::Base === target) && (method != :instance_exec) && arguments.empty?
-          target.strengthen_params! method
-          arguments, kwargs_arguments = target.extract_method_arguments_from_params method
-          arguments << kwargs_arguments if kwargs_arguments.any?
+          if (ActionController::Base === target) && (method != :instance_exec) && arguments.empty?
+            target.strengthen_params! method
+            arguments, keyword_arguments = target.extract_method_arguments_from_params method
+            target.send(method, *arguments, **keyword_arguments, &block)
+          else
+            target.send(method, *arguments, &block)
+          end
         end
-
-        [target, block, method, *arguments]
       end
     end
 

@@ -18,7 +18,11 @@ module ActionArgs
           if (ActionController::Base === target) && (method != :instance_exec) && arguments.empty?
             target.strengthen_params! method
             arguments, keyword_arguments = target.extract_method_arguments_from_params method
-            target.send(method, *arguments, **keyword_arguments, &block)
+            if keyword_arguments.any?
+              target.send(method, *arguments, **keyword_arguments, &block)
+            else
+              target.send(method, *arguments, &block)
+            end
           else
             target.send(method, *arguments, &block)
           end

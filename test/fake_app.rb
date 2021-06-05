@@ -111,7 +111,7 @@ class BooksController < ApplicationController
   end
 
   private
-    def set_book(id)
+    def set_book(id:)
       @book = Book.find(id)
     end
 

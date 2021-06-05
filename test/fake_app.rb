@@ -85,6 +85,8 @@ class AuthorsController < ApplicationController
 end
 class BooksController < ApplicationController
   before_action :set_book, only: :show
+  before_action :set_book2, only: :show
+  before_action :set_book3, only: :show
   before_action -> { @proc_filter_executed = true }, only: :show
   if Rails.version < '5.1'
     before_action '@string_filter_executed = true', only: :show
@@ -111,7 +113,18 @@ class BooksController < ApplicationController
   end
 
   private
-    def set_book(id:)
+    # before action, req
+    def set_book(id)
+      @book = Book.find(id)
+    end
+
+    # before action, key
+    def set_book2(id: nil)
+      @book = Book.find(id)
+    end
+
+    # before action, keyreq
+    def set_book3(id:)
       @book = Book.find(id)
     end
 

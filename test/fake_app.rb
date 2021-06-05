@@ -86,7 +86,10 @@ end
 class BooksController < ApplicationController
   before_action :set_book, only: :show
   before_action :set_book2, only: :show
-  before_action :set_book3, only: :show
+  # Ruby 2.0 cannot parse keyreq syntax
+  if RUBY_VERSION > '2.1'
+    before_action :set_book3, only: :show
+  end
   before_action -> { @proc_filter_executed = true }, only: :show
   if Rails.version < '5.1'
     before_action '@string_filter_executed = true', only: :show
@@ -124,8 +127,12 @@ class BooksController < ApplicationController
     end
 
     # before action, keyreq
-    def set_book3(id:)
-      @book = Book.find(id)
+    if RUBY_VERSION > '2.1'
+      eval <<-DEF
+        def set_book3(id:)
+          @book = Book.find(id)
+        end
+      DEF
     end
 
     def benchmark_action

@@ -6,21 +6,15 @@ class <%= controller_class_name %>Controller < ApplicationController
   # GET <%= route_url %>
   def index
     @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
+
+    render json: <%= "@#{plural_table_name}" %>
   end
 
   # GET <%= route_url %>/1
   def show(id)
     @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
-  end
 
-  # GET <%= route_url %>/new
-  def new
-    @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
-  end
-
-  # GET <%= route_url %>/1/edit
-  def edit(id)
-    @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
+    render json: <%= "@#{singular_table_name}" %>
   end
 
   # POST <%= route_url %>
@@ -28,9 +22,9 @@ class <%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = <%= orm_class.build(class_name, singular_table_name) %>
 
     if @<%= orm_instance.save %>
-      redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully created.'
+      render json: <%= "@#{singular_table_name}" %>, status: :created, location: <%= "@#{singular_table_name}" %>
     else
-      render :new
+      render json: <%= "@#{orm_instance.errors}" %>, status: :unprocessable_entity
     end
   end
 
@@ -43,9 +37,9 @@ class <%= controller_class_name %>Controller < ApplicationController
 <% else -%>
     if @<%= orm_instance.update_attributes(singular_table_name) %>
 <% end -%>
-      redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully updated.'
+      render json: <%= "@#{singular_table_name}" %>
     else
-      render :edit
+      render json: <%= "@#{orm_instance.errors}" %>, status: :unprocessable_entity
     end
   end
 
@@ -53,7 +47,5 @@ class <%= controller_class_name %>Controller < ApplicationController
   def destroy(id)
     @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
     @<%= orm_instance.destroy %>
-
-    redirect_to <%= index_helper %>_url, notice: <%= "'#{human_name} was successfully destroyed.'" %>
   end
 end

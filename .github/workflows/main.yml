@@ -55,6 +55,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+
     steps:
       - uses: actions/checkout@v2
 

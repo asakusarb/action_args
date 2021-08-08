@@ -10,22 +10,4 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-task :default => 'test:all'
-
-namespace :test do
-  %w(rails_41 rails_42 rails_edge).each do |gemfile|
-    desc "Run Tests against #{gemfile}"
-    task gemfile do
-      sh "BUNDLE_GEMFILE='gemfiles/#{gemfile}.gemfile' bundle --quiet"
-      sh "BUNDLE_GEMFILE='gemfiles/#{gemfile}.gemfile' bundle exec rake -t test"
-    end
-  end
-
-  desc 'Run Tests against all Rails versions'
-  task :all do
-    %w(rails_41 rails_42 rails_edge).each do |gemfile|
-      sh "BUNDLE_GEMFILE='gemfiles/#{gemfile}.gemfile' bundle --quiet"
-      sh "BUNDLE_GEMFILE='gemfiles/#{gemfile}.gemfile' bundle exec rake -t test"
-    end
-  end
-end
+task default: :test

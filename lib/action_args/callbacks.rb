@@ -58,19 +58,7 @@ module ActionArgs
 end
 
 if Rails.version >= '5.1'
-  module ActiveSupport
-    module Callbacks
-      class CallTemplate
-        prepend ActionArgs::ActiveSupport::CallbackParameterizer
-      end
-    end
-  end
+  ::ActiveSupport::Callbacks::CallTemplate.prepend ActionArgs::ActiveSupport::CallbackParameterizer
 else
-  module ActiveSupport
-    module Callbacks
-      class Callback
-        prepend ActionArgs::ActiveSupport::CallbackParameterizerLegacy
-      end
-    end
-  end
+  ::ActiveSupport::Callbacks::Callback.prepend ActionArgs::ActiveSupport::CallbackParameterizerLegacy
 end

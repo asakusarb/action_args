@@ -4,7 +4,30 @@ using ActionArgs::ParamsHandler
 
 module ActionArgs
   module ActiveSupport
-    if Rails.version >= '5.1'
+    if Rails::VERSION::MAJOR >= 7
+      module CallTemplate
+        module MethodCallParameterizer
+          def make_lambda
+            lambda do |target, value, &block|
+              if ActionController::Base === target
+                target.strengthen_params! @method_name
+                arguments, keyword_arguments = target.extract_method_arguments_from_params @method_name
+                if keyword_arguments.any?
+                  target.send(@method_name, *arguments, **keyword_arguments, &block)
+                else
+                  target.send(@method_name, *arguments, &block)
+                end
+              else
+                lambda do |target, value, &block|
+                  target.send(@method_name, &block)
+                end
+              end
+            end
+          end
+        end
+      end
+      ::ActiveSupport::Callbacks::CallTemplate::MethodCall.prepend ActionArgs::ActiveSupport::CallTemplate::MethodCallParameterizer
+    elsif Rails.version >= '5.1'
       module CallbackParameterizer
         # Extending AS::Callbacks::Callback's `make_lambda` not just to call specified
         # method but to call the method with method parameters taken from `params`.

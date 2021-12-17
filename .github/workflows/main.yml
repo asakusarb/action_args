@@ -11,12 +11,17 @@ jobs:
             gemfile: gemfiles/rails_edge.gemfile
             allow_failures: 'true'
           - ruby_version: '3.0'
+            gemfile: gemfiles/rails_70.gemfile
+            allow_failures: 'true'
+          - ruby_version: '3.0'
             gemfile: gemfiles/rails_61.gemfile
             allow_failures: 'true'
 
           - ruby_version: '3.0'
             gemfile: gemfiles/rails_edge.gemfile
             allow_failures: 'true'
+          - ruby_version: '3.0'
+            gemfile: gemfiles/rails_70.gemfile
           - ruby_version: '3.0'
             gemfile: gemfiles/rails_61.gemfile
           - ruby_version: '3.0'
@@ -25,10 +30,15 @@ jobs:
           - ruby_version: jruby
             gemfile: gemfiles/rails_61.gemfile
             allow_failures: 'true'
+          - ruby_version: jruby
+            gemfile: gemfiles/rails_70.gemfile
+            allow_failures: 'true'
 
           - ruby_version: '2.7'
             gemfile: gemfiles/rails_edge.gemfile
             allow_failures: 'true'
+          - ruby_version: '2.7'
+            gemfile: gemfiles/rails_70.gemfile
           - ruby_version: '2.7'
             gemfile: gemfiles/rails_61.gemfile
 

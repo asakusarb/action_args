@@ -6,12 +6,17 @@ class BooksControllerTest < ActionController::TestCase
   setup do
     Book.delete_all
     @book = Book.create! title: 'Head First ActionArgs'
-    get :show, params: {id: @book.id}
+    get :show, params: {id: @book.id.to_s}
   end
 
   sub_test_case 'before_action' do
     test 'via Symbol' do
       assert_equal @book, assigns(:book)
+      assert_equal @book.id.to_s, assigns(:filter_req_given_id)
+      assert_equal @book.id.to_s, assigns(:filter_key_given_id)
+      if RUBY_VERSION > '2.1'
+        assert_equal @book.id.to_s, assigns(:filter_keyreq_given_id)
+      end
     end
 
     if Rails.version < '5.1'

@@ -105,7 +105,7 @@ class BooksController < ApplicationController
     render plain: 'index', books: @books
   end
 
-  def show(id)
+  def show
     render plain: @book.title
   end
 
@@ -119,18 +119,19 @@ class BooksController < ApplicationController
     # before action, req
     def set_book(id)
       @book = Book.find(id)
+      @filter_req_given_id = id
     end
 
     # before action, key
     def set_book2(id: nil)
-      @book = Book.find(id)
+      @filter_key_given_id = id
     end
 
     # before action, keyreq
     if RUBY_VERSION > '2.1'
       eval <<-DEF
         def set_book3(id:)
-          @book = Book.find(id)
+          @filter_keyreq_given_id = id
         end
       DEF
     end

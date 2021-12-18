@@ -76,6 +76,7 @@ module ApplicationHelper; end
 
 # controllers
 class ApplicationController < ActionController::Base
+  protect_from_forgery
 end
 class AuthorsController < ApplicationController
   def show

@@ -51,7 +51,6 @@ module Admin
 end
 
 # mailers
-require "action_mailer/railtie"
 class UserMailer < ActionMailer::Base
   def send_email_without_args
     mail(

@@ -8,6 +8,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rails'
 require 'active_record'
 require 'action_controller/railtie'
+require 'action_mailer/railtie'
 require 'action_args'
 require 'fake_app'
 require 'test/unit/rails/test_help'

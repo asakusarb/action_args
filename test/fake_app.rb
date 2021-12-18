@@ -6,6 +6,7 @@ ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':me
 
 module ActionArgsTestApp
   class Application < Rails::Application
+    config.load_defaults "#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}" if config.respond_to? :load_defaults
     config.secret_key_base = config.secret_token = [*'A'..'z'].join
     config.session_store :cookie_store, :key => '_myapp_session'
     config.active_support.deprecation = :log

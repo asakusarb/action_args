@@ -38,16 +38,16 @@ class ControllerHooksTest < ActionController::TestCase
 end
 
 class OtherHooksTest < ActionController::TestCase
-  self.controller_class = BooksController
+  self.controller_class = AuthorsController
 
   setup do
-    Book.delete_all
-    @book = Book.create! title: 'Programming ActionArgs'
-    put :update, params: {id: @book.id.to_s, book: {title: 'Effective ActionArgs'}}
+    Author.delete_all
+    @author = Author.create! name: 'm_put'
+    post :create, params: {id: @author.id.to_s, author: {name: 'shyou_hei'}}
   end
 
   test 'model callbacks are working' do
-    assert_equal 'Effective ActionArgs', assigns(:book).title
-    assert_equal true, assigns(:book).instance_variable_get(:@model_callback_called)
+    assert_equal 'shyou_hei', assigns(:author).name
+    assert_equal true, assigns(:author).instance_variable_get(:@model_callback_called)
   end
 end

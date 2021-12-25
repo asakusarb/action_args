@@ -36,3 +36,18 @@ class ControllerHooksTest < ActionController::TestCase
     assert_not_nil assigns(:elapsed_time)
   end
 end
+
+class OtherHooksTest < ActionController::TestCase
+  self.controller_class = BooksController
+
+  setup do
+    Book.delete_all
+    @book = Book.create! title: 'Programming ActionArgs'
+    patch :update, params: {id: @book.id.to_s, book: {title: 'Effective ActionArgs'}}
+  end
+
+  test 'model callbacks are working' do
+    assert_equal 'Effective ActionArgs', assigns(:book).title
+    assert_equal true, assigns(:book).instance_variable_get(:@model_callback_called)
+  end
+end

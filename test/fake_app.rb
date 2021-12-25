@@ -34,6 +34,12 @@ end
 class Author < ActiveRecord::Base
 end
 class Book < ActiveRecord::Base
+  # To make sure that our callback monkey-patch doesn't break other callbacks
+  after_update :the_model_callback
+
+  private def the_model_callback
+    @model_callback_called = true
+  end
 end
 class Store < ActiveRecord::Base
 end
@@ -85,7 +91,7 @@ class AuthorsController < ApplicationController
   end
 end
 class BooksController < ApplicationController
-  before_action :set_book, only: :show
+  before_action :set_book, only: %i(show update)
   before_action :set_book2, only: :show
   # Ruby 2.0 cannot parse keyreq syntax
   if RUBY_VERSION > '2.1'
@@ -113,6 +119,12 @@ class BooksController < ApplicationController
   def create(book)
     book = book.permit :title, :price
     @book = Book.create! book
+    render plain: @book.title
+  end
+
+  def update(id: nil, book: nil)
+    book = book.permit :title, :price
+    @book.update! book
     render plain: @book.title
   end
 

@@ -43,7 +43,7 @@ class OtherHooksTest < ActionController::TestCase
   setup do
     Book.delete_all
     @book = Book.create! title: 'Programming ActionArgs'
-    patch :update, params: {id: @book.id.to_s, book: {title: 'Effective ActionArgs'}}
+    put :update, params: {id: @book.id.to_s, book: {title: 'Effective ActionArgs'}}
   end
 
   test 'model callbacks are working' do

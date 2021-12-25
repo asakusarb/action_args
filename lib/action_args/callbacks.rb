@@ -18,9 +18,7 @@ module ActionArgs
                   target.send(@method_name, *arguments, &block)
                 end
               else
-                lambda do |target, value, &block|
-                  target.send(@method_name, &block)
-                end
+                target.send(@method_name, &block)
               end
             end
           end

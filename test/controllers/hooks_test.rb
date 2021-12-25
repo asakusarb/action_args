@@ -2,7 +2,9 @@
 
 require 'test_helper'
 
-class BooksControllerTest < ActionController::TestCase
+class ControllerHooksTest < ActionController::TestCase
+  self.controller_class = BooksController
+
   setup do
     Book.delete_all
     @book = Book.create! title: 'Head First ActionArgs'

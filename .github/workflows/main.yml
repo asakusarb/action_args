@@ -28,10 +28,10 @@ jobs:
             gemfile: gemfiles/rails_60.gemfile
 
           - ruby_version: jruby
-            gemfile: gemfiles/rails_61.gemfile
+            gemfile: gemfiles/rails_70.gemfile
             allow_failures: 'true'
           - ruby_version: jruby
-            gemfile: gemfiles/rails_70.gemfile
+            gemfile: gemfiles/rails_61.gemfile
             allow_failures: 'true'
 
           - ruby_version: '2.7'

@@ -10,10 +10,10 @@ jobs:
           - ruby_version: ruby-head
             gemfile: gemfiles/rails_edge.gemfile
             allow_failures: 'true'
-          - ruby_version: '3.0'
+          - ruby_version: ruby-head
             gemfile: gemfiles/rails_70.gemfile
             allow_failures: 'true'
-          - ruby_version: '3.0'
+          - ruby_version: ruby-head
             gemfile: gemfiles/rails_61.gemfile
             allow_failures: 'true'
 

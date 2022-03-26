@@ -1,5 +1,5 @@
 # action_args
-[![Build Status](https://github.com/asakusarb/action_args/actions/workflows/main.yml/badge.svg)](https://github.com/asakusarb/action_args/actions/actions)
+[![Build Status](https://github.com/asakusarb/action_args/actions/workflows/main.yml/badge.svg)](https://github.com/asakusarb/action_args/actions)
 
 Controller action arguments parameterizer for Rails
 

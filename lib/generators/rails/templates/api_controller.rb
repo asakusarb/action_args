@@ -28,7 +28,7 @@ class <%= controller_class_name %>Controller < ApplicationController
     end
   end
 
-  # PUT <%= route_url %>/1
+  # PATCH/PUT <%= route_url %>/1
   def update(id, <%= singular_table_name %>)
     @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
 

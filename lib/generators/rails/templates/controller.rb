@@ -30,11 +30,11 @@ class <%= controller_class_name %>Controller < ApplicationController
     if @<%= orm_instance.save %>
       redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully created.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PUT <%= route_url %>/1
+  # PATCH/PUT <%= route_url %>/1
   def update(id, <%= singular_table_name %>)
     @<%= singular_table_name %> = <%= orm_class.find(class_name, 'id') %>
 
@@ -45,7 +45,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 <% end -%>
       redirect_to @<%= singular_table_name %>, notice: '<%= human_name %> was successfully updated.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

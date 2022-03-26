@@ -6,82 +6,44 @@ jobs:
   build:
     strategy:
       matrix:
+        ruby_version: [ruby-head, '3.1', '3.0', '2.7', 'jruby']
+        rails_version: [edge, '7.0', '6.1', '6.0']
+
         include:
-          - ruby_version: ruby-head
-            gemfile: gemfiles/rails_edge.gemfile
-            allow_failures: 'true'
-          - ruby_version: ruby-head
-            gemfile: gemfiles/rails_70.gemfile
-            allow_failures: 'true'
-          - ruby_version: ruby-head
-            gemfile: gemfiles/rails_61.gemfile
-            allow_failures: 'true'
-
-          - ruby_version: '3.1'
-            gemfile: gemfiles/rails_edge.gemfile
-            allow_failures: 'true'
-          - ruby_version: '3.1'
-            gemfile: gemfiles/rails_70.gemfile
-          - ruby_version: '3.1'
-            gemfile: gemfiles/rails_61.gemfile
-
-          - ruby_version: '3.0'
-            gemfile: gemfiles/rails_edge.gemfile
-            allow_failures: 'true'
-          - ruby_version: '3.0'
-            gemfile: gemfiles/rails_70.gemfile
-          - ruby_version: '3.0'
-            gemfile: gemfiles/rails_61.gemfile
-          - ruby_version: '3.0'
-            gemfile: gemfiles/rails_60.gemfile
-
-          - ruby_version: jruby
-            gemfile: gemfiles/rails_70.gemfile
-            allow_failures: 'true'
-          - ruby_version: jruby
-            gemfile: gemfiles/rails_61.gemfile
-            allow_failures: 'true'
-
-          - ruby_version: '2.7'
-            gemfile: gemfiles/rails_edge.gemfile
-            allow_failures: 'true'
-          - ruby_version: '2.7'
-            gemfile: gemfiles/rails_70.gemfile
-          - ruby_version: '2.7'
-            gemfile: gemfiles/rails_61.gemfile
-
           - ruby_version: '2.6'
-            gemfile: gemfiles/rails_61.gemfile
+            rails_version: '6.1'
           - ruby_version: '2.6'
-            gemfile: gemfiles/rails_52.gemfile
+            rails_version: '6.0'
           - ruby_version: '2.6'
-            gemfile: gemfiles/rails_51.gemfile
+            rails_version: '5.2'
           - ruby_version: '2.6'
-            gemfile: gemfiles/rails_50.gemfile
+            rails_version: '5.1'
+          - ruby_version: '2.6'
+            rails_version: '5.0'
 
           - ruby_version: '2.5'
-            gemfile: gemfiles/rails_61.gemfile
+            rails_version: '6.1'
           - ruby_version: '2.5'
-            gemfile: gemfiles/rails_52.gemfile
+            rails_version: '5.2'
 
           - ruby_version: '2.4'
-            gemfile: gemfiles/rails_52.gemfile
+            rails_version: '5.2'
 
           - ruby_version: '2.3'
-            gemfile: gemfiles/rails_52.gemfile
+            rails_version: '5.2'
 
           - ruby_version: '2.2'
-            gemfile: gemfiles/rails_42.gemfile
+            rails_version: '4.2'
           - ruby_version: '2.2'
-            gemfile: gemfiles/rails_41.gemfile
+            rails_version: '4.1'
 
           - ruby_version: '2.1'
-            gemfile: gemfiles/rails_42.gemfile
+            rails_version: '4.2'
 
     runs-on: ubuntu-latest
 
     env:
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      RAILS_VERSION: ${{ matrix.rails_version }}
 
     steps:
       - uses: actions/checkout@v2
@@ -90,7 +52,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby_version }}
           bundler-cache: true
-        continue-on-error: ${{ matrix.allow_failures == 'true' }}
+        continue-on-error: ${{ (matrix.ruby_version == 'ruby-head') || (matrix.ruby_version == 'jruby') || (matrix.rails_version == 'edge') }}
 
       - run: bundle exec rake
-        continue-on-error: ${{ matrix.allow_failures == 'true' }}
+        continue-on-error: ${{ (matrix.ruby_version == 'ruby-head') || (matrix.ruby_version == 'jruby') || (matrix.rails_version == 'edge') }}

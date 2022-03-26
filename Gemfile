@@ -16,7 +16,7 @@ end
 rails_version = ENV['RAILS_VERSION'] || '∞'
 
 platforms :ruby do
-  gem 'sqlite3', rails_version >= '5.0' ? '>= 1.4' : '< 1.4'
+  gem 'sqlite3', rails_version >= '5.1' ? '>= 1.4' : '< 1.4'
 end
 platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'

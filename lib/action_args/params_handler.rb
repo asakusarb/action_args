@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'abstract_controller'
+
 module ActionArgs
   module ParamsHandler
     refine AbstractController::Base do

@@ -75,6 +75,15 @@ class UserMailer < ActionMailer::Base
       body:    'test'
     )
   end
+
+  def send_email_with_keyreq(subject:)
+    mail(
+      to:      'to@example.com',
+      from:    'from@example.com',
+      subject: subject,
+      body:    'test'
+    )
+  end
 end
 
 # helpers

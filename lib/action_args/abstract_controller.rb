@@ -5,8 +5,8 @@ using ActionArgs::ParamsHandler
 
 module ActionArgs
   module AbstractControllerMethods
-    def send_action(method_name, *args)
-      return super unless args.empty?
+    def send_action(method_name, *args, **kwargs)
+      return super unless (args.empty? && kwargs.empty?)
       return super if !defined?(params) || params.nil?
 
       strengthen_params! method_name

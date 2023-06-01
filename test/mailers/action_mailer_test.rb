@@ -12,4 +12,8 @@ class UserMailerTest < ActionMailer::TestCase
     #it should not raise NoMethodError: undefined method for nil:NilClass
     assert UserMailer.send_email_with_optional_args
   end
+
+  test '#send_email_with_keyreq' do
+    assert UserMailer.send_email_with_keyreq(subject: 'Action Args!!!')
+  end
 end

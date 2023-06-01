@@ -28,5 +28,12 @@ class KwBooksControllerTest < ActionController::TestCase
       assert_equal '1', body[:page]
       assert_equal 'Rails', body[:q]
     end
+
+    test 'with kwreq' do
+      get :show, params: {id: 1}
+      body = eval response.body
+      assert_equal '1', body[:id]
+      assert_equal 'nari', body[:author_name]
+    end
   end
 end

@@ -6,7 +6,15 @@ using ActionArgs::ParamsHandler
 module ActionArgs
   module AbstractControllerMethods
     def send_action(method_name, *args)
-      return super unless args.empty?
+      unless args.empty?
+        kwargs = args.extract_options!
+        if kwargs.any?
+          return super(method_name, *args, **kwargs)
+        else
+          return super
+        end
+      end
+
       return super if !defined?(params) || params.nil?
 
       strengthen_params! method_name

@@ -9,13 +9,18 @@ module ActionArgs
       def extract_method_arguments_from_params(method_name)
         method_parameters = method(method_name).parameters
         kwargs, missing_required_params = {}, []
-        parameter_names = method_parameters.map(&:last)
+        parameter_names = []
+        has_optional_parameter_in_params = false
+
         method_parameters.reverse_each do |type, key|
           trimmed_key = key.to_s.sub(/_params\z/, '').to_sym
           case type
           when :req
-            missing_required_params << key unless params.key? trimmed_key
-            next
+            if params.key? trimmed_key
+              parameter_names.unshift key
+            else
+              missing_required_params << key
+            end
           when :keyreq
             if params.key? trimmed_key
               kwargs[key] = params[trimmed_key]
@@ -25,10 +30,16 @@ module ActionArgs
           when :key
             kwargs[key] = params[trimmed_key] if params.key? trimmed_key
           when :opt
-            break if params.key? trimmed_key
+            if params.key? trimmed_key
+              has_optional_parameter_in_params = true
+              parameter_names.unshift key
+            else
+              parameter_names.unshift key if has_optional_parameter_in_params
+            end
+          else
+            # :block, :rest
+            parameter_names.unshift key
           end
-          # omitting parameters that are :block, :rest, :opt without a param, and :key without a param
-          parameter_names.delete key
         end
         if missing_required_params.any?
           message = "Missing required parameters at #{self.class.name}##{method_name}: #{missing_required_params.join(', ')}"

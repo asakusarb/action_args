@@ -128,6 +128,30 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
 
         assert_equal [['2', '1'], {}], @controller.extract_method_arguments_from_params(:m)
       end
+
+      test 'opt with value, req without value' do
+        def @controller.m(a = 'a', x) end
+
+        assert_raises(ActionController::BadRequest) { @controller.extract_method_arguments_from_params(:m) }
+      end
+
+      test 'opt without value, req without value' do
+        def @controller.m(x = 'x', y) end
+
+        assert_raises(ActionController::BadRequest) { @controller.extract_method_arguments_from_params(:m) }
+      end
+
+      test 'req without value, opt with value' do
+        def @controller.m(x, a = 'a') end
+
+        assert_raises(ActionController::BadRequest) { @controller.extract_method_arguments_from_params(:m) }
+      end
+
+      test 'req without value, opt without value' do
+        def @controller.m(x, y = 'y') end
+
+        assert_raises(ActionController::BadRequest) { @controller.extract_method_arguments_from_params(:m) }
+      end
     end
 
     sub_test_case 'key' do

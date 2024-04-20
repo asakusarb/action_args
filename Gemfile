@@ -18,7 +18,7 @@ rails_version = ENV['RAILS_VERSION'] || '∞'
 platforms :ruby do
   if rails_version <= '5.0'
     gem 'sqlite3', '< 1.4'
-  elsif (ENV['RAILS_VERSION'] <= '8') || (RUBY_VERSION < '3')
+  elsif (rails_version <= '8') || (RUBY_VERSION < '3')
     gem 'sqlite3', '< 2'
   else
     gem 'sqlite3'

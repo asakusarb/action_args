@@ -14,6 +14,9 @@ jobs:
         rails_version: [edge, '7.2', '7.1', '7.0', '6.1']
 
         include:
+          - ruby_version: 'truffleruby-head'
+            rails_version: 'edge'
+
           - ruby_version: 'jruby'
             rails_version: '7.2'
 

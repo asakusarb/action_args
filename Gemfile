@@ -34,3 +34,8 @@ gem 'loofah', RUBY_VERSION < '2.5' ? '~> 2.20.0' : '>= 2.20'
 gem 'selenium-webdriver' if rails_version >= '6.1'
 
 gem 'net-smtp' if RUBY_VERSION >= '3.1'
+
+if RUBY_VERSION >= '3.3'
+  gem 'bigdecimal'
+  gem 'mutex_m'
+end

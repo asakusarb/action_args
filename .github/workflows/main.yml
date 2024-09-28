@@ -68,6 +68,10 @@ jobs:
           - ruby_version: '2.1'
             rails_version: '4.2'
 
+        exclude:
+          - ruby_version: '3.1'
+            rails_version: edge
+
     runs-on: ubuntu-20.04
 
     env:

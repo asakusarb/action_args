@@ -247,7 +247,7 @@ You may notice that
 
 ## Supported Versions
 
-* Ruby 2.0.0, 2.1.x, 2.2.x, 2.3.x, 2.4.x, 2.5.x, 2.6.x, 2.7.x, 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4 (trunk), JRuby, & Rubinius with 2.0+ mode
+* Ruby 2.0.0, 2.1.x, 2.2.x, 2.3.x, 2.4.x, 2.5.x, 2.6.x, 2.7.x, 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, 3.5 (trunk), JRuby, & Rubinius with 2.0+ mode
 
 * Rails 4.1.x, 4.2.x, 5.0, 5.1, 5.2, 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1 (edge)
 

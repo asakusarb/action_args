@@ -8,7 +8,7 @@ module ActionArgs
       # converts the request params Hash into an Array to be passed into the target Method
       def extract_method_arguments_from_params(method_name, method_parameters = method(method_name).parameters)
         kwargs, missing_required_params = {}, []
-        parameter_keys = []
+        values = []
         has_optional_parameter_in_params = false
 
         method_parameters.reverse_each do |type, key|
@@ -16,7 +16,7 @@ module ActionArgs
           case type
           when :req
             if params.key? trimmed_key
-              parameter_keys.unshift trimmed_key
+              values.unshift params[trimmed_key]
             else
               missing_required_params << key
             end
@@ -31,12 +31,17 @@ module ActionArgs
           when :opt
             if params.key? trimmed_key
               has_optional_parameter_in_params = true
-              parameter_keys.unshift trimmed_key
+              values.unshift params[trimmed_key]
             else
-              parameter_keys.unshift trimmed_key if has_optional_parameter_in_params
+              values.unshift nil if has_optional_parameter_in_params
             end
           when :rest
-            parameter_keys.unshift trimmed_key
+            # splats an Array param, and the preceding optional parameters then need nil fillers to keep the values in place
+            if params.key? trimmed_key
+              rest_values = params[trimmed_key].is_a?(Array) ? params[trimmed_key] : [params[trimmed_key]]
+              has_optional_parameter_in_params = true unless rest_values.empty?
+              values.unshift(*rest_values)
+            end
           end
           # :keyrest, :nokey, and :block take nothing from params
         end
@@ -49,7 +54,6 @@ module ActionArgs
           end
         end
 
-        values = parameter_keys.map {|k| params[k]}
         [values, kwargs]
       end
 

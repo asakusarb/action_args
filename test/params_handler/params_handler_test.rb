@@ -198,6 +198,73 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
       KWARGS_KEYREQ_TEST
     end
 
+    sub_test_case 'rest' do
+      setup do
+        @controller.params = {a: '1', ids: ['x', 'y']}
+      end
+
+      test 'rest with an Array value' do
+        def @controller.m(*ids) end
+
+        assert_equal [['x', 'y'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'rest with a scalar value' do
+        def @controller.m(*a) end
+
+        assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'rest without value' do
+        def @controller.m(*x) end
+
+        assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'rest with args named like strong parameters' do
+        def @controller.m(*ids_params) end
+
+        assert_equal [['x', 'y'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'req, rest with value' do
+        def @controller.m(a, *ids) end
+
+        assert_equal [['1', 'x', 'y'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'rest with value, req' do
+        def @controller.m(*ids, a) end
+
+        assert_equal [['x', 'y', '1'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'opt without value, rest with value' do
+        def @controller.m(x = 'x', *ids) end
+
+        assert_equal [[nil, 'x', 'y'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'opt without value, rest with nil value' do
+        @controller.params = {ids: nil}
+        def @controller.m(x = 'x', *ids) end
+
+        assert_equal [[nil, nil], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'opt without value, rest without value' do
+        def @controller.m(x = 'x', *y) end
+
+        assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'opt with value, rest without value' do
+        def @controller.m(a = 'a', *y) end
+
+        assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+    end
+
     sub_test_case 'keyrest' do
       test 'keyrest' do
         def @controller.m(**opts) end

@@ -43,7 +43,7 @@ module ActionArgs
         end
         if missing_required_params.any?
           message = "Missing required parameters at #{self.class.name}##{method_name}: #{missing_required_params.join(', ')}"
-          if Rails.version > '5'
+          if Rails::VERSION::MAJOR >= 5
             raise ActionController::BadRequest.new message
           else
             raise ActionController::BadRequest.new :required, ArgumentError.new(message)

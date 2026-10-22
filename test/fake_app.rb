@@ -129,11 +129,11 @@ class BooksController < ApplicationController
   before_action :set_book, only: :show
   before_action :set_book2, only: :show
   # Ruby 2.0 cannot parse keyreq syntax
-  if RUBY_VERSION > '2.1'
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.1')
     before_action :set_book3, only: :show
   end
   before_action -> { @proc_filter_executed = true }, only: :show
-  if Rails.version < '5.1'
+  if Rails.gem_version < Gem::Version.new('5.1')
     before_action '@string_filter_executed = true', only: :show
   end
   around_action :benchmark_action
@@ -170,7 +170,7 @@ class BooksController < ApplicationController
     end
 
     # before action, keyreq
-    if RUBY_VERSION > '2.1'
+    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.1')
       eval <<-DEF
         def set_book3(id:)
           @filter_keyreq_given_id = id
@@ -268,7 +268,7 @@ module Admin
 end
 
 require_relative 'kwargs_controllers'
-require_relative 'kwargs_keyreq_controllers' if RUBY_VERSION >= '2.1'
+require_relative 'kwargs_keyreq_controllers' if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.1')
 
 # migrations
 class CreateAllTables < ActiveRecord::VERSION::MAJOR >= 5 ? ActiveRecord::Migration[5.0] : ActiveRecord::Migration

@@ -25,7 +25,7 @@ module ActionController::TestCase::Assigns
 end
 ActionController::TestCase.include ActionController::TestCase::Assigns
 
-if Rails.version < '5'
+if Rails::VERSION::MAJOR < 5
   module ActionControllerTestingMonkey
     def get(path, params: nil, session: nil)
       super path, params, session

@@ -29,4 +29,4 @@ class KwKeyreqBooksControllerTest < ActionController::TestCase
       assert_equal 'Rails', body[:q]
     end
   end
-end if RUBY_VERSION >= '2.1'
+end if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.1')

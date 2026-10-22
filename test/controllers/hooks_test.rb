@@ -16,12 +16,12 @@ class ControllerHooksTest < ActionController::TestCase
       assert_equal @book, assigns(:book)
       assert_equal @book.id.to_s, assigns(:filter_req_given_id)
       assert_equal @book.id.to_s, assigns(:filter_key_given_id)
-      if RUBY_VERSION > '2.1'
+      if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.1')
         assert_equal @book.id.to_s, assigns(:filter_keyreq_given_id)
       end
     end
 
-    if Rails.version < '5.1'
+    if Rails.gem_version < Gem::Version.new('5.1')
       test 'via String' do
         assert assigns(:string_filter_executed)
       end

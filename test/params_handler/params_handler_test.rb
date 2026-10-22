@@ -174,7 +174,7 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
       end
     end
 
-    if RUBY_VERSION >= '2.1'
+    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.1')
       eval <<-KWARGS_KEYREQ_TEST
         sub_test_case 'keyreq' do
           test 'keyreq' do
@@ -217,7 +217,7 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
         assert_equal [[], {a: '1'}], @controller.extract_method_arguments_from_params(:m)
       end
 
-      if RUBY_VERSION >= '3.2'
+      if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2')
         eval <<-ANONYMOUS_KEYREST_TEST
           test 'req, anonymous keyrest' do
             def @controller.m(a, **) end
@@ -228,7 +228,7 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
       end
     end
 
-    if RUBY_VERSION >= '2.7'
+    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7')
       eval <<-NOKEY_TEST
         sub_test_case 'nokey' do
           test 'req, nokey' do
@@ -253,7 +253,7 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
         assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
       end
 
-      if RUBY_VERSION >= '3.1'
+      if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1')
         eval <<-ANONYMOUS_BLOCK_TEST
           test 'req, anonymous block' do
             def @controller.m(a, &) end

@@ -25,7 +25,7 @@ module ActionArgs
         end
       end
       ::ActiveSupport::Callbacks::CallTemplate::MethodCall.prepend ActionArgs::ActiveSupport::CallTemplate::MethodCallParameterizer
-    elsif Rails.version >= '5.1'
+    elsif Rails.gem_version >= Gem::Version.new('5.1')
       module CallbackParameterizer
         # Extending AS::Callbacks::Callback's `make_lambda` not just to call specified
         # method but to call the method with method parameters taken from `params`.

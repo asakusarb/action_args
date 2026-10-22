@@ -36,10 +36,10 @@ module ActionArgs
             else
               parameter_names.unshift key if has_optional_parameter_in_params
             end
-          else
-            # :block, :rest
+          when :rest
             parameter_names.unshift key
           end
+          # :keyrest, :nokey, and :block take nothing from params
         end
         if missing_required_params.any?
           message = "Missing required parameters at #{self.class.name}##{method_name}: #{missing_required_params.join(', ')}"

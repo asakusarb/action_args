@@ -197,6 +197,72 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
         end
       KWARGS_KEYREQ_TEST
     end
+
+    sub_test_case 'keyrest' do
+      test 'keyrest' do
+        def @controller.m(**opts) end
+
+        assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'req, keyrest' do
+        def @controller.m(a, **opts) end
+
+        assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'key, keyrest' do
+        def @controller.m(a: nil, **opts) end
+
+        assert_equal [[], {a: '1'}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      if RUBY_VERSION >= '3.2'
+        eval <<-ANONYMOUS_KEYREST_TEST
+          test 'req, anonymous keyrest' do
+            def @controller.m(a, **) end
+
+            assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+          end
+        ANONYMOUS_KEYREST_TEST
+      end
+    end
+
+    if RUBY_VERSION >= '2.7'
+      eval <<-NOKEY_TEST
+        sub_test_case 'nokey' do
+          test 'req, nokey' do
+            def @controller.m(a, **nil) end
+
+            assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+          end
+        end
+      NOKEY_TEST
+    end
+
+    sub_test_case 'block' do
+      test 'block' do
+        def @controller.m(&blk) end
+
+        assert_equal [[], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      test 'req, block' do
+        def @controller.m(a, &blk) end
+
+        assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+      end
+
+      if RUBY_VERSION >= '3.1'
+        eval <<-ANONYMOUS_BLOCK_TEST
+          test 'req, anonymous block' do
+            def @controller.m(a, &) end
+
+            assert_equal [['1'], {}], @controller.extract_method_arguments_from_params(:m)
+          end
+        ANONYMOUS_BLOCK_TEST
+      end
+    end
   end
 
   sub_test_case 'strengthen_params!' do

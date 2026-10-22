@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.metadata = {
     'source_code_uri' => 'https://github.com/asakusarb/action_args'
   }
-  s.summary     = 'Controller action arguments parameterizer for Rails 4+ & Ruby 2.0+'
+  s.summary     = 'Controller action arguments parameterizer for Rails 4.1+ & Ruby 2.0+'
   s.description = 'Rails plugin gem that supports Merbish style controller action arguments.'
 
   s.files         = Dir.chdir(File.expand_path('..', __FILE__)) do

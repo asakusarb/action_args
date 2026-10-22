@@ -41,3 +41,5 @@ if ruby_version >= Gem::Version.new('3.3')
   gem 'bigdecimal'
   gem 'mutex_m'
 end
+
+gem 'benchmark' if ruby_version >= Gem::Version.new('4.0')

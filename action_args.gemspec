@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
   s.require_paths = ["lib"]
+  s.required_ruby_version = '>= 2.0.0'
 
   s.add_dependency 'actionpack', '>= 4.1'
   s.add_dependency 'railties', '>= 4.1'

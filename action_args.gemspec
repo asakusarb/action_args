@@ -23,6 +23,9 @@ Gem::Specification.new do |s|
   end
   s.require_paths = ["lib"]
 
+  s.add_dependency 'actionpack', '>= 4.1'
+  s.add_dependency 'railties', '>= 4.1'
+
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'test-unit-rails'

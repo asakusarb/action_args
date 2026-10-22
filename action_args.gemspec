@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Akira Matsuda']
   s.email       = ['ronnie@dio.jp']
-  s.homepage    = 'http://asakusa.rubyist.net/'
+  s.homepage    = 'https://asakusa.rubyist.net/'
   s.license     = 'MIT'
   s.metadata = {
     'source_code_uri' => 'https://github.com/asakusarb/action_args'

@@ -6,15 +6,7 @@ using ActionArgs::ParamsHandler
 module ActionArgs
   module AbstractControllerMethods
     def send_action(method_name, *args)
-      unless args.empty?
-        kwargs = args.extract_options!
-        if kwargs.any?
-          return super(method_name, *args, **kwargs)
-        else
-          return super
-        end
-      end
-
+      return super unless args.empty?
       return super if !defined?(params) || params.nil?
 
       strengthen_params! method_name
@@ -25,6 +17,8 @@ module ActionArgs
         super method_name, *values
       end
     end
+    # passes the caller's kwargs through as kwargs, and a positional Hash as a positional Hash
+    ruby2_keywords :send_action if respond_to?(:ruby2_keywords, true)
   end
 
   module AbstractControllerClassMethods

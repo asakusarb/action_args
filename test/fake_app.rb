@@ -85,6 +85,24 @@ class UserMailer < ActionMailer::Base
       body:    'test'
     )
   end
+
+  def send_email_with_hash(subject, options)
+    mail(
+      to:      'to@example.com',
+      from:    'from@example.com',
+      subject: "#{subject} #{options.inspect}",
+      body:    'test'
+    )
+  end
+
+  def send_email_with_hash_and_key(options, subject: 'Action Args!!!')
+    mail(
+      to:      'to@example.com',
+      from:    'from@example.com',
+      subject: "#{subject} #{options.inspect}",
+      body:    'test'
+    )
+  end
 end
 
 # helpers

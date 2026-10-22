@@ -125,6 +125,15 @@ class MembersController < ApplicationController
 end
 ```
 
+`permits` is inherited by subclasses, and a subclass can override it by calling `permits` again.
+Unless `:model_name` is given, the target model name is deduced from the subclass's own name:
+
+```ruby
+class Admin::UsersController < UsersController
+  # inherits `permits :name, :age` for the `user` parameter
+end
+```
+
 
 ## Filters
 

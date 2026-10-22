@@ -267,7 +267,7 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
 
   sub_test_case 'strengthen_params!' do
     setup do
-      @params = ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}, foo_foo: {a: 'a', b: 'b'}, hoge_hoge: {a: 'a', b: 'b'}, fuga_fuga: {a: 'a', b: 'b'})
+      @params = ActionController::Parameters.new(x: '1', y: '2', foo: {a: 'a', b: 'b'}, bar: {a: 'a', b: 'b'}, baz: {a: 'a', b: 'b'}, hoge: {a: 'a', b: 'b'}, fuga: {a: 'a', b: 'b'}, foo_foo: {a: 'a', b: 'b'}, hoge_hoge: {a: 'a', b: 'b'}, fuga_fuga: {a: 'a', b: 'b'}, child: {a: 'a', b: 'b'}, overriding_child: {a: 'a', b: 'b'})
     end
 
     def execute_strengthen_params!(controller)
@@ -352,6 +352,33 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
       assert @params[:foo].permitted?
       assert_not_nil @params[:foo][:a]
       assert_not_nil @params[:foo][:b]
+    end
+
+    test 'inheriting permits from the superclass' do
+      ParentController ||= Class.new(ApplicationController) { permits :a }
+      execute_strengthen_params! ChildController ||= Class.new(ParentController) { def a(child) end }
+
+      assert @params[:child].permitted?
+      assert_not_nil @params[:child][:a]
+      assert_nil @params[:child][:b]
+    end
+
+    test 'inheriting permits with "model_name" option from the superclass' do
+      ParentWithModelNameController ||= Class.new(ApplicationController) { permits :a, model_name: 'Foo' }
+      execute_strengthen_params! ChildWithModelNameController ||= Class.new(ParentWithModelNameController) { def a(foo) end }
+
+      assert @params[:foo].permitted?
+      assert_not_nil @params[:foo][:a]
+      assert_nil @params[:foo][:b]
+    end
+
+    test 'overriding permits in the subclass' do
+      ParentToBeOverriddenController ||= Class.new(ApplicationController) { permits :a }
+      execute_strengthen_params! OverridingChildController ||= Class.new(ParentToBeOverriddenController) { permits :b; def a(overriding_child) end }
+
+      assert @params[:overriding_child].permitted?
+      assert_nil @params[:overriding_child][:a]
+      assert_not_nil @params[:overriding_child][:b]
     end
   end
 end

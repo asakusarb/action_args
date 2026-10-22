@@ -57,9 +57,11 @@ module ActionArgs
       # permits declared model attributes in the params Hash
       # note that this method mutates the given params Hash
       def strengthen_params!(method_name)
-        permitting_model_name = self.class.instance_variable_defined?(:@permitting_model_name) && self.class.instance_variable_get(:@permitting_model_name)
+        # `permits` is inherited from the nearest ancestor that declared it
+        permitting_class = self.class.ancestors.detect {|klass| klass.instance_variable_defined?(:@permitted_attributes) }
+        permitting_model_name = permitting_class && permitting_class.instance_variable_get(:@permitting_model_name)
         target_model_name = (permitting_model_name || self.class.name.sub(/.+::/, '').sub(/Controller$/, '')).singularize.underscore.tr('/', '_').to_sym
-        permitted_attributes = self.class.instance_variable_defined?(:@permitted_attributes) && self.class.instance_variable_get(:@permitted_attributes)
+        permitted_attributes = permitting_class && permitting_class.instance_variable_get(:@permitted_attributes)
 
         method_parameters = method(method_name).parameters
         method_parameters.each do |type, key|

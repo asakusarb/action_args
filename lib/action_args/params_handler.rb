@@ -6,8 +6,7 @@ module ActionArgs
   module ParamsHandler
     refine AbstractController::Base do
       # converts the request params Hash into an Array to be passed into the target Method
-      def extract_method_arguments_from_params(method_name)
-        method_parameters = method(method_name).parameters
+      def extract_method_arguments_from_params(method_name, method_parameters = method(method_name).parameters)
         kwargs, missing_required_params = {}, []
         parameter_keys = []
         has_optional_parameter_in_params = false
@@ -56,7 +55,7 @@ module ActionArgs
 
       # permits declared model attributes in the params Hash
       # note that this method mutates the given params Hash
-      def strengthen_params!(method_name)
+      def strengthen_params!(method_name, method_parameters = method(method_name).parameters)
         # params that are not ActionController::Parameters (e.g. a parameterized mailer's Hash) need no permitting
         return unless params.respond_to?(:permit)
 
@@ -71,7 +70,6 @@ module ActionArgs
         target_model_name = model_name.singularize.underscore.tr('/', '_').to_sym
         permitted_attributes = permitting_class.instance_variable_get(:@permitted_attributes)
 
-        method_parameters = method(method_name).parameters
         method_parameters.each do |type, key|
           trimmed_key = key.to_s.sub(/_params\z/, '').to_sym
           if trimmed_key == target_model_name

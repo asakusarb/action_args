@@ -9,8 +9,9 @@ module ActionArgs
       return super unless args.empty?
       return super if !defined?(params) || params.nil?
 
-      strengthen_params! method_name
-      values, kwargs_values = extract_method_arguments_from_params method_name
+      method_parameters = method(method_name).parameters
+      strengthen_params! method_name, method_parameters
+      values, kwargs_values = extract_method_arguments_from_params method_name, method_parameters
       if kwargs_values.any?
         super method_name, *values, **kwargs_values
       else

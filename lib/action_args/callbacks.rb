@@ -10,8 +10,9 @@ module ActionArgs
           def make_lambda
             lambda do |target, value, &block|
               if ActionController::Metal === target
-                target.strengthen_params! @method_name
-                arguments, keyword_arguments = target.extract_method_arguments_from_params @method_name
+                method_parameters = target.method(@method_name).parameters
+                target.strengthen_params! @method_name, method_parameters
+                arguments, keyword_arguments = target.extract_method_arguments_from_params @method_name, method_parameters
                 if keyword_arguments.any?
                   target.send(@method_name, *arguments, **keyword_arguments, &block)
                 else
@@ -37,8 +38,9 @@ module ActionArgs
             target, block, method, *arguments = expand(target, value, block)
 
             if (ActionController::Metal === target) && (method != :instance_exec) && arguments.empty?
-              target.strengthen_params! method
-              arguments, keyword_arguments = target.extract_method_arguments_from_params method
+              method_parameters = target.method(method).parameters
+              target.strengthen_params! method, method_parameters
+              arguments, keyword_arguments = target.extract_method_arguments_from_params method, method_parameters
               if keyword_arguments.any?
                 target.send(method, *arguments, **keyword_arguments, &block)
               else
@@ -63,8 +65,9 @@ module ActionArgs
           if Symbol === filter
             lambda do |target, _, &blk|
               if ActionController::Metal === target
-                target.strengthen_params! filter
-                values, kwargs_values = target.extract_method_arguments_from_params filter
+                method_parameters = target.method(filter).parameters
+                target.strengthen_params! filter, method_parameters
+                values, kwargs_values = target.extract_method_arguments_from_params filter, method_parameters
                 values << kwargs_values if kwargs_values.any?
                 target.send filter, *values, &blk
               else

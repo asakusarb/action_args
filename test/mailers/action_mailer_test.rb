@@ -43,5 +43,9 @@ if ActionMailer::Base.respond_to? :with
     test 'permits does not touch parameterized mailer params via :opt' do
       assert_equal 'Akira true', PermittingMailer.with(user: {name: 'Akira', admin: true}).send_email_with_opt.subject
     end
+
+    test 'keyword arguments to a parameterized mailer' do
+      assert_equal 'Action Args!!!', UserMailer.with(foo: 'bar').send_email_with_keyreq(subject: 'Action Args!!!').subject
+    end
   end
 end

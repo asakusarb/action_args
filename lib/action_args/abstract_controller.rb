@@ -43,3 +43,30 @@ end
 
 AbstractController::Base.send :prepend, ActionArgs::AbstractControllerMethods
 AbstractController::Base.singleton_class.send :include, ActionArgs::AbstractControllerClassMethods
+
+# Rails < 7 does not mark the methods that pass action arguments down to send_action with ruby2_keywords,
+# and since Ruby 3.2 keyword arguments given to a mailer method arrive at send_action as a positional Hash.
+# Mark them as Rails 7 does.
+if (Rails::VERSION::MAJOR < 7) && Module.private_method_defined?(:ruby2_keywords)
+  module ActionArgs
+    def self.ruby2_keywords(mod, *method_names)
+      method_names.each do |method_name|
+        next unless mod.method_defined?(method_name, false) || mod.private_method_defined?(method_name, false)
+
+        parameters = mod.instance_method(method_name).parameters
+        next if parameters.none? {|type, _| type == :rest } || parameters.any? {|type, _| %i[key keyreq keyrest].include? type }
+
+        mod.send :ruby2_keywords, method_name
+      end
+    end
+  end
+
+  ActionArgs.ruby2_keywords AbstractController::Base, :process, :process_action
+  ActionArgs.ruby2_keywords AbstractController::Callbacks, :process_action
+
+  ActiveSupport.on_load :action_mailer do
+    ActionArgs.ruby2_keywords ActionMailer::Base, :process
+    ActionArgs.ruby2_keywords ActionMailer::Rescuable, :process
+    ActionArgs.ruby2_keywords ActionView::Rendering, :process
+  end
+end

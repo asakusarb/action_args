@@ -9,7 +9,7 @@ module ActionArgs
       def extract_method_arguments_from_params(method_name)
         method_parameters = method(method_name).parameters
         kwargs, missing_required_params = {}, []
-        parameter_names = []
+        parameter_keys = []
         has_optional_parameter_in_params = false
 
         method_parameters.reverse_each do |type, key|
@@ -17,7 +17,7 @@ module ActionArgs
           case type
           when :req
             if params.key? trimmed_key
-              parameter_names.unshift key
+              parameter_keys.unshift trimmed_key
             else
               missing_required_params << key
             end
@@ -32,12 +32,12 @@ module ActionArgs
           when :opt
             if params.key? trimmed_key
               has_optional_parameter_in_params = true
-              parameter_names.unshift key
+              parameter_keys.unshift trimmed_key
             else
-              parameter_names.unshift key if has_optional_parameter_in_params
+              parameter_keys.unshift trimmed_key if has_optional_parameter_in_params
             end
           when :rest
-            parameter_names.unshift key
+            parameter_keys.unshift trimmed_key
           end
           # :keyrest, :nokey, and :block take nothing from params
         end
@@ -50,7 +50,7 @@ module ActionArgs
           end
         end
 
-        values = parameter_names.map {|k| params[k.to_s.sub(/_params\z/, '').to_sym]}
+        values = parameter_keys.map {|k| params[k]}
         [values, kwargs]
       end
 

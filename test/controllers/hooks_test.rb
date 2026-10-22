@@ -51,3 +51,20 @@ class OtherHooksTest < ActionController::TestCase
     assert_equal true, assigns(:author).instance_variable_get(:@model_callback_called)
   end
 end
+
+if defined? ActionController::API
+  class ApiControllerHooksTest < ActionController::TestCase
+    self.controller_class = ApiBooksController
+
+    setup do
+      Book.delete_all
+      @book = Book.create! title: 'Head First ActionArgs'
+    end
+
+    test 'before_action and around_action via Symbol' do
+      get :show, params: {id: @book.id.to_s}
+
+      assert_equal "Head First ActionArgs #{@book.id} #{@book.id} true", response.body
+    end
+  end
+end

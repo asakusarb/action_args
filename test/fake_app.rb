@@ -24,6 +24,7 @@ ActionArgsTestApp::Application.routes.draw do
   resources :kw_keyreq_books  # 2.1+ only
   resources :stores
   resources :movies
+  resources :api_books if defined? ActionController::API
 
   namespace :admin do
     resources :accounts
@@ -186,6 +187,39 @@ class BooksController < ApplicationController
     def omg
       raise '💣'
     end
+end
+if defined? ActionController::API
+  class ApiBooksController < ActionController::API
+    before_action :set_book
+    before_action :set_book2
+    before_action :set_book3
+    around_action :around
+
+    def show
+      render plain: "#{@book.title} #{@filter_key_given_id} #{@filter_keyreq_given_id} #{@around_executed}"
+    end
+
+    private
+      # before action, req
+      def set_book(id)
+        @book = Book.find(id)
+      end
+
+      # before action, key
+      def set_book2(id: nil)
+        @filter_key_given_id = id
+      end
+
+      # before action, keyreq
+      def set_book3(id:)
+        @filter_keyreq_given_id = id
+      end
+
+      def around
+        @around_executed = true
+        yield
+      end
+  end
 end
 class MoviesController < ApplicationController
   permits :title, actors_attributes: [:name]

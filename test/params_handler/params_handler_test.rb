@@ -380,5 +380,25 @@ class ActionArgs::ParamsHandlerTest < ActiveSupport::TestCase
       assert_nil @params[:overriding_child][:a]
       assert_not_nil @params[:overriding_child][:b]
     end
+
+    test 'anonymous controller without permits' do
+      assert_nothing_raised { execute_strengthen_params! Class.new(ApplicationController) { def a(foo) end } }
+
+      refute @params[:foo].permitted?
+    end
+
+    test 'anonymous controller with permits' do
+      assert_nothing_raised { execute_strengthen_params! Class.new(ApplicationController) { permits :a; def a(foo) end } }
+
+      refute @params[:foo].permitted?
+    end
+
+    test 'anonymous controller with permits and "model_name" option' do
+      execute_strengthen_params! Class.new(ApplicationController) { permits :a, model_name: 'Foo'; def a(foo) end }
+
+      assert @params[:foo].permitted?
+      assert_not_nil @params[:foo][:a]
+      assert_nil @params[:foo][:b]
+    end
   end
 end

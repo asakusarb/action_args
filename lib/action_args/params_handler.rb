@@ -59,14 +59,19 @@ module ActionArgs
       def strengthen_params!(method_name)
         # `permits` is inherited from the nearest ancestor that declared it
         permitting_class = self.class.ancestors.detect {|klass| klass.instance_variable_defined?(:@permitted_attributes) }
-        permitting_model_name = permitting_class && permitting_class.instance_variable_get(:@permitting_model_name)
-        target_model_name = (permitting_model_name || self.class.name.sub(/.+::/, '').sub(/Controller$/, '')).singularize.underscore.tr('/', '_').to_sym
-        permitted_attributes = permitting_class && permitting_class.instance_variable_get(:@permitted_attributes)
+        return unless permitting_class
+
+        # the model name cannot be deduced from an anonymous class
+        model_name = permitting_class.instance_variable_get(:@permitting_model_name) || (self.class.name && self.class.name.sub(/.+::/, '').sub(/Controller$/, ''))
+        return unless model_name
+
+        target_model_name = model_name.singularize.underscore.tr('/', '_').to_sym
+        permitted_attributes = permitting_class.instance_variable_get(:@permitted_attributes)
 
         method_parameters = method(method_name).parameters
         method_parameters.each do |type, key|
           trimmed_key = key.to_s.sub(/_params\z/, '').to_sym
-          if (trimmed_key == target_model_name) && permitted_attributes
+          if trimmed_key == target_model_name
             params.require(trimmed_key) if %i[req keyreq].include?(type)
             params[trimmed_key] = params[trimmed_key].try :permit, *permitted_attributes if params.key? trimmed_key
           end

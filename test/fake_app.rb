@@ -106,6 +106,31 @@ class UserMailer < ActionMailer::Base
   end
 end
 
+# parameterized mailer (Rails 5.1+)
+if ActionMailer::Base.respond_to? :with
+  class PermittingMailer < ActionMailer::Base
+    permits :name, model_name: 'User'
+
+    def send_email_with_req(user)
+      mail(
+        to:      'to@example.com',
+        from:    'from@example.com',
+        subject: "#{user[:name]} #{user[:admin]}",
+        body:    'test'
+      )
+    end
+
+    def send_email_with_opt(user = nil)
+      mail(
+        to:      'to@example.com',
+        from:    'from@example.com',
+        subject: "#{user[:name]} #{user[:admin]}",
+        body:    'test'
+      )
+    end
+  end
+end
+
 # helpers
 module ApplicationHelper; end
 

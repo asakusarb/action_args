@@ -33,3 +33,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal "Action Args!!! #{{cc: 'cc@example.com'}.inspect}", UserMailer.send_email_with_hash_and_key({cc: 'cc@example.com'}).subject
   end
 end
+
+if ActionMailer::Base.respond_to? :with
+  class PermittingMailerTest < ActionMailer::TestCase
+    test 'permits does not touch parameterized mailer params via :req' do
+      assert_equal 'Akira true', PermittingMailer.with(user: {name: 'Akira', admin: true}).send_email_with_req.subject
+    end
+
+    test 'permits does not touch parameterized mailer params via :opt' do
+      assert_equal 'Akira true', PermittingMailer.with(user: {name: 'Akira', admin: true}).send_email_with_opt.subject
+    end
+  end
+end

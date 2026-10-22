@@ -3,7 +3,7 @@
 # load original rails scaffold_controller generator
 require 'rails/generators/rails/scaffold_controller/scaffold_controller_generator'
 
-# override rails genarator to switch template directory
+# override rails generator to switch template directory
 module Rails
   module Generators
     class ActionArgsScaffoldControllerGenerator < ::Rails::Generators::ScaffoldControllerGenerator
